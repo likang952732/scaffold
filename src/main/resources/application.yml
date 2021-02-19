@@ -1,0 +1,36 @@
+server:
+  session-timeout: 172800 # 48Сʱ
+  #    tomcat:
+  #        max-threads: 1000
+  #        min-spare-threads: 30
+  port: 8099
+
+spring:
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: false
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  profiles:
+    active: dev
+  http:
+    multipart:
+      max-file-size: 10Mb
+      max-request-size: 10Mb
+  devtools:
+    restart:
+      enabled: true
+  cache:
+    type: ehcache
+    ehcache:
+      config: config/ehcache.xml
+
+uploadFile:
+  resourceHandler: /uploadFiles/**   #文件虚拟路径映射
+  location: D:/data/ #自定义上传文件本地保存路径
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:mapper/*.xml
