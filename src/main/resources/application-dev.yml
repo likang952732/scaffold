@@ -44,6 +44,5 @@ spring:
     maxWaitMillis: 2000
     testOnBorrow: true
 
-
 pic:
   suffix: jpg,png,gif
