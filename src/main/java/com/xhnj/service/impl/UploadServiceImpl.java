@@ -36,7 +36,7 @@ public class UploadServiceImpl implements IUploadService {
         String originalFilename = file.getOriginalFilename();
         // 校验文件的类型
         String name = file.getOriginalFilename();
-        String suffix = name.substring(name.indexOf(".")+1, name.length());
+        String suffix = name.substring(name.indexOf(".")+1, name.length()).toLowerCase();
         if (!suffixList.contains(suffix)){
             log.info("图片类型不合法：{}", originalFilename);
             throw new BusinessException("图片类型不合法");

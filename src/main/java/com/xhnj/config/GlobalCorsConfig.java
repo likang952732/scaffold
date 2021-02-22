@@ -1,10 +1,15 @@
 package com.xhnj.config;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.MultipartException;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 全局跨域配置

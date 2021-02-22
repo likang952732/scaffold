@@ -64,7 +64,7 @@ public class MenuController {
     }
 
     @ApiOperation("编辑菜单")
-    @PostMapping("/update/{menuId}")
+    @PutMapping("/update/{menuId}")
     public CommonResult update(@PathVariable("menuId")Long menuId, @RequestBody UmsMenu menu) {
         int count = menuService.update(menuId, menu);
         if(count > 0)
@@ -73,7 +73,7 @@ public class MenuController {
     }
 
     @ApiOperation("编辑菜单")
-    @PostMapping("/updateHidden/{menuId}")
+    @PutMapping("/updateHidden/{menuId}")
     public CommonResult updateHidden(@PathVariable("menuId")Long menuId, @RequestParam("hidden") Integer hidden) {
         UmsMenu menu = new UmsMenu();
         //menu.setHidden(hidden);

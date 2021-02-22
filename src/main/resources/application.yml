@@ -4,8 +4,11 @@ server:
   #        max-threads: 1000
   #        min-spare-threads: 30
   port: 8099
-
+  tomcat:
+    max-swallow-size: -1
 spring:
+  application:
+    name: scenic
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
@@ -14,10 +17,10 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
   profiles:
     active: dev
-  http:
+  servlet:
     multipart:
-      max-file-size: 10Mb
-      max-request-size: 10Mb
+      max-file-size: 1MB
+      max-request-size: 10MB
   devtools:
     restart:
       enabled: true
@@ -35,15 +38,15 @@ jwt:
 secure:
   ignored:
     urls: #安全路径白名单
-      - /swagger-ui.html
+      - /swagger-ui/*
       - /swagger-resources/**
-      - /swagger/**
-      - /**/v2/api-docs
+      - /v2/api-docs
+      - /v3/api-docs
+      - /webjars/**
       - /**/*.js
       - /**/*.css
       - /**/*.png
       - /**/*.ico
-      - /webjars/springfox-swagger-ui/**
       - /actuator/**
       - /druid/**
       - /admin/login
@@ -51,12 +54,26 @@ secure:
       - /admin/info
       - /admin/logout
       - /minio/upload
+      - /uploadFiles/**
+      - /validateCode/**
 
 uploadFile:
   resourceHandler: /uploadFiles/**   #文件虚拟路径映射
   location: D:/data/ #自定义上传文件本地保存路径
 
+
+# ===== 自定义swagger配置 ===== #
+swagger:
+  enable: true
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合
+  try-host: http://localhost:${server.port}
+
+#
+
 mybatis:
   mapper-locations:
     - classpath:dao/*.xml
     - classpath*:mapper/*.xml
+

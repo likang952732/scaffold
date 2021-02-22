@@ -2,9 +2,15 @@ package com.xhnj.common.exception;
 
 import com.xhnj.common.CommonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
+import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+
+import javax.servlet.http.HttpServletResponse;
 
 /*
  @Description 全局异常处理
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @ControllerAdvice
 public class GlobalException {
+
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public CommonResult handle(Exception e) {
@@ -25,4 +32,23 @@ public class GlobalException {
         log.error("系统异常：{}", e);
         return CommonResult.failed(e.getMessage());
     }
+
+
+    @ExceptionHandler(MultipartException.class)
+    @ResponseBody
+    public CommonResult exception(MaxUploadSizeExceededException e){
+        if (e.getCause().getCause() instanceof FileSizeLimitExceededException){//单个文件大小超出限制抛出的异常
+            log.error("message异常信息为=========》"+e.getMessage());
+            log.error("cause异常信息为=========》"+e.getCause().getCause());
+            return CommonResult.failed("单个上传文件大小不能超过2MB");
+        }/*else if (e.getCause().getCause() instanceof SizeLimitExceededException){//总文件大小超出限制抛出的异常
+            log.error("message异常信息为=========》"+e.getMessage());
+            log.error("cause异常信息为=========》"+e.getCause().getCause());
+            Result result = new Result(104, null, "总上传文件大小不能超过200MB", null);
+            String s = JSON.toJSONString(result);
+            return s;
+        }*/
+        return  CommonResult.failed("上传文件异常");
+    }
+
 }

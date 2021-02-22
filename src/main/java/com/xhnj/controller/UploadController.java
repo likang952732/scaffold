@@ -36,5 +36,4 @@ public class UploadController {
         return ResponseEntity.status(HttpStatus.CREATED).body(url);
     }
 
-
 }

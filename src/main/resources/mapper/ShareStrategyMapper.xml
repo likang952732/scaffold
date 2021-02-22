@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhnj.mapper.ShareStrategyMapper">
+  <resultMap id="BaseResultMap" type="com.xhnj.model.ShareStrategy">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="share_time" jdbcType="TIMESTAMP" property="shareTime" />
+    <result column="share_obj_type" jdbcType="INTEGER" property="shareObjType" />
+    <result column="share_obj_id" jdbcType="VARCHAR" property="shareObjId" />
+    <result column="share_obj_name" jdbcType="VARCHAR" property="shareObjName" />
+    <result column="share_url" jdbcType="VARCHAR" property="shareUrl" />
+    <result column="pics" jdbcType="VARCHAR" property="pics" />
+    <result column="show_status" jdbcType="INTEGER" property="showStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xhnj.model.ShareStrategy">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, nickname, share_time, share_obj_type, share_obj_id, share_obj_name, share_url, 
+    pics, show_status, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.xhnj.model.ShareStrategyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_share_strategy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.xhnj.model.ShareStrategyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_share_strategy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_share_strategy
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_share_strategy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xhnj.model.ShareStrategyExample">
+    delete from t_share_strategy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xhnj.model.ShareStrategy">
+    insert into t_share_strategy (id, nickname, share_time, 
+      share_obj_type, share_obj_id, share_obj_name, 
+      share_url, pics, show_status, 
+      create_time, content)
+    values (#{id,jdbcType=BIGINT}, #{nickname,jdbcType=VARCHAR}, #{shareTime,jdbcType=TIMESTAMP}, 
+      #{shareObjType,jdbcType=INTEGER}, #{shareObjId,jdbcType=VARCHAR}, #{shareObjName,jdbcType=VARCHAR}, 
+      #{shareUrl,jdbcType=VARCHAR}, #{pics,jdbcType=VARCHAR}, #{showStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xhnj.model.ShareStrategy">
+    insert into t_share_strategy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="shareTime != null">
+        share_time,
+      </if>
+      <if test="shareObjType != null">
+        share_obj_type,
+      </if>
+      <if test="shareObjId != null">
+        share_obj_id,
+      </if>
+      <if test="shareObjName != null">
+        share_obj_name,
+      </if>
+      <if test="shareUrl != null">
+        share_url,
+      </if>
+      <if test="pics != null">
+        pics,
+      </if>
+      <if test="showStatus != null">
+        show_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTime != null">
+        #{shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareObjType != null">
+        #{shareObjType,jdbcType=INTEGER},
+      </if>
+      <if test="shareObjId != null">
+        #{shareObjId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareObjName != null">
+        #{shareObjName,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null">
+        #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="showStatus != null">
+        #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xhnj.model.ShareStrategyExample" resultType="java.lang.Long">
+    select count(*) from t_share_strategy
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_share_strategy
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.nickname != null">
+        nickname = #{record.nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareTime != null">
+        share_time = #{record.shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shareObjType != null">
+        share_obj_type = #{record.shareObjType,jdbcType=INTEGER},
+      </if>
+      <if test="record.shareObjId != null">
+        share_obj_id = #{record.shareObjId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareObjName != null">
+        share_obj_name = #{record.shareObjName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shareUrl != null">
+        share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pics != null">
+        pics = #{record.pics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.showStatus != null">
+        show_status = #{record.showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_share_strategy
+    set id = #{record.id,jdbcType=BIGINT},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      share_time = #{record.shareTime,jdbcType=TIMESTAMP},
+      share_obj_type = #{record.shareObjType,jdbcType=INTEGER},
+      share_obj_id = #{record.shareObjId,jdbcType=VARCHAR},
+      share_obj_name = #{record.shareObjName,jdbcType=VARCHAR},
+      share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      pics = #{record.pics,jdbcType=VARCHAR},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_share_strategy
+    set id = #{record.id,jdbcType=BIGINT},
+      nickname = #{record.nickname,jdbcType=VARCHAR},
+      share_time = #{record.shareTime,jdbcType=TIMESTAMP},
+      share_obj_type = #{record.shareObjType,jdbcType=INTEGER},
+      share_obj_id = #{record.shareObjId,jdbcType=VARCHAR},
+      share_obj_name = #{record.shareObjName,jdbcType=VARCHAR},
+      share_url = #{record.shareUrl,jdbcType=VARCHAR},
+      pics = #{record.pics,jdbcType=VARCHAR},
+      show_status = #{record.showStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xhnj.model.ShareStrategy">
+    update t_share_strategy
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="shareTime != null">
+        share_time = #{shareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareObjType != null">
+        share_obj_type = #{shareObjType,jdbcType=INTEGER},
+      </if>
+      <if test="shareObjId != null">
+        share_obj_id = #{shareObjId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareObjName != null">
+        share_obj_name = #{shareObjName,jdbcType=VARCHAR},
+      </if>
+      <if test="shareUrl != null">
+        share_url = #{shareUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="pics != null">
+        pics = #{pics,jdbcType=VARCHAR},
+      </if>
+      <if test="showStatus != null">
+        show_status = #{showStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xhnj.model.ShareStrategy">
+    update t_share_strategy
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      share_time = #{shareTime,jdbcType=TIMESTAMP},
+      share_obj_type = #{shareObjType,jdbcType=INTEGER},
+      share_obj_id = #{shareObjId,jdbcType=VARCHAR},
+      share_obj_name = #{shareObjName,jdbcType=VARCHAR},
+      share_url = #{shareUrl,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xhnj.model.ShareStrategy">
+    update t_share_strategy
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      share_time = #{shareTime,jdbcType=TIMESTAMP},
+      share_obj_type = #{shareObjType,jdbcType=INTEGER},
+      share_obj_id = #{shareObjId,jdbcType=VARCHAR},
+      share_obj_name = #{shareObjName,jdbcType=VARCHAR},
+      share_url = #{shareUrl,jdbcType=VARCHAR},
+      pics = #{pics,jdbcType=VARCHAR},
+      show_status = #{showStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

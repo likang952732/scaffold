@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -66,6 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService())
                 .passwordEncoder(passwordEncoder());
     }
+
+   /* @Override
+    public void configure(WebSecurity web) {
+        //解决静态资源被拦截的问题
+        web.ignoring().antMatchers("/login", "/index.html","/loginWX",
+                "/get_auth_access_token","/getUserInfoToken","/wechatBridge","/wxapi/getJsSDK","/checklogin");
+    }*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {

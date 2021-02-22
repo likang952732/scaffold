@@ -56,7 +56,7 @@ public class RoleController {
     }
 
     @ApiOperation("编辑角色")
-    @PostMapping("/update")
+    @PutMapping("/update")
     public CommonResult update(UmsRole role) {
         int count = roleService.updateUmsRole(role.getId(), role);
         if(count > 0)

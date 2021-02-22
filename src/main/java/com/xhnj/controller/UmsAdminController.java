@@ -102,7 +102,7 @@ public class UmsAdminController {
     }
 
     @ApiOperation("编辑用户")
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     public CommonResult update(UmsAdmin umsAdmin) {
         int count = adminService.updateAdmin(umsAdmin.getId(), umsAdmin);
         if(count > 0)
