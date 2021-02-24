@@ -46,6 +46,7 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+
     /**
      * 从token中获取JWT中的负载
      */
@@ -135,7 +136,7 @@ public class JwtTokenUtil {
         }
         //token校验不通过
         Claims claims = getClaimsFromToken(token);
-        if(claims==null){
+        if(claims == null){
             return null;
         }
         //如果token已经过期，不支持刷新
@@ -145,11 +146,34 @@ public class JwtTokenUtil {
         //如果token在30分钟之内刚刷新过，返回原token
         if(tokenRefreshJustBefore(token,30*60)){
             return token;
-        }else{
+        } else{
             claims.put(CLAIM_KEY_CREATED, new Date());
             return generateToken(claims);
         }
     }
+
+    public String refreshTokenLogOut(String oldToken) {
+        if(StrUtil.isEmpty(oldToken)){
+            return null;
+        }
+        String token = oldToken.substring(tokenHead.length());
+        if(StrUtil.isEmpty(token)){
+            return null;
+        }
+        //token校验不通过
+        Claims claims = getClaimsFromToken(token);
+        if(claims == null){
+            return null;
+        }
+        //如果token已经过期，不支持刷新
+        if(isTokenExpired(token)){
+            return null;
+        }
+        //claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.setSubject(null);
+        return null;
+    }
+
 
     /**
      * 判断token在指定时间内是否刚刚刷新过

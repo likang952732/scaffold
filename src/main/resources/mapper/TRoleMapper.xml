@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhnj.mapper.TRoleMapper">
+  <resultMap id="baseMap" type="com.xhnj.model.TRole">
+      <result property="id" column="id" />
+      <result property="name" column="name" />
+      <result property="description" column="description" />
+      <result property="createTime" column="create_time" />
+      <result property="status" column="status" />
+  </resultMap>
+
+  <sql id="roleSql">
+      tr.id,
+      tr.name,
+      tr.description,
+      tr.create_time,
+      tr.status
+  </sql>
+
+  <select id="getUmsRole" resultMap="baseMap">
+     select
+       <include refid="roleSql" />
+     from t_admin ta
+     join t_admin_role tar on ta.id = tar.user_id
+     join t_role tr on tar.role_id = tr.id
+     where ta.id = #{adminId,jdbcType=BIGINT}
+  </select>
+
+</mapper>

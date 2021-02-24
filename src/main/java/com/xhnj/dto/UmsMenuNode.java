@@ -1,6 +1,6 @@
 package com.xhnj.dto;
 
-import com.xhnj.model.UmsMenu;
+import com.xhnj.model.TMenu;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class UmsMenuNode extends UmsMenu {
+public class UmsMenuNode extends TMenu {
     private List<UmsMenuNode> children;
 }

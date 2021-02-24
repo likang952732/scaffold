@@ -1,6 +1,6 @@
 package com.xhnj.config;
 import com.xhnj.component.DynamicSecurityService;
-import com.xhnj.service.UmsAdminService;
+import com.xhnj.service.ITAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,6 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,14 +20,12 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MallSecurityConfig extends SecurityConfig {
 
     @Autowired
-    private UmsAdminService adminService;
-  /*  @Autowired
-    private UmsResourceService resourceService;*/
+    private ITAdminService adminService;
 
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
-        //获取登录用户信息
+        //获取后台登录用户信息
         return username -> adminService.loadUserByUsername(username);
     }
 

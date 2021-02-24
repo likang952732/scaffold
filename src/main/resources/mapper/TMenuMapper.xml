@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhnj.mapper.TMenuMapper">
+    <resultMap id="baseMap" type="com.xhnj.model.TMenu">
+        <result property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="parentId" column="parent_id" />
+        <result property="level" column="level" />
+        <result property="sort" column="sort" />
+        <result property="createTime" column="create_time" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <sql id="menuSql">
+      tm.id,
+      tm.name,
+      tm.parent_id,
+      tm.level,
+      tm.sort,
+      tm.create_time,
+      tm.status
+  </sql>
+
+    <select id="getUmsMenu" resultMap="baseMap">
+        select
+        <include refid="menuSql" />
+        from t_role tr
+        join t_role_menu trm on tr.id = trm.role_id
+        join t_menu tm on trm.menu_id = tm.id
+        where tr.id = #{roleId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

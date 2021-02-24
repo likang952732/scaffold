@@ -7,12 +7,14 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
-/**
- * 后台用户注册参数
+/*
+ @Description
+ *@author kang.li
+ *@date 2021/2/23 10:53   
  */
 @Getter
 @Setter
-public class UmsAdminParam {
+public class UserParam {
     @ApiModelProperty(value = "用户名", required = true)
     @NotEmpty(message = "用户名不能为空")
     private String username;
@@ -27,6 +29,7 @@ public class UmsAdminParam {
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
     @ApiModelProperty(value = "手机号")
+    @NotEmpty(message = "手机号不能为空")
     private String phone;
     @ApiModelProperty(value = "备注")
     private String note;

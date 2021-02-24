@@ -5,14 +5,16 @@ import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 
-/**
- * 后台用户登录参数
+/*
+ @Description 小程序登录参数
+ *@author kang.li
+ *@date 2021/2/23 10:07   
  */
 @Data
-public class UmsAdminLoginParam {
-    @ApiModelProperty(value = "用户名", required = true)
-    @NotEmpty(message = "用户名不能为空")
-    private String username;
+public class UserLoginParam {
+    @ApiModelProperty(value = "登录账号", required = true)
+    @NotEmpty(message = "登录账号不能为空")
+    private String loginAccount;
     @ApiModelProperty(value = "密码", required = true)
     @NotEmpty(message = "密码不能为空")
     private String password;

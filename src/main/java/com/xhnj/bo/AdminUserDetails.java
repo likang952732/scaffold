@@ -1,18 +1,17 @@
 package com.xhnj.bo;
 
-import com.xhnj.model.UmsAdmin;
+import com.xhnj.model.TAdmin;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
  * SpringSecurity需要的用户详情
- * Created by macro on 2018/4/26.
  */
 public class AdminUserDetails implements UserDetails {
-    private UmsAdmin umsAdmin;
-    public AdminUserDetails(UmsAdmin umsAdmin) {
-        this.umsAdmin = umsAdmin;
+    private TAdmin admin;
+    public AdminUserDetails(TAdmin admin) {
+        this.admin = admin;
     }
 
     @Override
@@ -26,12 +25,12 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return umsAdmin.getPassword();
+        return admin.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return umsAdmin.getUsername();
+        return admin.getUsername();
     }
 
     @Override
@@ -51,6 +50,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return umsAdmin.getStatus().equals(1);
+        return admin.getStatus().equals(1);
     }
 }
