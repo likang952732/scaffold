@@ -2,10 +2,10 @@ package com.xhnj.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import java.io.Serializable;
 import java.util.Date;
-
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.xhnj.annotation.FieldRepeatValidator;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * 菜单表
+ * 菜单
  * </p>
  *
  * @author lk
@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class TMenu implements Serializable {
+@FieldRepeatValidator(fields = {"name"}, message = "菜单名不能重复")
+public class TMenu extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,6 +56,5 @@ public class TMenu implements Serializable {
      */
     @NotNull(message = "状态不能为空")
     private Integer status;
-
 
 }

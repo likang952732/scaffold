@@ -26,6 +26,8 @@ public class FieldRepeatValidatorClass implements ConstraintValidator<FieldRepea
 
     @Override
     public boolean isValid(Object o, ConstraintValidatorContext constraintValidatorContext) {
+        if(o == null)
+            return true;
         return fieldRepeatValidatorUtils.fieldRepeat(fileds,message,o);
     }
 }

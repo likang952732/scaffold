@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.xhnj.common.exception.BusinessException;
 import com.xhnj.mapper.TMenuMapper;
 import com.xhnj.mapper.TRoleMenuMapper;
 import com.xhnj.model.TMenu;
@@ -62,6 +63,8 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int delete(Long id) {
+        if(id == null)
+            throw new BusinessException("id不能为空");
         return roleMapper.deleteById(id);
     }
 

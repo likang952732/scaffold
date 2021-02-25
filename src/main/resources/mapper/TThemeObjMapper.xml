@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xhnj.mapper.TThemeObjMapper">
+    <resultMap id="baseMap" type="com.xhnj.model.TThemeObj">
+        <result property="id" column="id" />
+        <result property="themeId" column="theme_id" />
+        <result property="name" column="name" />
+        <result property="pics" column="pics" />
+        <result property="introduce" column="introduce" />
+        <result property="detail" column="detail" />
+        <result property="type" column="type" />
+        <result property="sort" column="sort" />
+        <result property="status" column="status" />
+        <result property="createTime" column="create_time" />
+    </resultMap>
+
+    <sql id="themeObjSql">
+      tto.id,
+      tto.theme_id,
+      tto.name,
+      tto.pics,
+      tto.introduce,
+      tto.detail,
+      tto.type,
+      tto.sort,
+      tto.status,
+      tto.create_time
+  </sql>
+
+    <select id="getTThemeObj" resultMap="baseMap">
+        select
+        <include refid="themeObjSql" />
+        from t_theme_obj tto
+        where tto.theme_id = #{id, jdbcType=BIGINT}
+        <if test="type != null">
+           and tto.type = #{type,jdbcType=INTEGER}
+        </if>
+    </select>
+
+</mapper>

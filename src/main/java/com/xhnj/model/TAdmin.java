@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * <p>
- * 用户表
+ * 后台管理用户
  * </p>
  *
  * @author lk
@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@FieldRepeatValidator(fields = {"name"}, message = "用户名不能重复")
+@FieldRepeatValidator(fields = {"username"}, message = "用户名不能重复")
 public class TAdmin extends Model implements Serializable {
 
     private static final long serialVersionUID = 1L;

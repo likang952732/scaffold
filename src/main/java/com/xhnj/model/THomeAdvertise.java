@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import java.util.Date;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 首页轮播广告表
+ * 首页轮播广告
  * </p>
  *
  * @author lk

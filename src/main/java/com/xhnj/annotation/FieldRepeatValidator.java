@@ -8,7 +8,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /*
- @Description 校验数据库字段不能重复注解
+ @Description 校验数据库字段不能重复
  *@author kang.li
  *@date 2021/2/24 10:05   
  */
@@ -25,5 +25,6 @@ public @interface FieldRepeatValidator {
     String message() default "你所输入的内容已存在";
 
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[]  payload() default {};
 }

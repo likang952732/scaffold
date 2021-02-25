@@ -51,7 +51,10 @@ public class FieldRepeatValidatorUtils {
         }catch (Exception e){
 //            String msg = "验证字段是否重复报错";
 //            log.error(msg,e);
-            throw new BusinessException(e.getMessage());
+            String msg = "";
+            if(e instanceof BusinessException)
+                msg = ((BusinessException) e).getMsg();
+            throw new BusinessException(msg);
         }
     }
 

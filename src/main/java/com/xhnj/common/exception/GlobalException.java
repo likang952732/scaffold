@@ -1,16 +1,15 @@
+
 package com.xhnj.common.exception;
 
 import com.xhnj.common.CommonResult;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.FileUploadBase;
 import org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
-
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 
 /*
  @Description 全局异常处理
@@ -28,6 +27,21 @@ public class GlobalException {
             log.error("业务逻辑处理异常：{}", ((BusinessException) e).getMsg());
             e.printStackTrace();
             return CommonResult.failed(((BusinessException) e).getMsg());
+        }
+        log.error("系统异常：{}", e);
+        return CommonResult.failed(e.getMessage());
+    }
+
+    @ExceptionHandler(value = ValidationException.class)
+    @ResponseBody
+    public CommonResult handle(ValidationException e) {
+        if (e instanceof ValidationException) {
+            String message = "";
+            if(e.getCause() instanceof BusinessException) {
+                message = ((BusinessException) e.getCause()).getMsg();
+                log.error("业务参数验证异常：{}", message);
+            }
+            return CommonResult.failed(message);
         }
         log.error("系统异常：{}", e);
         return CommonResult.failed(e.getMessage());

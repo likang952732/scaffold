@@ -4,8 +4,9 @@ package com.xhnj.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xhnj.common.CommonPage;
 import com.xhnj.common.CommonResult;
-import com.xhnj.model.THomeAdvertise;
-import com.xhnj.service.THomeAdvertiseService;
+import com.xhnj.model.TThemeCategory;
+import com.xhnj.model.TThemeObj;
+import com.xhnj.service.TThemeCategoryService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -17,56 +18,69 @@ import java.util.List;
 
 /**
  * <p>
- * 首页轮播广告
+ * 主题分类
  * </p>
  *
  * @author lk
- * @since 2021-02-24
+ * @since 2021-02-25
  */
 @RestController
-@RequestMapping("/home/advertise")
-public class THomeAdvertiseController {
-    @Autowired
-    private THomeAdvertiseService homeAdvertiseService;
+@RequestMapping("/theme/category")
+public class TThemeCategoryController {
 
-    @ApiOperation(value = "分页获取轮播广告列表数据")
+    @Autowired
+    private TThemeCategoryService themeCategoryService;
+
+    @ApiOperation("获取所有主题分类")
+    @GetMapping("/listAll")
+    public CommonResult<List<TThemeCategory>> listAll() {
+        return CommonResult.success(themeCategoryService.list());
+    }
+
+    @ApiOperation(value = "分页获取主题分类")
     @GetMapping("/list")
-    public CommonResult<CommonPage<THomeAdvertise>> list(@RequestParam(value = "keyword", required = false) String keyword,
+    public CommonResult<CommonPage<TThemeCategory>> list(@RequestParam(value = "keyword", required = false) String keyword,
                                                          @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page page = homeAdvertiseService.listPage(keyword, pageSize, pageNum);
+        Page page = themeCategoryService.listPage(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));
     }
 
-    @ApiOperation("添加轮播广告")
+    @ApiOperation(value = "获取指定主题分类下的分类对象")
+    @GetMapping("/obj/{id}")
+    public List<TThemeObj> list(@PathVariable("id") Long id, Integer type) {
+        return themeCategoryService.getTThemeObj(id, type);
+    }
+
+
+    @ApiOperation("添加主题分类")
     @PostMapping("/add")
-    public CommonResult create(@Validated THomeAdvertise homeAdvertise, BindingResult result) {
+    public CommonResult create(@Validated TThemeCategory role, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        int count = homeAdvertiseService.create(homeAdvertise);
+        int count = themeCategoryService.create(role);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
     }
 
-    @ApiOperation("编辑轮播广告")
+    @ApiOperation("编辑主题分类")
     @PutMapping("/update")
-    public CommonResult update(THomeAdvertise homeAdvertise) {
-        int count = homeAdvertiseService.update(homeAdvertise);
+    public CommonResult update(TThemeCategory role) {
+        int count = themeCategoryService.update(role);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
     }
 
-    @ApiOperation("删除轮播广告")
+    @ApiOperation("删除主题分类")
     @PostMapping("/delete/{id}")
     public CommonResult delete(@PathVariable("id") Long id) {
-        int count = homeAdvertiseService.delete(id);
+        int count = themeCategoryService.delete(id);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
     }
-
 }

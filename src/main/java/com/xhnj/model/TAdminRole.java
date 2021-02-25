@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户角色表
+ * 用户角色
  * </p>
  *
  * @author lk
