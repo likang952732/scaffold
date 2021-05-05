@@ -4,6 +4,7 @@ package com.example.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.CommonPage;
 import com.example.common.CommonResult;
+import com.example.dto.ChefParam;
 import com.example.model.TChef;
 import com.example.service.TChefService;
 import io.swagger.annotations.Api;
@@ -28,12 +29,19 @@ public class ChefController {
 
     @ApiOperation(value = "分页获取厨师列表")
     @GetMapping("/list")
-    public CommonResult<CommonPage<TChef>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                                 @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page page = chefService.list(keyword, pageSize, pageNum);
+    public CommonResult<CommonPage<TChef>> list(ChefParam chefParam,
+                                                @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
+                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+        Page page = chefService.list(chefParam, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));
     }
+
+    @ApiOperation(value = "获取厨师信息")
+    @GetMapping("/info/{id}")
+    public CommonResult<TChef> info(@PathVariable("id")Long id) {
+        return CommonResult.success(chefService.info(id));
+    }
+
 
     @ApiOperation(value = "认证")
     @PostMapping("/attest")

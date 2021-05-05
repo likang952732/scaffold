@@ -2,7 +2,7 @@
 2021-02-18 16:25:51 -The following profiles are active: dev
 2021-02-18 16:25:51 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-18 16:25:51 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-18 16:25:52 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-18 16:25:52 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-18 16:25:52 -Tomcat initialized with port(s): 8099 (http)
 2021-02-18 16:25:52 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-18 16:25:52 -Starting service [Tomcat]
@@ -18,7 +18,7 @@
 2021-02-18 16:29:05 -The following profiles are active: dev
 2021-02-18 16:29:05 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-18 16:29:05 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-18 16:29:05 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-18 16:29:05 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-18 16:29:06 -Tomcat initialized with port(s): 8099 (http)
 2021-02-18 16:29:06 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-18 16:29:06 -Starting service [Tomcat]

@@ -3,6 +3,7 @@ package com.example.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.dto.ChefParam;
 import com.example.mapper.TAdminMapper;
 import com.example.mapper.TOrderMapper;
 import com.example.model.TAdmin;
@@ -36,15 +37,25 @@ public class TChefServiceImpl extends ServiceImpl<TChefMapper, TChef> implements
     private TOrderMapper orderMapper;
 
     @Override
-    public Page list(String keyword, Integer pageSize, Integer pageNum) {
+    public Page list(ChefParam chefParam, Integer pageSize, Integer pageNum) {
         TAdmin admin = UserUtil.getCurrentAdminUser();
         Page<TChef> page = new Page<>(pageNum, pageSize);
         QueryWrapper wrapper = new QueryWrapper();
-        if(StrUtil.isNotBlank(keyword)) {
-            wrapper.like("name", keyword);
+        String name = chefParam.getName();
+        Integer star = chefParam.getStar();
+        if(StrUtil.isNotBlank(name)) {
+            wrapper.like("name", name);
         }
-        wrapper.eq("admin_id", admin.getId());
+        if(star != null){
+            wrapper.like("star", star);
+        }
+        //wrapper.eq("admin_id", admin.getId());
         return chefMapper.selectPage(page, wrapper);
+    }
+
+    @Override
+    public TChef info(Long id) {
+        return chefMapper.selectById(id);
     }
 
     @Transactional(rollbackFor = Exception.class)

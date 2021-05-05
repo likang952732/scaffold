@@ -1,9 +1,11 @@
 package com.example.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.dto.ChefParam;
 import com.example.model.TChef;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.model.TOrder;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * <p>
@@ -14,7 +16,9 @@ import com.example.model.TOrder;
  * @since 2021-05-05
  */
 public interface TChefService extends IService<TChef> {
-    Page list(String keyword, Integer pageSize, Integer pageNum);
+    Page list(ChefParam chefParam, Integer pageSize, Integer pageNum);
+
+    TChef info(Long id);
 
     /**
      * 认证

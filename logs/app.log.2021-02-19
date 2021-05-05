@@ -2,7 +2,7 @@
 2021-02-19 09:33:31 -The following profiles are active: dev
 2021-02-19 09:33:31 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 09:33:31 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 09:33:32 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 09:33:32 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 09:33:32 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 09:33:32 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 09:33:32 -Starting service [Tomcat]
@@ -21,7 +21,7 @@
 2021-02-19 09:38:33 -The following profiles are active: dev
 2021-02-19 09:38:33 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 09:38:33 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 09:38:34 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 09:38:34 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 09:38:34 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 09:38:34 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 09:38:35 -Starting service [Tomcat]
@@ -40,7 +40,7 @@
 2021-02-19 09:44:27 -The following profiles are active: dev
 2021-02-19 09:44:27 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 09:44:27 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 09:44:28 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 09:44:28 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 09:44:29 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 09:44:29 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 09:44:29 -Starting service [Tomcat]
@@ -59,7 +59,7 @@
 2021-02-19 09:46:45 -The following profiles are active: dev
 2021-02-19 09:46:45 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 09:46:45 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 09:46:46 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 09:46:46 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 09:46:46 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 09:46:46 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 09:46:46 -Starting service [Tomcat]
@@ -78,7 +78,7 @@
 2021-02-19 10:34:14 -The following profiles are active: dev
 2021-02-19 10:34:14 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 10:34:14 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 10:34:15 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:34:15 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:34:15 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:34:15 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:34:15 -Starting service [Tomcat]
@@ -98,7 +98,7 @@
 2021-02-19 10:37:19 -The following profiles are active: dev
 2021-02-19 10:37:19 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 10:37:19 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 10:37:20 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:37:20 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:37:21 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:37:21 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:37:21 -Starting service [Tomcat]
@@ -114,7 +114,7 @@
 2021-02-19 10:38:53 -The following profiles are active: dev
 2021-02-19 10:38:54 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 10:38:54 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 10:38:54 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:38:54 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:38:55 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:38:55 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:38:55 -Starting service [Tomcat]
@@ -190,7 +190,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -256,7 +256,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -322,7 +322,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -388,7 +388,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -454,7 +454,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -520,7 +520,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -586,7 +586,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -652,7 +652,7 @@ could not find expected ':'
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:320)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -660,7 +660,7 @@ could not find expected ':'
 	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
 2021-02-19 10:51:05 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26596 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:51:05 -The following profiles are active: dev
-2021-02-19 10:51:05 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:51:05 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:51:05 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:51:05 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:51:05 -Starting service [Tomcat]
@@ -681,7 +681,7 @@ could not find expected ':'
 2021-02-19 10:51:46 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:51:46 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26596 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:51:46 -The following profiles are active: dev
-2021-02-19 10:51:46 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:51:46 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:51:47 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:51:47 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:51:47 -Starting service [Tomcat]
@@ -697,7 +697,7 @@ could not find expected ':'
 2021-02-19 10:51:49 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:51:49 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26596 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:51:49 -The following profiles are active: dev
-2021-02-19 10:51:49 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:51:49 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:51:49 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:51:49 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:51:49 -Starting service [Tomcat]
@@ -717,7 +717,7 @@ could not find expected ':'
 2021-02-19 10:52:41 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:52:41 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26596 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:52:41 -The following profiles are active: dev
-2021-02-19 10:52:41 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:52:41 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:52:41 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:52:41 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:52:41 -Starting service [Tomcat]
@@ -733,7 +733,7 @@ could not find expected ':'
 2021-02-19 10:52:44 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:52:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26596 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:52:44 -The following profiles are active: dev
-2021-02-19 10:52:44 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:52:44 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:52:44 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:52:44 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:52:44 -Starting service [Tomcat]
@@ -754,7 +754,7 @@ could not find expected ':'
 2021-02-19 10:54:05 -The following profiles are active: dev
 2021-02-19 10:54:05 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 10:54:05 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 10:54:06 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:54:06 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:54:07 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:54:07 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:54:07 -Starting service [Tomcat]
@@ -775,7 +775,7 @@ could not find expected ':'
 2021-02-19 10:55:24 -The following profiles are active: dev
 2021-02-19 10:55:24 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 10:55:24 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 10:55:25 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:55:25 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:55:25 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:55:25 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:55:25 -Starting service [Tomcat]
@@ -794,7 +794,7 @@ could not find expected ':'
 2021-02-19 10:55:44 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:55:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:55:44 -The following profiles are active: dev
-2021-02-19 10:55:44 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:55:44 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:55:44 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:55:44 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:55:44 -Starting service [Tomcat]
@@ -810,7 +810,7 @@ could not find expected ':'
 2021-02-19 10:55:47 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:55:47 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:55:47 -The following profiles are active: dev
-2021-02-19 10:55:47 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:55:47 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:55:47 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:55:47 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:55:47 -Starting service [Tomcat]
@@ -831,7 +831,7 @@ could not find expected ':'
 2021-02-19 10:56:25 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:56:25 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:56:25 -The following profiles are active: dev
-2021-02-19 10:56:26 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:56:26 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:56:26 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:56:26 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:56:26 -Starting service [Tomcat]
@@ -847,7 +847,7 @@ could not find expected ':'
 2021-02-19 10:56:28 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:56:28 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:56:28 -The following profiles are active: dev
-2021-02-19 10:56:28 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:56:28 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:56:28 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:56:28 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:56:28 -Starting service [Tomcat]
@@ -867,7 +867,7 @@ could not find expected ':'
 2021-02-19 10:58:10 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:58:10 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:58:10 -The following profiles are active: dev
-2021-02-19 10:58:10 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:58:10 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:58:10 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:58:10 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:58:10 -Starting service [Tomcat]
@@ -883,7 +883,7 @@ could not find expected ':'
 2021-02-19 10:58:12 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:58:12 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:58:12 -The following profiles are active: dev
-2021-02-19 10:58:13 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:58:13 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:58:13 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:58:13 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:58:13 -Starting service [Tomcat]
@@ -899,7 +899,7 @@ could not find expected ':'
 2021-02-19 10:58:56 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:58:56 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:58:56 -The following profiles are active: dev
-2021-02-19 10:58:56 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:58:56 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:58:56 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:58:56 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:58:56 -Starting service [Tomcat]
@@ -915,7 +915,7 @@ could not find expected ':'
 2021-02-19 10:58:58 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 10:58:58 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 10:58:58 -The following profiles are active: dev
-2021-02-19 10:58:59 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 10:58:59 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 10:58:59 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 10:58:59 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 10:58:59 -Starting service [Tomcat]
@@ -931,7 +931,7 @@ could not find expected ':'
 2021-02-19 11:00:19 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:00:19 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:00:19 -The following profiles are active: dev
-2021-02-19 11:00:19 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:00:19 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:00:20 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:00:20 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:00:20 -Starting service [Tomcat]
@@ -947,7 +947,7 @@ could not find expected ':'
 2021-02-19 11:00:31 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:00:31 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:00:31 -The following profiles are active: dev
-2021-02-19 11:00:31 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:00:31 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:00:31 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:00:31 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:00:31 -Starting service [Tomcat]
@@ -963,7 +963,7 @@ could not find expected ':'
 2021-02-19 11:00:33 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:00:33 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:00:33 -The following profiles are active: dev
-2021-02-19 11:00:34 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:00:34 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:00:34 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:00:34 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:00:34 -Starting service [Tomcat]
@@ -979,7 +979,7 @@ could not find expected ':'
 2021-02-19 11:02:07 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:02:07 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:02:07 -The following profiles are active: dev
-2021-02-19 11:02:08 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:02:08 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:02:08 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:02:08 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:02:08 -Starting service [Tomcat]
@@ -995,7 +995,7 @@ could not find expected ':'
 2021-02-19 11:02:10 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:02:10 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:02:10 -The following profiles are active: dev
-2021-02-19 11:02:10 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:02:10 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:02:10 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:02:10 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:02:10 -Starting service [Tomcat]
@@ -1011,7 +1011,7 @@ could not find expected ':'
 2021-02-19 11:02:44 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:02:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:02:44 -The following profiles are active: dev
-2021-02-19 11:02:44 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:02:44 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:02:45 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:02:45 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:02:45 -Starting service [Tomcat]
@@ -1043,7 +1043,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1064,7 +1064,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 	... 23 common frames omitted
 2021-02-19 11:02:46 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:02:46 -The following profiles are active: dev
-2021-02-19 11:02:46 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:02:46 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:02:46 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:02:46 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:02:46 -Starting service [Tomcat]
@@ -1096,7 +1096,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:326)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1311)
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1300)
-	at com.xhnj.ScenicApplication.main(ScenicApplication.java:12)
+	at com.example.ScenicApplication.main(ScenicApplication.java:12)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1117,7 +1117,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 	... 23 common frames omitted
 2021-02-19 11:03:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 13528 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:03:44 -The following profiles are active: dev
-2021-02-19 11:03:44 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:03:44 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:03:44 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:03:44 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:03:44 -Starting service [Tomcat]
@@ -1134,7 +1134,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 2021-02-19 11:04:12 -The following profiles are active: dev
 2021-02-19 11:04:12 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:04:12 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:04:12 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:04:12 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:04:13 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:04:13 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:04:13 -Starting service [Tomcat]
@@ -1150,7 +1150,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 2021-02-19 11:08:46 -The following profiles are active: dev
 2021-02-19 11:08:46 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:08:46 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:08:47 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:08:47 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:08:48 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:08:48 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:08:48 -Starting service [Tomcat]
@@ -1170,7 +1170,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 2021-02-19 11:09:40 -The following profiles are active: dev
 2021-02-19 11:09:40 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:09:40 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:09:41 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:09:41 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:09:42 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:09:42 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:09:42 -Starting service [Tomcat]
@@ -1191,7 +1191,7 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 2021-02-19 11:14:07 -The following profiles are active: dev
 2021-02-19 11:14:07 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:14:07 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:14:08 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:14:08 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:14:09 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:14:09 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:14:09 -Starting service [Tomcat]
@@ -1209,8 +1209,8 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'up
 2021-02-19 11:14:16 -Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.StringIndexOutOfBoundsException: String index out of range: -1] with root cause
 java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 	at java.lang.String.substring(String.java:1960)
-	at com.xhnj.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
-	at com.xhnj.controller.UploadController.uploadImage(UploadController.java:32)
+	at com.example.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
+	at com.example.controller.UploadController.uploadImage(UploadController.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1264,8 +1264,8 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:14:43 -Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.StringIndexOutOfBoundsException: String index out of range: -1] with root cause
 java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 	at java.lang.String.substring(String.java:1960)
-	at com.xhnj.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
-	at com.xhnj.controller.UploadController.uploadImage(UploadController.java:32)
+	at com.example.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
+	at com.example.controller.UploadController.uploadImage(UploadController.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1319,7 +1319,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:14:44 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:14:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 11436 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:14:44 -The following profiles are active: dev
-2021-02-19 11:14:45 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:14:45 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:14:45 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:14:45 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:14:45 -Starting service [Tomcat]
@@ -1335,7 +1335,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:14:47 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 11:14:47 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 11436 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 11:14:47 -The following profiles are active: dev
-2021-02-19 11:14:48 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:14:48 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:14:48 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:14:48 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:14:48 -Starting service [Tomcat]
@@ -1354,8 +1354,8 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:14:48 -Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.StringIndexOutOfBoundsException: String index out of range: -1] with root cause
 java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 	at java.lang.String.substring(String.java:1960)
-	at com.xhnj.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
-	at com.xhnj.controller.UploadController.uploadImage(UploadController.java:32)
+	at com.example.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
+	at com.example.controller.UploadController.uploadImage(UploadController.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1409,8 +1409,8 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:16:10 -Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.StringIndexOutOfBoundsException: String index out of range: -1] with root cause
 java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 	at java.lang.String.substring(String.java:1960)
-	at com.xhnj.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
-	at com.xhnj.controller.UploadController.uploadImage(UploadController.java:32)
+	at com.example.service.impl.UploadServiceImpl.uploadPic(UploadServiceImpl.java:35)
+	at com.example.controller.UploadController.uploadImage(UploadController.java:32)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -1466,7 +1466,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:16:18 -The following profiles are active: dev
 2021-02-19 11:16:18 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:16:18 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:16:19 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:16:19 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:16:20 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:16:20 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:16:20 -Starting service [Tomcat]
@@ -1487,7 +1487,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:17:16 -The following profiles are active: dev
 2021-02-19 11:17:16 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:17:16 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:17:17 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:17:17 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:17:18 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:17:18 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:17:18 -Starting service [Tomcat]
@@ -1509,7 +1509,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 11:19:51 -The following profiles are active: dev
 2021-02-19 11:19:51 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 11:19:51 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 11:19:52 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 11:19:52 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 11:19:52 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 11:19:52 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 11:19:52 -Starting service [Tomcat]
@@ -1529,7 +1529,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 13:54:10 -The following profiles are active: dev
 2021-02-19 13:54:10 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 13:54:10 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 13:54:11 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 13:54:11 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 13:54:11 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 13:54:11 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 13:54:11 -Starting service [Tomcat]
@@ -1548,7 +1548,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 13:55:29 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 13:55:29 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 27216 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 13:55:29 -The following profiles are active: dev
-2021-02-19 13:55:29 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 13:55:29 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 13:55:29 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 13:55:29 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 13:55:29 -Starting service [Tomcat]
@@ -1564,7 +1564,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 13:55:31 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 13:55:31 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 27216 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 13:55:31 -The following profiles are active: dev
-2021-02-19 13:55:32 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 13:55:32 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 13:55:32 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 13:55:32 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 13:55:32 -Starting service [Tomcat]
@@ -1586,7 +1586,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 13:57:18 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 13:57:18 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 27216 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 13:57:18 -The following profiles are active: dev
-2021-02-19 13:57:18 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 13:57:18 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 13:57:18 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 13:57:18 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 13:57:18 -Starting service [Tomcat]
@@ -1602,7 +1602,7 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 13:57:21 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 13:57:21 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 27216 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 13:57:21 -The following profiles are active: dev
-2021-02-19 13:57:21 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 13:57:21 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 13:57:21 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 13:57:21 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 13:57:21 -Starting service [Tomcat]
@@ -1619,14 +1619,14 @@ java.lang.StringIndexOutOfBoundsException: String index out of range: -1
 2021-02-19 14:44:01 -The following profiles are active: dev
 2021-02-19 14:44:01 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 2021-02-19 14:44:01 -For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2021-02-19 14:44:02 -No MyBatis mapper was found in '[com.xhnj]' package. Please check your configuration.
+2021-02-19 14:44:02 -No MyBatis mapper was found in '[com.example]' package. Please check your configuration.
 2021-02-19 14:44:03 -Tomcat initialized with port(s): 8099 (http)
 2021-02-19 14:44:03 -Initializing ProtocolHandler ["http-nio-8099"]
 2021-02-19 14:44:03 -Starting service [Tomcat]
 2021-02-19 14:44:03 -Starting Servlet engine: [Apache Tomcat/9.0.41]
 2021-02-19 14:44:03 -Initializing Spring embedded WebApplicationContext
 2021-02-19 14:44:03 -Root WebApplicationContext: initialization completed in 1476 ms
-2021-02-19 14:44:03 -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'homeAdvertiseController': Unsatisfied dependency expressed through field 'homeAdvertiseService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'homeAdvertiseServiceImpl': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.xhnj.mapper.HomeAdvertiseMapper' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+2021-02-19 14:44:03 -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'homeAdvertiseController': Unsatisfied dependency expressed through field 'homeAdvertiseService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'homeAdvertiseServiceImpl': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.example.mapper.HomeAdvertiseMapper' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
 2021-02-19 14:44:03 -Stopping service [Tomcat]
 2021-02-19 14:44:03 -
 
@@ -1639,7 +1639,7 @@ APPLICATION FAILED TO START
 
 Description:
 
-Field homeAdvertiseService in com.xhnj.controller.HomeAdvertiseController required a bean of type 'com.xhnj.mapper.HomeAdvertiseMapper' that could not be found.
+Field homeAdvertiseService in com.example.controller.HomeAdvertiseController required a bean of type 'com.example.mapper.HomeAdvertiseMapper' that could not be found.
 
 The injection point has the following annotations:
 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
@@ -1647,7 +1647,7 @@ The injection point has the following annotations:
 
 Action:
 
-Consider defining a bean of type 'com.xhnj.mapper.HomeAdvertiseMapper' in your configuration.
+Consider defining a bean of type 'com.example.mapper.HomeAdvertiseMapper' in your configuration.
 
 2021-02-19 14:45:44 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 24056 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 14:45:44 -The following profiles are active: dev
@@ -2135,7 +2135,7 @@ java.lang.NullPointerException: null
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy76.create(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
+	at com.example.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -3556,7 +3556,7 @@ java.lang.NullPointerException: null
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy76.create(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
+	at com.example.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -3611,7 +3611,7 @@ java.lang.NullPointerException: null
 2021-02-19 15:11:36 -系统异常：{}
 org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'create_time' cannot be null
-### The error may involve com.xhnj.mapper.HomeAdvertiseMapper.insert-Inline
+### The error may involve com.example.mapper.HomeAdvertiseMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: insert into t_home_advertise (id, status, show_start_time,        show_end_time, url, is_verify_login,        sort, create_time)     values (?, ?, ?,        ?, ?, ?,        ?, ?)
 ### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'create_time' cannot be null
@@ -3626,7 +3626,7 @@ org.springframework.dao.DataIntegrityViolationException:
 	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:58)
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:59)
 	at com.sun.proxy.$Proxy74.insert(Unknown Source)
-	at com.xhnj.service.impl.HomeAdvertiseServiceImpl.create(HomeAdvertiseServiceImpl.java:37)
+	at com.example.service.impl.HomeAdvertiseServiceImpl.create(HomeAdvertiseServiceImpl.java:37)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -3640,7 +3640,7 @@ org.springframework.dao.DataIntegrityViolationException:
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy76.create(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
+	at com.example.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -3719,7 +3719,7 @@ Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'create_tim
 	... 70 common frames omitted
 2021-02-19 15:11:36 -Resolved [org.springframework.dao.DataIntegrityViolationException: 
 ### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'create_time' cannot be null
-### The error may involve com.xhnj.mapper.HomeAdvertiseMapper.insert-Inline
+### The error may involve com.example.mapper.HomeAdvertiseMapper.insert-Inline
 ### The error occurred while setting parameters
 ### SQL: insert into t_home_advertise (id, status, show_start_time,        show_end_time, url, is_verify_login,        sort, create_time)     values (?, ?, ?,        ?, ?, ?,        ?, ?)
 ### Cause: java.sql.SQLIntegrityConstraintViolationException: Column 'create_time' cannot be null
@@ -3759,7 +3759,7 @@ java.lang.NullPointerException: null
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy76.create(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
+	at com.example.controller.HomeAdvertiseController.create(HomeAdvertiseController.java:37)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4109,7 +4109,7 @@ Field error in object 'homeAdvertise' on field 'showEndTime': rejected value [20
 2021-02-19 15:48:48 -Starting Servlet engine: [Apache Tomcat/9.0.41]
 2021-02-19 15:48:48 -Initializing Spring embedded WebApplicationContext
 2021-02-19 15:48:48 -Root WebApplicationContext: initialization completed in 1726 ms
-2021-02-19 15:48:48 -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'homeAdvertiseController': Unsatisfied dependency expressed through field 'homeAdvertiseService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'homeAdvertiseServiceImpl': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.xhnj.dao.HomeAdvertiseDao' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
+2021-02-19 15:48:48 -Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'homeAdvertiseController': Unsatisfied dependency expressed through field 'homeAdvertiseService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'homeAdvertiseServiceImpl': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.example.dao.HomeAdvertiseDao' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}
 2021-02-19 15:48:48 -Stopping service [Tomcat]
 2021-02-19 15:48:48 -
 
@@ -4122,7 +4122,7 @@ APPLICATION FAILED TO START
 
 Description:
 
-Field homeAdvertiseService in com.xhnj.controller.HomeAdvertiseController required a bean of type 'com.xhnj.dao.HomeAdvertiseDao' that could not be found.
+Field homeAdvertiseService in com.example.controller.HomeAdvertiseController required a bean of type 'com.example.dao.HomeAdvertiseDao' that could not be found.
 
 The injection point has the following annotations:
 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
@@ -4130,7 +4130,7 @@ The injection point has the following annotations:
 
 Action:
 
-Consider defining a bean of type 'com.xhnj.dao.HomeAdvertiseDao' in your configuration.
+Consider defining a bean of type 'com.example.dao.HomeAdvertiseDao' in your configuration.
 
 2021-02-19 15:50:35 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 20784 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 15:50:35 -The following profiles are active: dev
@@ -4387,13 +4387,13 @@ org.springframework.web.HttpRequestMethodNotSupportedException: Request method '
 	at java.lang.Thread.run(Thread.java:748)
 2021-02-19 15:54:33 -Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'DELETE' not supported]
 2021-02-19 15:54:44 -系统异常：{}
-org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.mapper.HomeAdvertiseMapper.selectByExample
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.mapper.HomeAdvertiseMapper.selectByExample
 	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:227)
 	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:49)
 	at org.apache.ibatis.binding.MapperProxy.cachedMapperMethod(MapperProxy.java:65)
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58)
 	at com.sun.proxy.$Proxy75.selectByExample(Unknown Source)
-	at com.xhnj.service.impl.HomeAdvertiseServiceImpl.list(HomeAdvertiseServiceImpl.java:34)
+	at com.example.service.impl.HomeAdvertiseServiceImpl.list(HomeAdvertiseServiceImpl.java:34)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4401,7 +4401,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:344)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:208)
 	at com.sun.proxy.$Proxy78.list(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.list(HomeAdvertiseController.java:30)
+	at com.example.controller.HomeAdvertiseController.list(HomeAdvertiseController.java:30)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4452,7 +4452,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-2021-02-19 15:54:44 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.mapper.HomeAdvertiseMapper.selectByExample]
+2021-02-19 15:54:44 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.mapper.HomeAdvertiseMapper.selectByExample]
 2021-02-19 15:55:16 -系统异常：{}
 org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'DELETE' not supported
 	at org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:250)
@@ -4722,13 +4722,13 @@ java.lang.IllegalStateException: No primary or single public constructor found f
 2021-02-19 15:58:16 -Completed initialization in 2 ms
 2021-02-19 15:58:16 -{dataSource-1} inited
 2021-02-19 15:58:16 -系统异常：{}
-org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds
 	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:227)
 	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:49)
 	at org.apache.ibatis.binding.MapperProxy.cachedMapperMethod(MapperProxy.java:65)
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58)
 	at com.sun.proxy.$Proxy77.deleteByIds(Unknown Source)
-	at com.xhnj.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
+	at com.example.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4742,7 +4742,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy79.delete(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
+	at com.example.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4793,15 +4793,15 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-2021-02-19 15:58:16 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds]
+2021-02-19 15:58:16 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds]
 2021-02-19 16:00:42 -系统异常：{}
-org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds
 	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:227)
 	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:49)
 	at org.apache.ibatis.binding.MapperProxy.cachedMapperMethod(MapperProxy.java:65)
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58)
 	at com.sun.proxy.$Proxy77.deleteByIds(Unknown Source)
-	at com.xhnj.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
+	at com.example.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4815,7 +4815,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy79.delete(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
+	at com.example.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4866,7 +4866,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-2021-02-19 16:00:42 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds]
+2021-02-19 16:00:42 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds]
 2021-02-19 16:01:35 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 26296 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)
 2021-02-19 16:01:35 -The following profiles are active: dev
 2021-02-19 16:01:35 -Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
@@ -4887,13 +4887,13 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 2021-02-19 16:01:43 -Completed initialization in 2 ms
 2021-02-19 16:01:43 -{dataSource-1} inited
 2021-02-19 16:02:26 -系统异常：{}
-org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds
 	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:227)
 	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:49)
 	at org.apache.ibatis.binding.MapperProxy.cachedMapperMethod(MapperProxy.java:65)
 	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:58)
 	at com.sun.proxy.$Proxy77.deleteByIds(Unknown Source)
-	at com.xhnj.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
+	at com.example.service.impl.HomeAdvertiseServiceImpl.delete(HomeAdvertiseServiceImpl.java:53)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4907,7 +4907,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy79.delete(Unknown Source)
-	at com.xhnj.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
+	at com.example.controller.HomeAdvertiseController.delete(HomeAdvertiseController.java:57)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -4958,7 +4958,7 @@ org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
-2021-02-19 16:02:26 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xhnj.dao.HomeAdvertiseDao.deleteByIds]
+2021-02-19 16:02:26 -Resolved [org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.dao.HomeAdvertiseDao.deleteByIds]
 2021-02-19 16:03:28 -Shutting down ExecutorService 'applicationTaskExecutor'
 2021-02-19 16:03:28 -{dataSource-1} closed
 2021-02-19 16:04:05 -Starting ScenicApplication using Java 1.8.0_161 on DESKTOP-SAU8BNE with PID 25532 (D:\ideaspace\scenic\target\classes started by likang in D:\ideaspace\scenic)

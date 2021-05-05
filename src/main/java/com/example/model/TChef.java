@@ -44,6 +44,10 @@ public class TChef implements Serializable {
 
     private String birthDate;
 
+    private String qq;
+
+    private String weixin;
+
     /**
      * 厨师称号
      */
@@ -59,15 +63,27 @@ public class TChef implements Serializable {
      */
     private String credentialUrl;
 
+    private String serviceZoneList;
+
+    private String serveTimeList;
+
+    private String startTime;
+
+    private String endTime;
+
+    private Integer isFood;
+
+    private Integer isWare;
+
     /**
      * 拿手菜
      */
-    private String specialty;
+    private String foodList;
 
     /**
      * 擅长菜系
      */
-    private String cuisine;
+    private String cuisineList;
 
     /**
      * 认证状态(0->认证中；1->已认证)
