@@ -7,9 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -36,18 +34,18 @@ public class UploadServiceImpl implements UploadService {
         String originalFilename = file.getOriginalFilename();
         // 校验文件的类型
         String name = file.getOriginalFilename();
-        String suffix = name.substring(name.indexOf(".")+1, name.length()).toLowerCase();
+        String suffix = getFileSuffix(name);
         if (!suffixList.contains(suffix)){
             log.info("图片类型不合法：{}", originalFilename);
             throw new BusinessException("图片类型不合法");
         }
         try {
             // 校验文件的内容
-            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
+           /* BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
             if (bufferedImage == null){
                 log.info("文件内容不合法：{}", originalFilename);
                 throw new BusinessException("文件内容不合法");
-            }
+            }*/
             String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             String fileName = file.getOriginalFilename();
             //重命名
@@ -63,5 +61,13 @@ public class UploadServiceImpl implements UploadService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String getFileSuffix(String filename){
+        int pos = filename.lastIndexOf(".");
+        if(pos == -1){
+            return null;
+        }
+        return filename.substring(pos+1).toLowerCase();
     }
 }
