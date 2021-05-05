@@ -3,36 +3,54 @@ server:
   #    tomcat:
   #        max-threads: 1000
   #        min-spare-threads: 30
-  port: 8099
+  #port: 8443
+
+
   tomcat:
     max-swallow-size: -1
+  port: 80
+
+
+#  ssl:
+#    key-store: classpath:keystore.p12
+#    key-store-password: 123456
+#    keyStoreType: PKCS12
+#    keyAlias: tomcat
+#    enabled: true
+
+
 spring:
   application:
-    name: scenic
+    name: scenic-admin
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
   jackson:
     time-zone: GMT+8
     date-format: yyyy-MM-dd HH:mm:ss
+    default-property-inclusion: non_null
+
   profiles:
     active: dev
   servlet:
     multipart:
-      max-file-size: 1MB
+      max-file-size: 5MB
       max-request-size: 10MB
   devtools:
     restart:
       enabled: true
+      additional-paths: src
+
   cache:
     type: ehcache
     ehcache:
       config: config/ehcache.xml
 
+
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
-  secret: mall-admin-secret #JWT加解密使用的密钥
-  expiration: 3600 #JWT的超期限时间(60*60)
+  secret: scenic-admin-secret #JWT加解密使用的密钥
+  expiration: 7200 #JWT的超期限时间(60*60*2  两小时)
   tokenHead: Bearer  #JWT负载中拿到开头
 
 secure:
@@ -53,15 +71,16 @@ secure:
       - /admin/register
       - /admin/info
       - /admin/logout
-      - /user/login
-      - /user/register
+      - /admin/reset
       - /minio/upload
       - /uploadFiles/**
       - /validateCode/**
 
+
+
 uploadFile:
   resourceHandler: /uploadFiles/**   #文件虚拟路径映射
-  location: D:/data/ #自定义上传文件本地保存路径
+  location: C:/data/ #自定义上传文件本地保存路径
 
 
 # ===== 自定义swagger配置 ===== #
@@ -77,12 +96,15 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    ## 关闭sql打印
+    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*.xml
 
   global-config:
     # 逻辑删除配置
     db-config:
+      #更新字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: not_empty
       # 删除前
       logic-not-delete-value: 1
       # 删除后
@@ -92,4 +114,5 @@ mybatis-plus:
 #  mapper-locations:
 #    - classpath:dao/*.xml
 #    - classpath*:mapper/*.xml
-
+logging:
+  config: classpath:logback-spring.xml

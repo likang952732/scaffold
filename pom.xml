@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.xhnj</groupId>
-    <artifactId>scenic</artifactId>
+    <groupId>com.example</groupId>
+    <artifactId>chef</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scenic</name>
+    <name>chef</name>
     <description>Scenic Spots Mini Program</description>
 
     <properties>
