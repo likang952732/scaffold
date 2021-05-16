@@ -3,14 +3,14 @@ dispatch:
 logging:
   level:
     root: info
-    com.bootdo: debug
+    com.bootdo: info
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/chef?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/paoshe?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: root
+    password: lfw2021
     initialSize: 1
     minIdle: 3
     maxActive: 20
@@ -33,16 +33,16 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
     # 合并多个DruidDataSource的监控数据
     #useGlobalDataSourceStat: true
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    database: 1
-    timeout: 3000
-    maxIdle: 50
-    maxTotal: 200
-    maxWaitMillis: 2000
-    testOnBorrow: true
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    password:
+#    database: 1
+#    timeout: 3000
+#    maxIdle: 50
+#    maxTotal: 200
+#    maxWaitMillis: 2000
+#    testOnBorrow: true
 
 pic:
   suffix: jpg,png,gif,mp4
