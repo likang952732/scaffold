@@ -71,6 +71,17 @@ public class TChefServiceImpl extends ServiceImpl<TChefMapper, TChef> implements
 
     @Transactional(rollbackFor = Exception.class)
     @Override
+    public int add(TChef chef) {
+        TAdmin admin = UserUtil.getCurrentAdminUser();
+        chef.setAdminId(admin.getId());
+        chefMapper.insert(chef);
+        //更新状态
+        admin.setStatus(2);
+        return adminMapper.updateById(admin);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
     public int receiveOrder(Long orderId) {
         TAdmin admin = UserUtil.getCurrentAdminUser();
         TOrder order = orderMapper.selectById(orderId);

@@ -52,6 +52,16 @@ public class ChefController {
         return CommonResult.failed();
     }
 
+
+    @ApiOperation(value = "入驻")
+    @PostMapping("/add")
+    public CommonResult add(@RequestBody TChef chef) {
+        int count = chefService.add(chef);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();
+    }
+
     @ApiOperation(value = "接单")
     @GetMapping("/receiveOrder/{orderId}")
     public CommonResult receiveOrder(@PathVariable("orderId")Long orderId) {

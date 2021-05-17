@@ -52,12 +52,8 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
     @Override
     public String login(String username, String password) {
         String token = null;
-        //密码需要客户端加密后传递
         try {
             UserDetails userDetails = loadUserByUsername(username);
-            if(!passwordEncoder.matches(password,userDetails.getPassword())){
-                throw new BadCredentialsException("密码不正确");
-            }
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             token = jwtTokenUtil.generateToken(userDetails);
@@ -98,13 +94,14 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        //获取用户信息
+        //用户不存在则创建
         TAdmin admin = getAdminByUsername(username);
-        if (admin != null) {
-            // List<UmsResource> resourceList = getResourceList(admin.getId());
-            return new AdminUserDetails(admin);
+        if (admin == null) {
+            TAdmin adm = new TAdmin();
+            adminMapper.insert(adm);
+            return new AdminUserDetails(adm);
         }
-        throw new UsernameNotFoundException("用户名或密码错误");
+        return new AdminUserDetails(admin);
     }
 
     @Override

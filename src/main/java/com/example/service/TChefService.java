@@ -27,6 +27,8 @@ public interface TChefService extends IService<TChef> {
      */
     int attest(TChef chef);
 
+    int add(TChef chef);
+
     /**
      * 接单
      * @param orderId

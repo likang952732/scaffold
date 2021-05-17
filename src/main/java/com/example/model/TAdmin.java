@@ -45,8 +45,6 @@ public class TAdmin extends Model implements Serializable {
     /**
      * 密码
      */
-    @ApiModelProperty(value = "密码", required = true)
-    @NotBlank(message = "密码不能为空")
     private String password;
 
     /**
@@ -60,7 +58,6 @@ public class TAdmin extends Model implements Serializable {
      * 邮箱
      */
     @ApiModelProperty(value = "邮箱")
-    @Email(message = "邮箱格式不合法")
     private String email;
 
     /**
@@ -76,6 +73,7 @@ public class TAdmin extends Model implements Serializable {
     private String note;
 
     private Integer userType;
+
 
     /**
      * 创建时间

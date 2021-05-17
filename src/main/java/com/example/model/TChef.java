@@ -32,21 +32,17 @@ public class TChef implements Serializable {
      */
     private Long adminId;
 
+    private String name;
+
     /**
      * 性别(0->男；1->女)
      */
     private Integer sex;
 
-    /**
-     * 厨师头像
-     */
-    private String icon;
+
+    private String phone;
 
     private String birthDate;
-
-    private String qq;
-
-    private String weixin;
 
     /**
      * 厨师称号
@@ -58,37 +54,33 @@ public class TChef implements Serializable {
      */
     private String jobDate;
 
-    /**
-     * 资质图片
-     */
-    private String credentialUrl;
-
-    private String serviceZoneList;
-
-    private String serveTimeList;
-
-    private String startTime;
-
-    private String endTime;
-
-    private Integer isFood;
-
-    private Integer isWare;
-
-    /**
-     * 拿手菜
-     */
-    private String foodList;
+    private String specialty;
 
     /**
      * 擅长菜系
      */
-    private String cuisineList;
+    private String cuisine;
 
     /**
      * 认证状态(0->认证中；1->已认证)
      */
     private Integer status;
+
+    private String qq;
+
+    private String weixin;
+
+    private String area;
+
+    private Integer isFood;
+
+    private Integer isWare;
+
+    private String jobWeek;
+
+    private String jobStartTime;
+
+    private String jobEndTime;
 
     private Date createTime;
 

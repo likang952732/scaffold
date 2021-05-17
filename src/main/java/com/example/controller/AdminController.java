@@ -56,7 +56,7 @@ public class AdminController {
     public CommonResult login(@RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
         String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
         if (token == null) {
-            return CommonResult.validateFailed("用户名或密码错误");
+            return CommonResult.validateFailed("登录失败");
         }
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
