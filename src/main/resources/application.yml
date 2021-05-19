@@ -67,8 +67,9 @@ secure:
       - /**/*.ico
       - /actuator/**
       - /druid/**
-      - /admin/list
-
+      - /admin/**
+      - /chef/**
+      - /common/**
 
 
 uploadFile:
