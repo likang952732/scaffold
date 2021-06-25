@@ -16,6 +16,7 @@ import com.example.util.JwtTokenUtil;
 import com.example.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -47,6 +48,8 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Value("${defaultpassword}")
+    private String defaultpassword;
 
 
     @Override
@@ -98,6 +101,8 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
         TAdmin admin = getAdminByUsername(username);
         if (admin == null) {
             TAdmin adm = new TAdmin();
+            adm.setUsername(username);
+            adm.setPassword(passwordEncoder.encode(defaultpassword));
             adminMapper.insert(adm);
             return new AdminUserDetails(adm);
         }

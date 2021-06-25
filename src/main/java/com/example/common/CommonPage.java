@@ -1,4 +1,5 @@
 package com.example.common;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
 
@@ -32,7 +33,7 @@ public class CommonPage<T> {
     /**
      * 将SpringData分页后的list转为分页信息
      */
-    public static <T> CommonPage<T> restPage(Page<T> pageInfo) {
+    public static <T> CommonPage<T> restPage(IPage<T> pageInfo) {
         CommonPage<T> result = new CommonPage<T>();
         result.setPageNum(pageInfo.getCurrent());
         result.setPageSize(pageInfo.getSize());
