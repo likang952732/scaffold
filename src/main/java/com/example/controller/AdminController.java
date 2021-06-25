@@ -66,15 +66,15 @@ public class AdminController {
 
     @ApiOperation(value = "用户注册")
     @PostMapping("/register")
-    public CommonResult<TAdmin> register(@Validated @RequestBody TAdmin admin, BindingResult result) {
+    public CommonResult register(@Validated @RequestBody TAdmin admin, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        adminService.register(admin);
-        if(admin == null)
-            return CommonResult.failed();
-        return CommonResult.success(admin);
+        int count = adminService.register(admin);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();
     }
 
     @ApiOperation(value = "获取登录用户信息")
