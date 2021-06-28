@@ -20,7 +20,7 @@ import java.util.List;
 public interface TAdminService extends IService<TAdmin> {
     String login(String username, String password);
 
-    TAdmin register(TAdmin admin);
+    int register(TAdmin admin);
 
     TAdmin getAdminByUsername(String username);
 

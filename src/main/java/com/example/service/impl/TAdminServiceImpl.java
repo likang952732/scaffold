@@ -71,11 +71,10 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public TAdmin register(TAdmin admin) {
+    public int register(TAdmin admin) {
         String encodePassword = passwordEncoder.encode(admin.getPassword());
         admin.setPassword(encodePassword);
-        adminMapper.insert(admin);
-        return null;
+        return adminMapper.insert(admin);
     }
 
     @Override
