@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.model.TAdmin;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.model.TOrder;
+import com.example.model.UserOrder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -32,6 +33,6 @@ public interface TAdminService extends IService<TAdmin> {
 
     int deleteAdmin(Long id);
 
-    int releaseOrder(TOrder order);
+    int releaseOrder(UserOrder userOrder);
 
 }

@@ -7,6 +7,7 @@ import com.example.common.CommonResult;
 import com.example.dto.UmsAdminLoginParam;
 import com.example.model.TAdmin;
 import com.example.model.TOrder;
+import com.example.model.UserOrder;
 import com.example.service.TAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -53,7 +54,11 @@ public class AdminController {
 
     @ApiOperation(value = "登录以后返回token")
     @PostMapping("/login")
-    public CommonResult login(@RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
+    public CommonResult login(@Validated @RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        if(!fieldErrors.isEmpty()){
+            return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
+        }
         String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
         if (token == null) {
             return CommonResult.validateFailed("登录失败");
@@ -112,8 +117,8 @@ public class AdminController {
 
     @ApiOperation(value = "发布订单")
     @PostMapping("/releaseOrder")
-    public CommonResult releaseOrder(@RequestBody TOrder order) {
-        int count = adminService.releaseOrder(order);
+    public CommonResult releaseOrder(@RequestBody UserOrder userOrder) {
+        int count = adminService.releaseOrder(userOrder);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();

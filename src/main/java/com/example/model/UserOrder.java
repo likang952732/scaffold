@@ -34,7 +34,7 @@ public class UserOrder implements Serializable {
     /**
      * 用餐时间
      */
-    private Date dinnerDate;
+    private String dinnerDate;
 
     /**
      * 用餐人数
@@ -73,6 +73,10 @@ public class UserOrder implements Serializable {
      * (0->等待接单状态;1->已接单;2->已完成)
      */
     private Integer status;
+
+    private String dinneDown;
+
+    private String dinnePhone;
 
     private Date createTime;
 

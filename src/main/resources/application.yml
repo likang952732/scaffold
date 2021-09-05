@@ -67,14 +67,18 @@ secure:
       - /**/*.ico
       - /actuator/**
       - /druid/**
-      - /admin/**
-      - /chef/**
-      - /common/**
+      - /admin/login
+      - /admin/register
+      - /common/sms
 
 
 uploadFile:
   resourceHandler: /uploadFiles/**   #文件虚拟路径映射
   location: C:/data/ #自定义上传文件本地保存路径
+
+
+defaultpassword: 123
+
 
 
 # ===== 自定义swagger配置 ===== #

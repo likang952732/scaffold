@@ -7,9 +7,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.bo.AdminUserDetails;
 import com.example.common.exception.BusinessException;
 import com.example.mapper.TOrderMapper;
+import com.example.mapper.UserOrderMapper;
 import com.example.model.TAdmin;
 import com.example.mapper.TAdminMapper;
 import com.example.model.TOrder;
+import com.example.model.UserOrder;
 import com.example.service.TAdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.util.JwtTokenUtil;
@@ -43,7 +45,7 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
     @Resource
     private TAdminMapper adminMapper;
     @Resource
-    private TOrderMapper orderMapper;
+    private UserOrderMapper userOrderMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -122,10 +124,12 @@ public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, TAdmin> impleme
         return adminMapper.deleteById(id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public int releaseOrder(TOrder order) {
+    public int releaseOrder(UserOrder userOrder) {
         TAdmin admin = UserUtil.getCurrentAdminUser();
-        order.setAdminId(admin.getId());
-        return orderMapper.insert(order);
+        userOrder.setAdminId(admin.getId());
+        userOrder.setStatus(0);
+        return userOrderMapper.insert(userOrder);
     }
 }

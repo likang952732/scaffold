@@ -11,6 +11,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/paoshe?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: lfw2021
+
+#    url: jdbc:mysql://127.0.0.1:3306/chef?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: root
     initialSize: 1
     minIdle: 3
     maxActive: 20
