@@ -50,7 +50,7 @@ spring:
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: scenic-admin-secret #JWT加解密使用的密钥
-  expiration: 7200 #JWT的超期限时间(60*60*2  两小时)
+  expiration: 2592000  #JWT的超期限时间(60*60*24 (86400) 一天)
   tokenHead: Bearer  #JWT负载中拿到开头
 
 secure:
@@ -70,6 +70,7 @@ secure:
       - /admin/login
       - /admin/register
       - /common/sms
+      - /wx/**
 
 
 uploadFile:
@@ -114,3 +115,13 @@ mybatis-plus:
 #    - classpath*:mapper/*.xml
 logging:
   config: classpath:logback-spring.xml
+
+wechat:
+  appid: wx02253cc6c534f17c
+  secret: b6297950ea303f00654aae375c6cfedf
+  login:
+    url: https://api.weixin.qq.com/sns/jscode2session
+  ##微信一键首次登陆插入用户表的初始密码
+  initpwd: 123
+  ##微信一键首次登陆插入用户表的初始昵称
+  initnickname: lQj

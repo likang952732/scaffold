@@ -46,6 +46,13 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    public String generateTokenByPhone(String phone) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put(CLAIM_KEY_USERNAME, phone);
+        claims.put(CLAIM_KEY_CREATED, new Date());
+        return generateToken(claims);
+    }
+
 
     /**
      * 从token中获取JWT中的负载
