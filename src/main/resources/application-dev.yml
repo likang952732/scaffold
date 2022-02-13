@@ -8,13 +8,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/paoshe?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
-    password: lfw2021
-
-#    url: jdbc:mysql://127.0.0.1:3306/chef?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
-#    username: root
-#    password: root
+    password: root
     initialSize: 1
     minIdle: 3
     maxActive: 20
@@ -50,3 +46,5 @@ spring:
 
 pic:
   suffix: jpg,png,gif,mp4
+
+defaultpassword: 123

@@ -1,27 +1,13 @@
 server:
-  session-timeout: 172800 # 48Сʱ
-  #    tomcat:
-  #        max-threads: 1000
-  #        min-spare-threads: 30
-  #port: 8443
-
-
   tomcat:
     max-swallow-size: -1
   port: 8080
 
 
-#  ssl:
-#    key-store: classpath:keystore.p12
-#    key-store-password: 123456
-#    keyStoreType: PKCS12
-#    keyAlias: tomcat
-#    enabled: true
-
 
 spring:
   application:
-    name: scenic-admin
+    name: scaffold
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
@@ -50,7 +36,7 @@ spring:
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
   secret: scenic-admin-secret #JWT加解密使用的密钥
-  expiration: 2592000  #JWT的超期限时间(60*60*24 (86400) 一天)
+  expiration: 7200 #JWT的超期限时间(60*60*2  两小时)
   tokenHead: Bearer  #JWT负载中拿到开头
 
 secure:
@@ -61,25 +47,22 @@ secure:
       - /v2/api-docs
       - /v3/api-docs
       - /webjars/**
+      - /**/doc.html
       - /**/*.js
       - /**/*.css
       - /**/*.png
       - /**/*.ico
+      - /**/*.icon
+      - /**/*.ttf
+      - /**/*.woff
+      - /**/*.xls
       - /actuator/**
       - /druid/**
-      - /admin/login
-      - /admin/register
-      - /common/sms
-      - /wx/**
 
 
 uploadFile:
   resourceHandler: /uploadFiles/**   #文件虚拟路径映射
   location: C:/data/ #自定义上传文件本地保存路径
-
-
-defaultpassword: 123
-
 
 
 # ===== 自定义swagger配置 ===== #
@@ -115,13 +98,3 @@ mybatis-plus:
 #    - classpath*:mapper/*.xml
 logging:
   config: classpath:logback-spring.xml
-
-wechat:
-  appid: wx02253cc6c534f17c
-  secret: b6297950ea303f00654aae375c6cfedf
-  login:
-    url: https://api.weixin.qq.com/sns/jscode2session
-  ##微信一键首次登陆插入用户表的初始密码
-  initpwd: 123
-  ##微信一键首次登陆插入用户表的初始昵称
-  initnickname: lQj
