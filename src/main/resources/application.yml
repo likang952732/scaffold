@@ -1,27 +1,13 @@
 server:
-  session-timeout: 172800 # 48Сʱ
-  #    tomcat:
-  #        max-threads: 1000
-  #        min-spare-threads: 30
-  #port: 8443
-
-
   tomcat:
     max-swallow-size: -1
   port: 8080
 
 
-#  ssl:
-#    key-store: classpath:keystore.p12
-#    key-store-password: 123456
-#    keyStoreType: PKCS12
-#    keyAlias: tomcat
-#    enabled: true
-
 
 spring:
   application:
-    name: scenic-admin
+    name: scaffold
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
@@ -61,15 +47,17 @@ secure:
       - /v2/api-docs
       - /v3/api-docs
       - /webjars/**
+      - /**/doc.html
       - /**/*.js
       - /**/*.css
       - /**/*.png
       - /**/*.ico
+      - /**/*.icon
+      - /**/*.ttf
+      - /**/*.woff
+      - /**/*.xls
       - /actuator/**
       - /druid/**
-      - /admin/**
-      - /chef/**
-      - /common/**
 
 
 uploadFile:
