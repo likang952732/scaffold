@@ -53,9 +53,13 @@ public class AdminController {
     @ApiOperation(value = "登录以后返回token")
     @PostMapping("/login")
     public CommonResult login(@RequestBody UmsAdminLoginParam umsAdminLoginParam, BindingResult result) {
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        if(!fieldErrors.isEmpty()){
+            return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
+        }
         String token = adminService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
         if (token == null) {
-            return CommonResult.validateFailed("登录失败");
+            return CommonResult.validateFailed("用户名或密码错误");
         }
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
@@ -63,7 +67,7 @@ public class AdminController {
         return CommonResult.success(tokenMap);
     }
 
-    @ApiOperation(value = "用户注册")
+   /* @ApiOperation(value = "用户注册")
     @PostMapping("/register")
     public CommonResult register(@Validated @RequestBody TAdmin admin, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
@@ -74,7 +78,7 @@ public class AdminController {
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
-    }
+    }*/
 
     @ApiOperation(value = "获取登录用户信息")
     @GetMapping("/info")
