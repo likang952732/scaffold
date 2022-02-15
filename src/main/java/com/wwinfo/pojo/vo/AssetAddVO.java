@@ -1,8 +1,10 @@
-package com.wwinfo.pojo.res;
+package com.wwinfo.pojo.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -10,27 +12,25 @@ import java.util.Date;
  * Description:
  *
  * @Author: lk
- * DateTime: 2022-02-15 15:57
+ * DateTime: 2022-02-15 16:36
  */
 @Data
-public class AssetRes {
-
-    @ApiModelProperty(value = "ID")
-    private Long ID;
+public class AssetAddVO {
 
     @ApiModelProperty(value = "所属部门ID")
+    @NotNull(message = "orgID不能为空")
     private Long orgID;
 
-    @ApiModelProperty(value = "所属部门名称")
-    private String orgName;
-
     @ApiModelProperty(value = "资产名称")
+    @NotBlank(message = "资产名称不能为空")
     private String name;
 
     @ApiModelProperty(value = "资产编号")
+    @NotBlank(message = "资产编号不能为空")
     private String assetNo;
 
     @ApiModelProperty(value = "RFID编号")
+    @NotBlank(message = "RFID编号不能为空")
     private String rfidNo;
 
     @ApiModelProperty(value = "使用部门")
@@ -75,54 +75,11 @@ public class AssetRes {
     @ApiModelProperty(value = "所在库房ID")
     private Long roomID;
 
-    @ApiModelProperty(value = "所在库房名称")
-    private String roomName;
-
     @ApiModelProperty(value = "检测报警(0->不报警;1->允许位置外报警;2->不允许位置报警)")
     private Integer posAlarmType;
 
     @ApiModelProperty(value = "当前状态(0->内部；1->外部)")
+    @NotNull(message = "当前状态不能为空")
     private Integer curStatus;
 
-    @ApiModelProperty(value = "当前状态产生时间")
-    private Date timeStatus;
-
-    @ApiModelProperty(value = "是否异常(0->否;1->是)")
-    private Integer isAbnormal;
-
-    @ApiModelProperty(value = "异常原因(1->异常外出;2->进出状态不匹配;3->外出超过天数)")
-    private Integer reasonType;
-
-    @ApiModelProperty(value = "外借状态(1->外借)")
-    private Integer lendStatus;
-
-    @ApiModelProperty(value = "外借开始时间")
-    private Date lendStart;
-
-    @ApiModelProperty(value = "外借结束时间")
-    private Date lendEnd;
-
-    @ApiModelProperty(value = "添加时间")
-    private Date timeAdd;
-
-    @ApiModelProperty(value = "修改时间")
-    private Date timeModify;
-
-    @ApiModelProperty(value = "销毁状态(0->未销毁;1->销毁)")
-    private Integer delStatus;
-
-    @ApiModelProperty(value = "销毁时间")
-    private Date delTime;
-
-    @ApiModelProperty(value = "销毁原因")
-    private String delReason;
-
-    @ApiModelProperty(value = "是否黑名单(0->否;1->是)")
-    private Integer isBlack;
-
-    @ApiModelProperty(value = "黑名单原因")
-    private String blackReason;
-
-    @ApiModelProperty(value = "黑名单设置时间")
-    private Date blackTime;
 }

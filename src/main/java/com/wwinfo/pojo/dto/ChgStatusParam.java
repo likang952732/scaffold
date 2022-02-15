@@ -15,9 +15,9 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ChgStatusParam {
 
-    @ApiModelProperty(value = "ID", required = true)
-    @NotNull(message = "ID不能为空")
-    private Long ID;
+    @ApiModelProperty(value = "id", required = true)
+    @NotNull(message = "id不能为空")
+    private Long id;
 
     @ApiModelProperty(value = "当前状态", required = true)
     @NotNull(message = "当前状态(0->还未出库;1->已出库;2->已归还)")
