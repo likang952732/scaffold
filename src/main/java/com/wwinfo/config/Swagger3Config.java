@@ -42,7 +42,7 @@ public class Swagger3Config {
         return new ApiInfoBuilder()
                 .title(swaggerProperties.getApplicationName() + " Restful APIs")//网页标题
                 .description(swaggerProperties.getApplicationDescription())//网页描述
-                .contact(new Contact("作者", "作者地址", "******qq.com"))
+                .contact(new Contact("lk", "作者地址", "******qq.com"))
                 .version("Application Version: " + swaggerProperties.getApplicationVersion() + ", Spring Boot Version: " + SpringBootVersion.getVersion())//接口版本号
                 .termsOfServiceUrl("http://localhost:8080")
                 .build();

@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.wwinfo</groupId>
-    <artifactId>scafflod</artifactId>
+    <artifactId>RFID</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scafflod</name>
+    <name>RFID</name>
     <description>Scenic Spots Mini Program</description>
 
     <properties>

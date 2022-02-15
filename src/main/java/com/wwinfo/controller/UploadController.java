@@ -1,9 +1,9 @@
 package com.wwinfo.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.wwinfo.common.CommonResult;
 import com.wwinfo.service.UploadService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,14 +26,19 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "file", value = "文件", dataType="file", required = true),
+    })
     @ApiOperation("图片上传")
     @PostMapping("/image")
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+    public CommonResult uploadImage(@ApiParam(name="file",value="文件对象",required=true)
+                                        @RequestParam("file") MultipartFile file, HttpServletRequest request){
         String url = uploadService.uploadPic(file, request);
-        if(StrUtil.hasBlank(url)) {
+       /* if(StrUtil.hasBlank(url)) {
             return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(url);
+        }*/
+        //return ResponseEntity.status(HttpStatus.CREATED).body(url);
+        return null;
     }
 
 }

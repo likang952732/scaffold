@@ -4,17 +4,16 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 
 /**
- * 后台用户登录参数
+ * 登录参数
  */
 @Data
-public class UmsAdminLoginParam {
+public class UserLoginParam {
 
     @ApiModelProperty(value = "用户名", required = true)
     @NotBlank(message = "用户名不能为空")
-    private String username;
+    private String userName;
 
     @ApiModelProperty(value = "密码", required = true)
     @NotBlank(message = "密码不能为空")

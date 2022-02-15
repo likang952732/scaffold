@@ -5,9 +5,9 @@ package com.wwinfo.controller;
  *@author kang.li
  *@date 2021/2/22 11:25   
  */
-
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.util.ValidateCodeUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+@Api(value = "验证码接口", tags = "验证码接口")
 @RestController
 @RequestMapping("/validateCode")
 @Slf4j
@@ -37,7 +38,6 @@ public class ValidateCodeController {
             response.setHeader("Pragma", "no-cache");
             // getRandomCodeImage方法会直接将生成的验证码图片写入response
             validateCode.getRandomCodeImage(request, response);
-            // System.out.println("session里面存储的验证码为："+session.getAttribute("JCCODE"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +46,6 @@ public class ValidateCodeController {
     @ApiOperation("返回base64验证码")
     @GetMapping("/getCaptchaBase64")
     public CommonResult getCaptchaBase64(HttpServletRequest request, HttpServletResponse response) {
-        //Map result = new HashMap();
         response.setContentType("image/png");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Expire", "0");
@@ -55,7 +54,6 @@ public class ValidateCodeController {
     }
 
 
-    @ApiOperation("验证码校验")
     @GetMapping("/checkCaptcha")
     public boolean getCheckCaptcha(@RequestParam("code") String code, HttpSession session) {
         try {
