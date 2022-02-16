@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 public class AssetDestoryParam {
 
-    @ApiModelProperty(value = "ids", required = true)
+    @ApiModelProperty(value = "资产id(逗号分隔)", required = true)
     @NotNull(message = "ids不能为空")
     private String ids;
 

@@ -4,18 +4,24 @@ package com.wwinfo.controller;
 import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
+import com.wwinfo.model.Asset;
 import com.wwinfo.pojo.dto.AssetDestoryParam;
+import com.wwinfo.pojo.dto.AssetReturnVParam;
+import com.wwinfo.pojo.dto.BlackListVParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.query.AssetQuery;
 import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.vo.AssetAddVO;
 import com.wwinfo.pojo.vo.AssetChgVO;
+import com.wwinfo.pojo.vo.AssetOutRegVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -45,7 +51,7 @@ public class AssetController {
     @ApiOperation(value = "添加资产")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "系统权限管理", objectName = "资产管理", descript = "添加资产: #{#admin.username}")
-    public CommonResult insert(@RequestBody AssetAddVO assetAddVO, BindingResult result){
+    public CommonResult add(@RequestBody AssetAddVO assetAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -95,5 +101,40 @@ public class AssetController {
         return CommonResult.failed();*/
         return null;
     }
+
+    @ApiOperation(value = "资产出库")
+    @PostMapping("/retrieval")
+    @MyLog(operate = "出库", objectType = "资产出库", objectName = "资产出库", descript = "资产出库: #{#admin.username}")
+    public CommonResult retrieval(@RequestBody List<AssetOutRegVO> assetOutRegVO, BindingResult result){
+      /*  int count=adminService.insertAdmin(admin);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();*/
+        return null;
+    }
+
+    @ApiOperation(value = "资产归还")
+    @PostMapping("/assetReturn")
+    @MyLog(operate = "归还", objectType = "资产归还", objectName = "资产归还", descript = "资产归还: #{#admin.username}")
+    public CommonResult assetReturn(@RequestBody AssetReturnVParam assetReturnVParam, BindingResult result){
+      /*  int count=adminService.insertAdmin(admin);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();*/
+        return null;
+    }
+
+    @ApiOperation(value = "资产黑名单设置")
+    @PostMapping("/setBlackList")
+    @MyLog(operate = "设置", objectType = "资产黑名单设置", objectName = "资产黑名单设置", descript = "资产黑名单设置: #{#admin.username}")
+    public CommonResult assetReturn(@RequestBody BlackListVParam blackListVParam, BindingResult result){
+      /*  int count=adminService.insertAdmin(admin);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();*/
+        return null;
+    }
+
+
 
 }
