@@ -2,9 +2,10 @@ package com.wwinfo.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,13 +36,13 @@ public class Entrypos implements Serializable {
      * 首次读到的阅读器ID(对应表rfidReader)
      */
     @TableField("startReaderID")
-    private Integer startReaderID;
+    private Long startReaderID;
 
     /**
      * 最后读到的阅读器ID
      */
     @TableField("endReaderID")
-    private Integer endReaderID;
+    private Long endReaderID;
 
     /**
      * 关联库房ID
@@ -66,10 +67,10 @@ public class Entrypos implements Serializable {
     private String remark;
 
     @TableField("timeAdd")
-    private LocalDateTime timeAdd;
+    private Date timeAdd;
 
     @TableField("timeModify")
-    private LocalDateTime timeModify;
+    private Date timeModify;
 
 
 }
