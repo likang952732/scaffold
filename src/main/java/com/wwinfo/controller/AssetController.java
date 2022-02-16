@@ -4,11 +4,7 @@ package com.wwinfo.controller;
 import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
-import com.wwinfo.model.Asset;
-import com.wwinfo.pojo.dto.AssetDestoryParam;
-import com.wwinfo.pojo.dto.AssetReturnVParam;
-import com.wwinfo.pojo.dto.BlackListVParam;
-import com.wwinfo.pojo.dto.UserChgpwdParam;
+import com.wwinfo.pojo.dto.*;
 import com.wwinfo.pojo.query.AssetQuery;
 import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.vo.AssetAddVO;
@@ -21,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -124,7 +121,7 @@ public class AssetController {
         return null;
     }
 
-    @ApiOperation(value = "资产黑名单设置")
+    @ApiOperation(value = "资产黑名单设置(设置或取消)")
     @PostMapping("/setBlackList")
     @MyLog(operate = "设置", objectType = "资产黑名单设置", objectName = "资产黑名单设置", descript = "资产黑名单设置: #{#admin.username}")
     public CommonResult assetReturn(@RequestBody BlackListVParam blackListVParam, BindingResult result){
@@ -133,6 +130,20 @@ public class AssetController {
             return CommonResult.success(count);
         return CommonResult.failed();*/
         return null;
+    }
+
+    @ApiOperation(value = "实时状态查询导出excel")
+    @GetMapping("/status/export")
+    public void excelExport(HttpServletResponse response, AssetQueryParam assetQueryParam){
+        //DeductionDetailService.exportExcel(response,tbatchDtl);
+
+    }
+
+    @ApiOperation(value = "导出excel")
+    @GetMapping("/custom/export")
+    public void customExport(HttpServletResponse response, AssetQueryParam assetQueryParam){
+        //DeductionDetailService.exportExcel(response,tbatchDtl);
+
     }
 
 

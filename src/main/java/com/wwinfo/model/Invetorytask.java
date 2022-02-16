@@ -25,7 +25,7 @@ public class Invetorytask implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "ID", type = IdType.AUTO)
-    private Long id;
+    private Long ID;
 
     /**
      * 所属部门ID

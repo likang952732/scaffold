@@ -15,6 +15,7 @@ import java.util.Date;
 @Data
 public class InvetorytaskRes {
 
+    @ApiModelProperty(value = "盘点任务ID")
     private Long ID;
 
     @ApiModelProperty(value = "所属部门ID")

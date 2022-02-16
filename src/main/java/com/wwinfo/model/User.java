@@ -29,6 +29,10 @@ public class User implements Serializable {
     @TableId("userName")
     private String userName;
 
+    @ApiModelProperty(value = "用户类型(1->系统管理员；2->部门管理员；3->日志管理员)")
+    @TableField("userType")
+    private Integer userType;
+
     /**
      * 所属部门ID
      */

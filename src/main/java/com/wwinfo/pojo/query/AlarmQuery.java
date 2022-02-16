@@ -13,9 +13,6 @@ import lombok.Data;
 @Data
 public class AlarmQuery {
 
-    @ApiModelProperty(value = "级别")
-    private Integer level;
-
     @ApiModelProperty(value = "报警类型(0->阅读器断开;1->资产进出报警;2->资产外出超时报警)")
     private Integer alarmType;
 
@@ -24,5 +21,11 @@ public class AlarmQuery {
 
     @ApiModelProperty(value = "发送是否成功(0->否;1->是)")
     private Integer isSend;
+
+    @ApiModelProperty(value = "开始时间(yyyy-MM-dd HH:mm:ss)")
+    private String startTime;
+
+    @ApiModelProperty(value = "结束时间(yyyy-MM-dd HH:mm:ss)")
+    private String endTime;
 
 }
