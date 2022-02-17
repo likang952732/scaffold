@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * RFID进出口设置表
+ * RFID进出口设置
  * </p>
  *
  * @author lk
@@ -24,7 +24,7 @@ public class Entrypos implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "ID", type = IdType.AUTO)
-    private Long id;
+    private Long ID;
 
     /**
      * 位置名称

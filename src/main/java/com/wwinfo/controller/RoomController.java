@@ -5,6 +5,7 @@ import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.model.Room;
+import com.wwinfo.pojo.query.RoomQuery;
 import com.wwinfo.pojo.vo.RoomAddVO;
 import com.wwinfo.pojo.vo.RoomChgVO;
 import io.swagger.annotations.Api;
@@ -12,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,10 +30,17 @@ import org.springframework.web.bind.annotation.*;
 public class RoomController {
 
     @ApiOperation(value = "分页获取库房")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<Room>> page(String roomName,
-                                               @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<Room>> page(@RequestBody RoomQuery roomQuery) {
+
+       /* IPage page = logService.listPage(tLog, pageSize, pageNum);
+        return CommonResult.success(CommonPage.restPage(page));*/
+        return null;
+    }
+
+    @ApiOperation(value = "获取库房列表")
+    @PostMapping("/list")
+    public CommonResult<List<Room>> list(@RequestBody RoomQuery roomQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -50,7 +60,7 @@ public class RoomController {
     }
 
     @ApiOperation("编辑库房")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public CommonResult update(@RequestBody RoomChgVO roomChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
@@ -61,7 +71,7 @@ public class RoomController {
     }
 
     @ApiOperation("删除库房")
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public CommonResult delete(@ApiParam(name="id",value="库房id",required=true)@PathVariable("id") Long id) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

@@ -35,10 +35,8 @@ public class AssetController {
 
 
     @ApiOperation(value = "分页获取资产")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<AssetRes>> page(AssetQuery assetQuery,
-                                                   @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<AssetRes>> page(@RequestBody AssetQuery assetQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -67,7 +65,7 @@ public class AssetController {
 
 
     @ApiOperation("编辑资产")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public CommonResult update(@RequestBody AssetChgVO assetChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
@@ -78,7 +76,7 @@ public class AssetController {
     }
 
     @ApiOperation("删除资产")
-    @DeleteMapping("/{ID}")
+    @PostMapping("/{ID}")
     public CommonResult delete(@ApiParam(name="ID",value="资产ID",required=true)@PathVariable("ID") Long ID) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)
@@ -133,15 +131,15 @@ public class AssetController {
     }
 
     @ApiOperation(value = "实时状态查询导出excel")
-    @GetMapping("/status/export")
-    public void excelExport(HttpServletResponse response, AssetQueryParam assetQueryParam){
+    @PostMapping("/status/export")
+    public void excelExport(HttpServletResponse response, @RequestBody AssetQueryParam assetQueryParam){
         //DeductionDetailService.exportExcel(response,tbatchDtl);
 
     }
 
     @ApiOperation(value = "导出excel")
-    @GetMapping("/custom/export")
-    public void customExport(HttpServletResponse response, AssetQueryParam assetQueryParam){
+    @PostMapping("/custom/export")
+    public void customExport(HttpServletResponse response, @RequestBody AssetQueryParam assetQueryParam){
         //DeductionDetailService.exportExcel(response,tbatchDtl);
 
     }

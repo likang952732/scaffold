@@ -27,10 +27,8 @@ public class AssetrecordController {
 
 
     @ApiOperation(value = "分页获取资产进出记录")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<AssetrecordRes>> page(AssetrecordQuery assetrecordQuery,
-                                                         @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                         @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<AssetrecordRes>> page(@RequestBody AssetrecordQuery assetrecordQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -38,7 +36,7 @@ public class AssetrecordController {
     }
 
     @ApiOperation(value = "获取资产轨迹")
-    @GetMapping("/{assetID}")
+    @PostMapping("/{assetID}")
     public CommonResult<List<AssetrecordRes>> page(@ApiParam(name="assetID",value="资产ID",required=true)@PathVariable("assetID")Long assetID) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);

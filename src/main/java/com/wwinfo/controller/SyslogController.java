@@ -23,10 +23,8 @@ import org.springframework.web.bind.annotation.*;
 public class SyslogController {
 
     @ApiOperation(value = "分页获取日志")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<TSyslog>> page(SysLogQuery sysLogQuery,
-                                                  @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                  @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<TSyslog>> page(@RequestBody SysLogQuery sysLogQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -34,7 +32,7 @@ public class SyslogController {
     }
 
     @ApiOperation("删除日志")
-    @DeleteMapping("/{delDate}")
+    @PostMapping("/{delDate}")
     public CommonResult delete(@ApiParam(name="delDate",value="删除日期(yyyy-MM-dd)",required=true)@PathVariable String delDate) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

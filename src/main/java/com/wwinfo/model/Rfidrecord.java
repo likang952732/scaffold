@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * RFID阅读记录
+ * RFID阅读记
  * </p>
  *
  * @author lk
@@ -25,7 +25,7 @@ public class Rfidrecord implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "ID", type = IdType.AUTO)
-    private Long id;
+    private Long ID;
 
     /**
      * RFID编号

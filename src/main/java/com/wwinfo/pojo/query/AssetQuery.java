@@ -37,5 +37,11 @@ public class AssetQuery {
     @ApiModelProperty(value = "是否黑名单(0->否;1->是)")
     private Integer isBlack;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 
 }

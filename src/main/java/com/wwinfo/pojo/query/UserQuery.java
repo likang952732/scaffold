@@ -16,4 +16,10 @@ public class UserQuery {
     @ApiModelProperty(value = "用户名称")
     private String username;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 }

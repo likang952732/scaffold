@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 资产盘点任务表
+ * 资产盘点任务
  * </p>
  *
  * @author lk

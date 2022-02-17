@@ -25,13 +25,16 @@ public class SysLogQuery {
     @ApiModelProperty(value = "操作对象名称")
     private String objectName;
 
-    @ApiModelProperty(value = "操作描述信息")
-    private String descript;
-
     @ApiModelProperty(value = "开始日期(yyyy-MM-dd)")
     private String startDate;
 
     @ApiModelProperty(value = "结束日期(yyyy-MM-dd)")
     private String endDate;
+
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
 
 }

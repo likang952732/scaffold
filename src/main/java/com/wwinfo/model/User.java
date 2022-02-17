@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 部门管理员表表
+ * 用户
  * </p>
  *
  * @author lk

@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 资产盘点缺少表
+ * 资产盘点缺少
  * </p>
  *
  * @author lk

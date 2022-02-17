@@ -8,6 +8,7 @@ import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
+import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
 import com.wwinfo.service.TAdminService;
 import io.swagger.annotations.Api;
@@ -42,10 +43,8 @@ public class UserController {
     private TAdminService adminService;
 
     @ApiOperation(value = "分页获取用户")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<User>> page(String userName,
-                                               @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<User>> page(@RequestBody UserQuery userQuery) {
       /*  Page page = adminService.getUserPage(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
 
@@ -53,10 +52,10 @@ public class UserController {
     }
 
     @ApiOperation(value = "分页获取部门用户")
-    @GetMapping("/page/{orgID}")
+    @PostMapping("/page/{orgID}")
     public CommonResult<CommonPage<User>> page(@ApiParam(name="orgID",value="部门ID",required=true)
                                                    @PathVariable("orgID")Long orgID,
-                                               @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
+                                               @RequestParam(value = "pageSize", defaultValue = "10")Integer pageSize,
                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
       /*  Page page = adminService.getUserPage(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -86,7 +85,7 @@ public class UserController {
 
 
     @ApiOperation(value = "获取登录用户信息")
-    @GetMapping("/info")
+    @PostMapping("/info")
     public CommonResult<User> info(Principal principal) {
        /* if (principal == null)
             return CommonResult.unauthorized(null);
@@ -113,7 +112,7 @@ public class UserController {
     }
 
     @ApiOperation("编辑用户")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public CommonResult update(@RequestBody UserChgParam userChgParam, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
@@ -124,7 +123,7 @@ public class UserController {
     }
 
     @ApiOperation("删除用户")
-    @DeleteMapping("/{username}")
+    @PostMapping("/{username}")
     public CommonResult delete(@ApiParam(name="username",value="用户登录名称",required=true)@PathVariable("username") String username) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

@@ -1,17 +1,14 @@
 package com.wwinfo.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.model.Alarm;
 import com.wwinfo.pojo.query.AlarmQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -28,10 +25,8 @@ public class AlarmController {
 
 
     @ApiOperation(value = "分页获取所有报警记录")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<Alarm>> page(AlarmQuery alarmQuery,
-                                                @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<Alarm>> page(@RequestBody AlarmQuery alarmQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/

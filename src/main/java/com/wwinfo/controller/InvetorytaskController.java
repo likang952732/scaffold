@@ -5,13 +5,11 @@ import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.pojo.dto.InvTaskCancelParam;
-import com.wwinfo.pojo.dto.UserChgpwdParam;
+import com.wwinfo.pojo.query.InvetorytaskQuery;
 import com.wwinfo.pojo.res.InvetorytaskRes;
 import com.wwinfo.pojo.vo.InvetorytaskAddVO;
-import com.wwinfo.pojo.vo.UserAddVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,10 +28,8 @@ public class InvetorytaskController {
 
 
     @ApiOperation(value = "分页获取资产盘点任务")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<InvetorytaskRes>> page(@ApiParam(name="status",value="盘点状态")Integer status,
-                                                          @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<InvetorytaskRes>> page(@RequestBody InvetorytaskQuery invetorytaskQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/

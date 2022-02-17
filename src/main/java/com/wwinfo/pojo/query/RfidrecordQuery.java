@@ -19,4 +19,10 @@ public class RfidrecordQuery {
     @ApiModelProperty(value = "是否外部RFID(0->不是外部的RFID;1->外部的RFID)")
     private Integer isOther;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 }

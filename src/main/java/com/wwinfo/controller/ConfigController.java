@@ -4,10 +4,10 @@ package com.wwinfo.controller;
 import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
-import com.wwinfo.model.Rfidreader;
-import com.wwinfo.pojo.query.RfidreaderQuery;
-import com.wwinfo.pojo.vo.RfidreaderAddVO;
-import com.wwinfo.pojo.vo.RfidreaderChgParam;
+import com.wwinfo.model.TConfig;
+import com.wwinfo.pojo.query.ConfigQuery;
+import com.wwinfo.pojo.vo.ConfigAddVO;
+import com.wwinfo.pojo.vo.ConfigChgVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -16,30 +16,31 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- * RFID阅读器
+ * 参数配置
  * </p>
  *
  * @author lk
- * @since 2022-02-14
+ * @since 2022-02-17
  */
-@Api(value = "RFID阅读器接口", tags = "RFID阅读器接口")
+@Api(value = "参数配置接口", tags = "参数配置接口")
 @RestController
-@RequestMapping("/rfidreader")
-public class RfidreaderController {
+@RequestMapping("/config")
+public class ConfigController {
 
-    @ApiOperation(value = "分页获取RFID阅读器")
+    @ApiOperation(value = "分页获取参数配置")
     @PostMapping("/page")
-    public CommonResult<CommonPage<Rfidreader>> page(@RequestBody RfidreaderQuery rfidreaderQuery){
+    public CommonResult<CommonPage<TConfig>> page(@RequestBody ConfigQuery configQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
         return null;
     }
 
-    @ApiOperation(value = "添加RFID阅读器")
+
+    @ApiOperation(value = "添加参数配置")
     @PostMapping("/add")
-    @MyLog(operate = "添加", objectType = "添加RFID阅读器", objectName = "添加RFID阅读器", descript = "添加RFID阅读器: #{#admin.username}")
-    public CommonResult add(@RequestBody RfidreaderAddVO rfidreaderAddVO, BindingResult result){
+    @MyLog(operate = "添加", objectType = "添加参数配置", objectName = "参数配置管理", descript = "添加参数配置: #{#admin.username}")
+    public CommonResult add(@RequestBody ConfigAddVO configAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -47,9 +48,9 @@ public class RfidreaderController {
         return null;
     }
 
-    @ApiOperation("编辑RFID阅读器")
+    @ApiOperation("编辑参数配置")
     @PostMapping("/update")
-    public CommonResult update(@RequestBody RfidreaderChgParam rfidreaderChgParam, BindingResult result) {
+    public CommonResult update(@RequestBody ConfigChgVO configChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -58,9 +59,9 @@ public class RfidreaderController {
         return null;
     }
 
-    @ApiOperation("删除RFID阅读器")
+    @ApiOperation("删除参数配置")
     @PostMapping("/{id}")
-    public CommonResult delete(@ApiParam(name="id",value="RFID阅读器id",required=true)@PathVariable("id") Long id) {
+    public CommonResult delete(@ApiParam(name="id",value="参数配置id",required=true)@PathVariable("id") Long id) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)
             return CommonResult.success(count);

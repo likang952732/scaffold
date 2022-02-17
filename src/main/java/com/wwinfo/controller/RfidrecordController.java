@@ -7,11 +7,7 @@ import com.wwinfo.model.Rfidrecord;
 import com.wwinfo.pojo.query.RfidrecordQuery;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -28,10 +24,8 @@ public class RfidrecordController {
 
 
     @ApiOperation(value = "分页获取RFID阅读记录")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<Rfidrecord>> page(RfidrecordQuery rfidrecordQuery,
-                                                     @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                     @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<Rfidrecord>> page(@RequestBody RfidrecordQuery rfidrecordQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/

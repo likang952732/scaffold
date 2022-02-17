@@ -26,13 +26,10 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "文件", dataType="file", required = true),
-    })
-    @ApiOperation("图片上传")
+    @ApiOperation(value = "图片上传", notes = "上传图片", httpMethod="POST" ,consumes="multipart/form-data")
     @PostMapping("/image")
     public CommonResult uploadImage(@ApiParam(name="file",value="文件对象",required=true)
-                                        @RequestParam("file") MultipartFile file, HttpServletRequest request){
+                                        MultipartFile file, HttpServletRequest request){
         String url = uploadService.uploadPic(file, request);
        /* if(StrUtil.hasBlank(url)) {
             return ResponseEntity.badRequest().build();

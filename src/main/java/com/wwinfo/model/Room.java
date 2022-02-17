@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 库房表
+ * 库房
  * </p>
  *
  * @author lk

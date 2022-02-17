@@ -28,4 +28,10 @@ public class AlarmQuery {
     @ApiModelProperty(value = "结束时间(yyyy-MM-dd HH:mm:ss)")
     private String endTime;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 }

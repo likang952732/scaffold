@@ -28,4 +28,10 @@ public class AssetrecordQuery {
     @ApiModelProperty(value = "报警类型(1->异常外出;2->进出状态不匹配;4->黑名单;5->销毁资产)")
     private Integer alarmType;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 }

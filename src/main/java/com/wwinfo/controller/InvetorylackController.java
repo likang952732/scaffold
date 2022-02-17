@@ -3,15 +3,11 @@ package com.wwinfo.controller;
 
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
+import com.wwinfo.pojo.query.InvetorylackQuery;
 import com.wwinfo.pojo.res.InvetorylackRes;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -28,10 +24,8 @@ public class InvetorylackController {
 
 
     @ApiOperation(value = "分页获取资产盘点缺少")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<InvetorylackRes>> page(@ApiParam(name="resultCheck",value="盘点结果确认(0->未确认;1->确认)")Integer resultCheck,
-                                                          @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                          @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<InvetorylackRes>> page(@RequestBody InvetorylackQuery invetorylackQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/

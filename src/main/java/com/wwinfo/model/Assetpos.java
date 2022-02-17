@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 资产允许或不允许位置表
+ * 资产允许或不允许位置
  * </p>
  *
  * @author lk

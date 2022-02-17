@@ -8,15 +8,12 @@ import lombok.Data;
  * Description:
  *
  * @Author: lk
- * DateTime: 2022-02-15 14:54
+ * DateTime: 2022-02-17 18:09
  */
 @Data
-public class AssetoutregQuery {
+public class InvetorytaskQuery {
 
-    @ApiModelProperty(value = "出库类型(0->使用出库;1->借用出库)")
-    private Integer outType;
-
-    @ApiModelProperty(value = "当前状态(0->还未出库;1->已出库;2->已归还)")
+    @ApiModelProperty(value = "盘点状态")
     private Integer status;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")

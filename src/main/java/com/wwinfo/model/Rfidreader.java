@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * RFID阅读器表
+ * RFID阅读器
  * </p>
  *
  * @author lk

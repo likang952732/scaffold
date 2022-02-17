@@ -22,4 +22,10 @@ public class EntryposQuery {
     @ApiModelProperty(value = "进出方向(0->进；1->出)")
     private Integer directory;
 
+    @ApiModelProperty(value = "每页显示条数(默认为10条)")
+    private Integer pageSize = 10;
+
+    @ApiModelProperty(value = "页码")
+    private Integer pageNum = 1;
+
 }

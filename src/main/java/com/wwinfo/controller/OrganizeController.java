@@ -5,6 +5,7 @@ import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.model.Organize;
+import com.wwinfo.pojo.bo.OrganizeNode;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.query.OrganizeQuery;
 import com.wwinfo.pojo.vo.OrganizeAddVO;
@@ -32,10 +33,8 @@ import java.util.List;
 public class OrganizeController {
 
     @ApiOperation(value = "分页获取父级部门")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<Organize>> page(OrganizeQuery organizeQuery,
-                                                   @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                   @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<Organize>> page(@RequestBody OrganizeQuery organizeQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -43,7 +42,7 @@ public class OrganizeController {
     }
 
     @ApiOperation(value = "获取父级部门列表")
-    @GetMapping("/list")
+    @PostMapping("/list")
     public CommonResult<List<Organize>> list() {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
@@ -52,13 +51,21 @@ public class OrganizeController {
     }
 
 
-    @ApiOperation(value = "获取下级部门列表")
-    @GetMapping("/nextLevel/{orgID}")
+    @ApiOperation(value = "获取指定部门的下级部门列表")
+    @PostMapping("/nextLevel/{orgID}")
     public CommonResult<List<Organize>> nextLevel(@ApiParam(name="orgID",value="部门ID",required=true)
                                                       @PathVariable("orgID")Long orgID) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
+        return null;
+    }
+
+    @ApiOperation("树形结构返回所有部门列表")
+    @PostMapping("/treeList")
+    public CommonResult<List<OrganizeNode>> treeList() {
+       /* List<MenuNode> menuNodes = menuService.treeList();
+        return CommonResult.success(menuNodes);*/
         return null;
     }
 
@@ -74,7 +81,7 @@ public class OrganizeController {
     }
 
     @ApiOperation("编辑部门")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public CommonResult update(@RequestBody OrganizeChgVO organizeChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
@@ -85,7 +92,7 @@ public class OrganizeController {
     }
 
     @ApiOperation("删除部门")
-    @DeleteMapping("/{orgID}")
+    @PostMapping("/{orgID}")
     public CommonResult delete(@ApiParam(name="orgID",value="部门ID",required=true)@PathVariable("orgID") Long orgID) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

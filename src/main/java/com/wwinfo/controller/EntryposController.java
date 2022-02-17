@@ -28,10 +28,8 @@ import org.springframework.web.bind.annotation.*;
 public class EntryposController {
 
     @ApiOperation(value = "分页获取RFID进出口设置")
-    @GetMapping("/page")
-    public CommonResult<CommonPage<EntryposRes>> page(EntryposQuery entryposQuery,
-                                                      @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
-                                                      @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
+    @PostMapping("/page")
+    public CommonResult<CommonPage<EntryposRes>> page(@RequestBody EntryposQuery entryposQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -51,7 +49,7 @@ public class EntryposController {
     }
 
     @ApiOperation("编辑RFID进出口设置")
-    @PutMapping("/update")
+    @PostMapping("/update")
     public CommonResult update(@RequestBody EntryposChgVO entryposChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
@@ -62,7 +60,7 @@ public class EntryposController {
     }
 
     @ApiOperation("删除RFID进出口设置")
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public CommonResult delete(@ApiParam(name="id",value="RFID进出口设置id",required=true)@PathVariable("id") Long id) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

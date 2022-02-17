@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 资产进出记录表
+ * 资产进出记录
  * </p>
  *
  * @author lk
@@ -24,7 +24,7 @@ public class Assetrecord implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "ID", type = IdType.AUTO)
-    private Long id;
+    private Long ID;
 
     /**
      * 资产ID

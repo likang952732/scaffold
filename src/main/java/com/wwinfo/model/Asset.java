@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 资产表
+ * 资产
  * </p>
  *
  * @author lk
