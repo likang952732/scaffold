@@ -26,6 +26,8 @@ public class UploadController {
     @Autowired
     private UploadService uploadService;
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "图片上传", notes = "上传图片", httpMethod="POST" ,consumes="multipart/form-data")
     @PostMapping("/image")
     public CommonResult uploadImage(@ApiParam(name="file",value="文件对象",required=true)

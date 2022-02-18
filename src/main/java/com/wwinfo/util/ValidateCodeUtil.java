@@ -1,5 +1,6 @@
 package com.wwinfo.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import java.util.Random;
  *@author kang.li
  *@date 2021/2/22 11:22   
  */
+@Slf4j
 @Component
 public class ValidateCodeUtil {
     private static Random random = new Random();
@@ -76,7 +78,8 @@ public class ValidateCodeUtil {
 
 
     //生成随机图片
-    public void getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
+    public boolean getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
+        boolean b = false;
         HttpSession session = request.getSession();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
@@ -101,11 +104,11 @@ public class ValidateCodeUtil {
         session.setAttribute(sessionKey, randomStr);
         try {
             //  将图片以png格式返回,返回的是图片
-            ImageIO.write(image, "PNG", response.getOutputStream());
-
+            b = ImageIO.write(image, "PNG", response.getOutputStream());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("生成验证码图片异常: {]", e);
         }
+        return b;
     }
 
 

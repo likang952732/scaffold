@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: scaffold
+    name: RFID
   thymeleaf:
     mode: LEGACYHTML5
     cache: false
@@ -58,7 +58,10 @@ secure:
       - /**/*.xls
       - /actuator/**
       - /druid/**
-      - /asset/**
+      - /syslog/**
+      - /upload/**
+      - /rfidreader/**
+      - /entrypos/**
 
 
 uploadFile:
@@ -80,7 +83,9 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     auto-mapping-behavior: full
     ## 关闭sql打印
-    # log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    ##value为null时不返回
+    call-setters-on-nulls: true
   mapper-locations: classpath:mapper/*.xml
 
   global-config:

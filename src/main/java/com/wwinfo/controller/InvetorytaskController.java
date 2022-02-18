@@ -9,6 +9,8 @@ import com.wwinfo.pojo.query.InvetorytaskQuery;
 import com.wwinfo.pojo.res.InvetorytaskRes;
 import com.wwinfo.pojo.vo.InvetorytaskAddVO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,19 +29,21 @@ import org.springframework.web.bind.annotation.*;
 public class InvetorytaskController {
 
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取资产盘点任务")
     @PostMapping("/page")
-    public CommonResult<CommonPage<InvetorytaskRes>> page(@RequestBody InvetorytaskQuery invetorytaskQuery) {
+    public CommonResult<CommonPage<InvetorytaskRes>> page(InvetorytaskQuery invetorytaskQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加资产盘点任务")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "添加资产盘点任务", objectName = "添加资产盘点任务", descript = "添加资产盘点任务: #{#admin.username}")
-    public CommonResult add(@RequestBody InvetorytaskAddVO invetorytaskAddVO, BindingResult result){
+    public CommonResult add(InvetorytaskAddVO invetorytaskAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -47,10 +51,11 @@ public class InvetorytaskController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("取消")
     @PostMapping("/cancel")
     @MyLog(operate = "取消", objectType = "盘点任务取消", objectName = "盘点任务取消", descript = "盘点任务取消")
-    public CommonResult cancel(@RequestBody InvTaskCancelParam invTaskCancelParam, BindingResult result) {
+    public CommonResult cancel(InvTaskCancelParam invTaskCancelParam, BindingResult result) {
      /*   int count = adminService.updatePass(UmsAdminUpdatePassParam);
         if(count > 0)
             return CommonResult.success(count);

@@ -20,7 +20,7 @@ public class EntryposChgVO {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "位置名称", required = true)
+    @ApiModelProperty(value = "位置名称(最大长度60)", required = true)
     @NotBlank(message = "posName不能为空")
     private String posName;
 
@@ -42,7 +42,7 @@ public class EntryposChgVO {
     @NotNull(message = "isAlarm不能为空")
     private Integer isAlarm;
 
-    @ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注(最大长度90)")
     private String remark;
 
 }

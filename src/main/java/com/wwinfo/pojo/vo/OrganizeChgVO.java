@@ -25,14 +25,14 @@ public class OrganizeChgVO {
     /**
      * 部门名称
      */
-    @ApiModelProperty(value = "部门名称", required = true)
+    @ApiModelProperty(value = "部门名称(最大长度64)", required = true)
     @NotBlank(message = "部门名称不能为空")
     private String orgName;
 
     /**
      * 说明
      */
-    @ApiModelProperty(value = "说明")
+    @ApiModelProperty(value = "说明(最大长度256)")
     private String remark;
 
     /**
@@ -51,30 +51,30 @@ public class OrganizeChgVO {
     /**
      * 上级ID的链
      */
-    @ApiModelProperty(value = "上级ID的链")
+    @ApiModelProperty(value = "上级ID的链(最大长度256)")
     private String chainID;
 
     /**
      * 部门负责人
      */
-    @ApiModelProperty(value = "部门负责人")
+    @ApiModelProperty(value = "部门负责人(最大长度64)")
     private String manager;
 
     /**
      * 电话
      */
-    @ApiModelProperty(value = "电话")
+    @ApiModelProperty(value = "电话(最大长度64)")
     private String phone;
 
     /**
      * 传真
      */
-    @ApiModelProperty(value = "传真")
+    @ApiModelProperty(value = "传真(最大长度64)")
     private String fax;
 
     /**
      * 负责人手机号
      */
-    @ApiModelProperty(value = "负责人手机号")
+    @ApiModelProperty(value = "负责人手机号(最大长度64)")
     private String mobile;
 }

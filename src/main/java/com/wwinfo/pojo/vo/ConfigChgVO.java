@@ -20,28 +20,19 @@ public class ConfigChgVO {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "参数名称", required = true)
+    @ApiModelProperty(value = "参数名称(最大长度32)", required = true)
     @NotBlank(message = "name不能为空")
     private String name;
 
-    /**
-     * 参数键名
-     */
-    @ApiModelProperty(value = "参数键名", required = true)
+    @ApiModelProperty(value = "参数键名(最大长度32)", required = true)
     @NotBlank(message = "fieldName不能为空")
     private String fieldName;
 
-    /**
-     * 参数键值
-     */
-    @ApiModelProperty(value = "参数键值", required = true)
+    @ApiModelProperty(value = "参数键值(最大长度64)", required = true)
     @NotBlank(message = "value不能为空")
     private String value;
 
-    /**
-     * 备注
-     */
-    @ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注(最大长度256)")
     private String remark;
 
 }

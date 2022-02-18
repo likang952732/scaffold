@@ -11,9 +11,7 @@ import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
 import com.wwinfo.service.TAdminService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
@@ -42,15 +40,19 @@ public class UserController {
     @Autowired
     private TAdminService adminService;
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取用户")
     @PostMapping("/page")
-    public CommonResult<CommonPage<User>> page(@RequestBody UserQuery userQuery) {
+    public CommonResult<CommonPage<User>> page(UserQuery userQuery) {
       /*  Page page = adminService.getUserPage(keyword, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
 
         return null;
     }
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取部门用户")
     @PostMapping("/page/{orgID}")
     public CommonResult<CommonPage<User>> page(@ApiParam(name="orgID",value="部门ID",required=true)
@@ -66,7 +68,7 @@ public class UserController {
 
     @ApiOperation(value = "登录以后返回token")
     @PostMapping("/login")
-    public CommonResult login(@RequestBody UserLoginParam userLoginParam, BindingResult result) {
+    public CommonResult login(UserLoginParam userLoginParam, BindingResult result) {
        /* List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
@@ -84,6 +86,7 @@ public class UserController {
     }
 
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "获取登录用户信息")
     @PostMapping("/info")
     public CommonResult<User> info(Principal principal) {
@@ -94,6 +97,7 @@ public class UserController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "退出")
     @PostMapping("/logout")
     public CommonResult logout() {
@@ -103,7 +107,7 @@ public class UserController {
     @ApiOperation(value = "添加用户")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "系统权限管理", objectName = "用户管理", descript = "添加用户: #{#admin.username}")
-    public CommonResult insert(@RequestBody UserAddVO userAddVO, BindingResult result){
+    public CommonResult insert(UserAddVO userAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -111,9 +115,11 @@ public class UserController {
         return null;
     }
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑用户")
     @PostMapping("/update")
-    public CommonResult update(@RequestBody UserChgParam userChgParam, BindingResult result) {
+    public CommonResult update(UserChgParam userChgParam, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -122,6 +128,8 @@ public class UserController {
         return null;
     }
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除用户")
     @PostMapping("/{username}")
     public CommonResult delete(@ApiParam(name="username",value="用户登录名称",required=true)@PathVariable("username") String username) {
@@ -133,10 +141,11 @@ public class UserController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("修改密码")
     @PostMapping("/updatepwd")
     @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "修改用户密码")
-    public CommonResult updatePass(@RequestBody UserChgpwdParam userChgpwdParam, BindingResult result) {
+    public CommonResult updatePass(UserChgpwdParam userChgpwdParam, BindingResult result) {
      /*   int count = adminService.updatePass(UmsAdminUpdatePassParam);
         if(count > 0)
             return CommonResult.success(count);
@@ -144,6 +153,7 @@ public class UserController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("管理员重置密码")
     @PostMapping("/resetpwd")
     @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "管理员重置密码")

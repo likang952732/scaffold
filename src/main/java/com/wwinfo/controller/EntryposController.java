@@ -8,11 +8,10 @@ import com.wwinfo.pojo.query.EntryposQuery;
 import com.wwinfo.pojo.res.EntryposRes;
 import com.wwinfo.pojo.vo.EntryposAddVO;
 import com.wwinfo.pojo.vo.EntryposChgVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * <p>
@@ -27,9 +26,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/entrypos")
 public class EntryposController {
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取RFID进出口设置")
     @PostMapping("/page")
-    public CommonResult<CommonPage<EntryposRes>> page(@RequestBody EntryposQuery entryposQuery) {
+    public CommonResult<CommonPage<EntryposRes>> page(EntryposQuery entryposQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -37,10 +37,11 @@ public class EntryposController {
     }
 
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加RFID进出口设置")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "添加RFID进出口设置", objectName = "RFID进出口设置管理", descript = "添加RFID进出口设置: #{#admin.username}")
-    public CommonResult add(@RequestBody EntryposAddVO entryposAddVO, BindingResult result){
+    public CommonResult add(EntryposAddVO entryposAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -48,9 +49,10 @@ public class EntryposController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑RFID进出口设置")
     @PostMapping("/update")
-    public CommonResult update(@RequestBody EntryposChgVO entryposChgVO, BindingResult result) {
+    public CommonResult update(EntryposChgVO entryposChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -59,6 +61,7 @@ public class EntryposController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除RFID进出口设置")
     @PostMapping("/{id}")
     public CommonResult delete(@ApiParam(name="id",value="RFID进出口设置id",required=true)@PathVariable("id") Long id) {

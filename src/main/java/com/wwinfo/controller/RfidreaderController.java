@@ -1,6 +1,7 @@
 package com.wwinfo.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
@@ -8,9 +9,9 @@ import com.wwinfo.model.Rfidreader;
 import com.wwinfo.pojo.query.RfidreaderQuery;
 import com.wwinfo.pojo.vo.RfidreaderAddVO;
 import com.wwinfo.pojo.vo.RfidreaderChgParam;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.wwinfo.service.RfidreaderService;
+import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,19 +28,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/rfidreader")
 public class RfidreaderController {
 
+    @Autowired
+    private RfidreaderService rfidreaderService;
+
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取RFID阅读器")
     @PostMapping("/page")
-    public CommonResult<CommonPage<Rfidreader>> page(@RequestBody RfidreaderQuery rfidreaderQuery){
-
-       /* IPage page = logService.listPage(tLog, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(page));*/
-        return null;
+    public CommonResult<CommonPage<Rfidreader>> page(RfidreaderQuery rfidreaderQuery){
+        IPage page = rfidreaderService.listPage(rfidreaderQuery);
+        return CommonResult.success(CommonPage.restPage(page));
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加RFID阅读器")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "添加RFID阅读器", objectName = "添加RFID阅读器", descript = "添加RFID阅读器: #{#admin.username}")
-    public CommonResult add(@RequestBody RfidreaderAddVO rfidreaderAddVO, BindingResult result){
+    public CommonResult add(RfidreaderAddVO rfidreaderAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -47,9 +52,10 @@ public class RfidreaderController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑RFID阅读器")
     @PostMapping("/update")
-    public CommonResult update(@RequestBody RfidreaderChgParam rfidreaderChgParam, BindingResult result) {
+    public CommonResult update(RfidreaderChgParam rfidreaderChgParam, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -58,6 +64,7 @@ public class RfidreaderController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除RFID阅读器")
     @PostMapping("/{id}")
     public CommonResult delete(@ApiParam(name="id",value="RFID阅读器id",required=true)@PathVariable("id") Long id) {

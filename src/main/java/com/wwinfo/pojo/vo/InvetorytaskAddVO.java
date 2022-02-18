@@ -33,4 +33,7 @@ public class InvetorytaskAddVO {
     @NotNull(message = "endDate不能为空")
     private Date endDate;
 
+    @ApiModelProperty(value = "计划结束日期(最大长度90)")
+    private String desc;
+
 }

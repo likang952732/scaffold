@@ -7,6 +7,8 @@ import com.wwinfo.pojo.dto.ChgStatusParam;
 import com.wwinfo.pojo.query.AssetoutregQuery;
 import com.wwinfo.pojo.res.AssetoutregRes;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +27,10 @@ import org.springframework.web.bind.annotation.*;
 public class AssetoutregController {
 
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取资产出库登记")
     @PostMapping("/page")
-    public CommonResult<CommonPage<AssetoutregRes>> page(@RequestBody AssetoutregQuery assetoutregQuery) {
+    public CommonResult<CommonPage<AssetoutregRes>> page(AssetoutregQuery assetoutregQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -35,10 +38,10 @@ public class AssetoutregController {
     }
 
 
-
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "状态修改")
     @PostMapping("/chgStatus")
-    public CommonResult chgStatus(@RequestBody ChgStatusParam chgStatusParam, BindingResult result) {
+    public CommonResult chgStatus(ChgStatusParam chgStatusParam, BindingResult result) {
 
         return null;
     }

@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.Profiles;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.Contact;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -27,17 +29,25 @@ public class Swagger3Config {
     private SwaggerProperties swaggerProperties;
 
     @Bean
-    public Docket createRestApi() {
+    public Docket createRestApi(Environment environment) {
+
+        //设置只在开发中环境中启动swagger
+        Profiles profiles = Profiles.of("dev");
+        //表示如果现在是dev环境，则返回true 开启swagger
+        boolean flag = environment.acceptsProfiles(profiles);
+
         return new Docket(DocumentationType.OAS_30)
                 .enable(swaggerProperties.getEnable())
                 .apiInfo(apiInfo())
+                .enable(flag)
                 .host(swaggerProperties.getTryHost())//接口调试地址
                 .select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
                 .build();
-
     }
+
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title(swaggerProperties.getApplicationName() + " Restful APIs")//网页标题

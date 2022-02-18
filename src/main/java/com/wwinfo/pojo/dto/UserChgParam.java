@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Data
 public class UserChgParam {
 
-    @ApiModelProperty(value = "用户名称", required = true)
+    @ApiModelProperty(value = "用户名称(最大长度32)", required = true)
     @NotBlank(message = "用户名称不能为空")
     private String userName;
 
@@ -23,28 +23,28 @@ public class UserChgParam {
     @NotNull(message = "orgID不能为空")
     private Long orgID;
 
-    @ApiModelProperty(value = "昵称")
+    @ApiModelProperty(value = "昵称(最大长度64)")
     private String nickname;
 
-    @ApiModelProperty(value = "电子邮箱")
+    @ApiModelProperty(value = "电子邮箱(最大长度64)")
     private String email;
 
-    @ApiModelProperty(value = "姓名")
+    @ApiModelProperty(value = "姓名(最大长度64)")
     private String realName;
 
-    @ApiModelProperty(value = "电话")
+    @ApiModelProperty(value = "电话(最大长度64)")
     private String phone;
 
-    @ApiModelProperty(value = "地址")
+    @ApiModelProperty(value = "地址(最大长度512)")
     private String address;
 
-    @ApiModelProperty(value = "头像")
+    @ApiModelProperty(value = "头像(最大长度512)")
     private String headUrl;
 
-    @ApiModelProperty(value = "性别")
+    @ApiModelProperty(value = "性别(最大长度8)")
     private String sex;
 
-    @ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注(最大长度128")
     private String remark;
 
     @ApiModelProperty(value = "是否停用")

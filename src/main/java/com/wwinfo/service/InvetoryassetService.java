@@ -1,7 +1,9 @@
 package com.wwinfo.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wwinfo.model.Invetoryasset;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wwinfo.pojo.query.InvetoryassetQuery;
 
 /**
  * <p>
@@ -13,4 +15,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface InvetoryassetService extends IService<Invetoryasset> {
 
+    /**
+     * 分页获取资产盘点清单
+     * @param invetoryassetQuery
+     * @return
+     */
+    IPage listPage(InvetoryassetQuery invetoryassetQuery);
 }

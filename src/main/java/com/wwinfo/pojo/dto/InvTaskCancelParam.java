@@ -25,7 +25,7 @@ public class InvTaskCancelParam {
     @NotNull(message = "status不能为空")
     private Integer status;
 
-    @ApiModelProperty(value = "盘点取消原因", required = true)
+    @ApiModelProperty(value = "盘点取消原因(最大长度90)", required = true)
     @NotBlank(message = "cancelReason不能为空")
     private String cancelReason;
 

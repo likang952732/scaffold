@@ -30,17 +30,16 @@ public class ValidateCodeController {
 
     @ApiOperation("获取验证码图片")
     @GetMapping("/getCaptchaImg")
-    public void getCaptchaImg(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        try {
-            response.setContentType("image/png");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setHeader("Expire", "0");
-            response.setHeader("Pragma", "no-cache");
-            // getRandomCodeImage方法会直接将生成的验证码图片写入response
-            validateCode.getRandomCodeImage(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public CommonResult getCaptchaImg(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("image/png");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Expire", "0");
+        response.setHeader("Pragma", "no-cache");
+        // getRandomCodeImage方法会直接将生成的验证码图片写入response
+        boolean b = validateCode.getRandomCodeImage(request, response);
+        if(b)
+            return CommonResult.success(null);
+        return CommonResult.failed("获取验证码图片失败");
     }
 
     @ApiOperation("返回base64验证码")

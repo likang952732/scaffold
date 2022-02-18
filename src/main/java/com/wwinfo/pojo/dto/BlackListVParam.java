@@ -23,7 +23,7 @@ public class BlackListVParam {
     @NotNull(message = "是否黑名单不能为空")
     private Integer isBlack;
 
-    @ApiModelProperty(value = "黑名单原因")
+    @ApiModelProperty(value = "黑名单原因(最大长度30)")
     private String blackReason;
 
     @ApiModelProperty(value = "黑名单设置时间")

@@ -37,22 +37,22 @@ public class AssetOutRegVO {
     @NotNull(message = "最迟结束时间不能为空")
     private Date lendEnd;
 
-    @ApiModelProperty(value = "出库目的地")
+    @ApiModelProperty(value = "出库目的地(最大长度90)")
     private String address;
 
-    @ApiModelProperty(value = "用途")
+    @ApiModelProperty(value = "用途(最大长度30)")
     private String usages;
 
-    @ApiModelProperty(value = "借用人")
+    @ApiModelProperty(value = "借用人(最大长度30)")
     private String borrowMan;
 
-    @ApiModelProperty(value = "借用部门")
+    @ApiModelProperty(value = "借用部门(最大长度30)")
     private String borrowOrg;
 
     @ApiModelProperty(value = "预计归还时间")
     private Date estimateTime;
 
-    @ApiModelProperty(value = "备注")
+    @ApiModelProperty(value = "备注(最大长度90)")
     private String remark;
 
 }

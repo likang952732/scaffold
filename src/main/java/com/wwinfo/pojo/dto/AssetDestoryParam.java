@@ -26,7 +26,7 @@ public class AssetDestoryParam {
     @NotNull(message = "当前状态(0->还未出库;1->已出库;2->已归还)")
     private Integer status;
 
-    @ApiModelProperty(value = "销毁原因", required = true)
+    @ApiModelProperty(value = "销毁原因(最大长度30)", required = true)
     @NotNull(message = "销毁原因不能为空")
     private String delReason;
 

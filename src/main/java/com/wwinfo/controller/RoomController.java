@@ -8,9 +8,7 @@ import com.wwinfo.model.Room;
 import com.wwinfo.pojo.query.RoomQuery;
 import com.wwinfo.pojo.vo.RoomAddVO;
 import com.wwinfo.pojo.vo.RoomChgVO;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,18 +27,21 @@ import java.util.List;
 @RequestMapping("/room")
 public class RoomController {
 
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取库房")
     @PostMapping("/page")
-    public CommonResult<CommonPage<Room>> page(@RequestBody RoomQuery roomQuery) {
+    public CommonResult<CommonPage<Room>> page(RoomQuery roomQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "获取库房列表")
     @PostMapping("/list")
-    public CommonResult<List<Room>> list(@RequestBody RoomQuery roomQuery) {
+    public CommonResult<List<Room>> list(RoomQuery roomQuery) {
 
        /* IPage page = logService.listPage(tLog, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));*/
@@ -48,10 +49,11 @@ public class RoomController {
     }
 
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加库房")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "添加库房", objectName = "库房管理", descript = "添加库房: #{#admin.username}")
-    public CommonResult add(@RequestBody RoomAddVO roomAddVO, BindingResult result){
+    public CommonResult add(RoomAddVO roomAddVO, BindingResult result){
       /*  int count=adminService.insertAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -59,9 +61,10 @@ public class RoomController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑库房")
     @PostMapping("/update")
-    public CommonResult update(@RequestBody RoomChgVO roomChgVO, BindingResult result) {
+    public CommonResult update(RoomChgVO roomChgVO, BindingResult result) {
        /* int count = adminService.updateAdmin(admin);
         if(count > 0)
             return CommonResult.success(count);
@@ -70,6 +73,7 @@ public class RoomController {
         return null;
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除库房")
     @PostMapping("/{id}")
     public CommonResult delete(@ApiParam(name="id",value="库房id",required=true)@PathVariable("id") Long id) {
