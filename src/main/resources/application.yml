@@ -62,6 +62,8 @@ secure:
       - /upload/**
       - /rfidreader/**
       - /entrypos/**
+      - /room/**
+      - /organize/**
 
 
 uploadFile:

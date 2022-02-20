@@ -31,10 +31,10 @@ public class RoomChgVO {
     private String address;
 
     @ApiModelProperty(value = "库房说明(最大长度90)")
-    private String desc;
+    private String description;
 
     @ApiModelProperty(value = "库房等级(最大长度30)")
-    private String level;
+    private String roomLevel;
 
     @ApiModelProperty(value = "责任人(最大长度30)")
     private String responsible;

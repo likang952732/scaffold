@@ -1,6 +1,7 @@
 package com.wwinfo.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wwinfo.model.TLog;
 import com.wwinfo.model.TSyslog;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.SysLogQuery;
@@ -21,6 +22,13 @@ public interface TSyslogService extends IService<TSyslog> {
      * @return
      */
     IPage listPage(SysLogQuery sysLogQuery);
+
+    /**
+     * 添加日志
+     * @param syslog
+     * @return
+     */
+    int add(TSyslog syslog);
 
     /**
      * 删除日志

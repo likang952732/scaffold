@@ -38,7 +38,7 @@ public class SyslogController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除日志")
-    @PostMapping("/{delDate}")
+    @PostMapping("/delete/{delDate}")
     public CommonResult delete(@ApiParam(name="delDate",value="删除日期(yyyy-MM-dd)",required=true)@PathVariable String delDate) {
         int count = syslogService.delete(delDate);
         if(count > 0)

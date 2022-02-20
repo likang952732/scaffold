@@ -1,7 +1,7 @@
 package com.wwinfo.annotation;
 
-import com.wwinfo.model.TLog;
-import com.wwinfo.service.SysLogService;
+import com.wwinfo.model.TSyslog;
+import com.wwinfo.service.TSyslogService;
 import com.wwinfo.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -19,7 +19,6 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -36,7 +35,7 @@ import java.util.Optional;
 public class SysLogAspect {
 
     @Autowired
-    private SysLogService sysLogService;
+    private TSyslogService sysLogService;
 
     //定义切点 @Pointcut
     //在注解的位置切入代码
@@ -49,7 +48,7 @@ public class SysLogAspect {
     @AfterReturning("logPoinCut()")
     public void saveSysLog(JoinPoint joinPoint) {
         //保存日志
-        TLog tLog = new TLog();
+        TSyslog syslog = new TSyslog();
 
         //从切面织入点处通过反射机制获取织入点处的方法
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
@@ -62,13 +61,13 @@ public class SysLogAspect {
             // 操作动作
             String value = myLog.operate();
             //保存获取的操作
-            tLog.setOperate(value);
+            syslog.setOperate(value);
 
             // 对象类型
-            tLog.setObjectType(myLog.objectType());
+            syslog.setObjectType(myLog.objectType());
 
             // 对象名称
-            tLog.setObjectName(myLog.objectName());
+            syslog.setObjectName(myLog.objectName());
 
             // 对象描述 -- 功能描述
             String descript = myLog.descript();
@@ -76,34 +75,34 @@ public class SysLogAspect {
             try {
                 description = executeTemplate(descript, joinPoint);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("获取description异常: {}", e);
             }
-            tLog.setDescript(description);
+            syslog.setDescript(description);
         }
 
         //获取请求的类名
         /*String className = joinPoint.getTarget().getClass().getName();
         //获取请求的方法名
         String methodName = method.getName();
-        tLog.setObjectName(className + "." + methodName);*/
+        syslog.setObjectName(className + "." + methodName);*/
 
         //请求的参数
         /*Object[] args = joinPoint.getArgs();
         //将参数所在的数组转换成json
         String params = JSON.toJSONString(args);
-        tLog.setParams(params);*/
+        syslog.setParams(params);*/
 
         //获取用户名
-        Optional.ofNullable(UserUtil.getCurrentAdminUser()).ifPresent(e -> tLog.setUserName(UserUtil.getCurrentAdminUser().getUsername()));
+        Optional.ofNullable(UserUtil.getCurrentUser()).ifPresent(e -> syslog.setUserName(UserUtil.getCurrentUser().getUserName()));
 
         //获取用户ip地址
         /*HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         sysLog.setIp(IPUtils.getIpAddr(request));*/
 
-        log.info("用户{} 进行了{} 操作", tLog.getUserName(), tLog.getDescript());
+        log.info("用户{} 进行了{} 操作", syslog.getUserName(), syslog.getDescript());
         //调用service保存SysLog实体类到数据库
-        tLog.setCreateTime(new Date());
-        sysLogService.insertAdmin(tLog);
+       // syslog.set(new Date());
+        sysLogService.add(syslog);
     }
 
     private String executeTemplate(String descript, JoinPoint joinPoint)throws Exception{

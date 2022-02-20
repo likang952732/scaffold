@@ -78,7 +78,7 @@ public class AssetController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxx')", required = true) })
     @ApiOperation("删除资产")
-    @PostMapping("/{ID}")
+    @PostMapping("/delete/{ID}")
     public CommonResult delete(@ApiParam(name="ID",value="资产ID",required=true)@PathVariable("ID") Long ID) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

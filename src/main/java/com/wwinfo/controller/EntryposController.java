@@ -63,7 +63,7 @@ public class EntryposController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除RFID进出口设置")
-    @PostMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public CommonResult delete(@ApiParam(name="id",value="RFID进出口设置id",required=true)@PathVariable("id") Long id) {
         /*int count = adminService.deleteAdmin(id);
         if(count > 0)

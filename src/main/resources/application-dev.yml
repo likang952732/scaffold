@@ -47,4 +47,6 @@ spring:
 pic:
   suffix: jpg,png,gif,mp4
 
-defaultpassword: 123
+user:
+  defaultpassword: Passwd!23
+

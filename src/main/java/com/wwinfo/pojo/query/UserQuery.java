@@ -14,7 +14,7 @@ import lombok.Data;
 public class UserQuery {
 
     @ApiModelProperty(value = "用户名称")
-    private String username;
+    private String userName;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

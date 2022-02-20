@@ -14,6 +14,10 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserChgpwdParam {
 
+    @ApiModelProperty(value = "用户名称(最大长度32)", required = true)
+    @NotBlank(message = "用户名称不能为空")
+    private String userName;
+
     @ApiModelProperty(value = "原密码", required = true)
     @NotBlank(message = "原密码不能为空")
     private String oldPassword;

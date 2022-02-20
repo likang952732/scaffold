@@ -37,21 +37,21 @@ public class TSyslogServiceImpl extends ServiceImpl<TSyslogMapper, TSyslog> impl
 
     @Override
     public IPage listPage(SysLogQuery sysLogQuery) {
-        Page<TSyslog> page = null;
-        if(sysLogQuery == null) {
-            page = new Page<>(1, 10);
-            return syslogMapper.selectPage(page, null);
-        } else {
-            page = new Page<>(sysLogQuery.getPageNum(), sysLogQuery.getPageSize());
-            QueryWrapper<TSyslog> wrapper = new ExcludeEmptyQueryWrapper<>();
-            wrapper.like("userName", sysLogQuery.getUserName());
-            wrapper.eq("operate", sysLogQuery.getOperate());
-            wrapper.eq("objectType", sysLogQuery.getObjectType());
-            wrapper.eq("objectName", sysLogQuery.getObjectName());
-            wrapper.ge("timeOperate", sysLogQuery.getStartDate());
-            wrapper.le("timeOperate", sysLogQuery.getEndDate());
-            return syslogMapper.selectPage(page, wrapper);
-        }
+        Page<TSyslog> page = new Page<>(sysLogQuery.getPageNum(), sysLogQuery.getPageSize());
+        QueryWrapper<TSyslog> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.like("userName", sysLogQuery.getUserName());
+        wrapper.eq("operate", sysLogQuery.getOperate());
+        wrapper.eq("objectType", sysLogQuery.getObjectType());
+        wrapper.eq("objectName", sysLogQuery.getObjectName());
+        wrapper.ge("timeOperate", sysLogQuery.getStartDate());
+        wrapper.le("timeOperate", sysLogQuery.getEndDate());
+        return syslogMapper.selectPage(page, wrapper);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int add(TSyslog syslog) {
+        return syslogMapper.insert(syslog);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -59,7 +59,7 @@ public class TSyslogServiceImpl extends ServiceImpl<TSyslogMapper, TSyslog> impl
     public int delete(String delDate) {
         try {
             Date beforeDate = getTime(new Date(), -3);   //获取3个月之前的时间
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Date enDate = sdf.parse(delDate);
             if(!enDate.before(beforeDate)){
                 throw new BusinessException("删除时间必需早于三个月");

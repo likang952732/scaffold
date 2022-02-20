@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.Date;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -44,13 +43,14 @@ public class Room implements Serializable {
      * 库房说明
      */
     @ApiModelProperty(value = "库房说明")
-    private String desc;
+    private String description;
 
     /**
      * 库房等级
      */
+    @TableField("roomLevel")
     @ApiModelProperty(value = "库房等级")
-    private String level;
+    private String roomLevel;
 
     /**
      * 责任人

@@ -1,9 +1,13 @@
 package com.wwinfo.pojo.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.wwinfo.annotation.FieldRepeatValidator;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,10 +27,10 @@ public class RoomAddVO {
     private String address;
 
     @ApiModelProperty(value = "库房说明(最大长度90)")
-    private String desc;
+    private String description;
 
     @ApiModelProperty(value = "库房等级(最大长度30)")
-    private String level;
+    private String roomLevel;
 
     @ApiModelProperty(value = "责任人(最大长度30)")
     private String responsible;

@@ -1,6 +1,6 @@
 package com.wwinfo.config;
 import com.wwinfo.component.DynamicSecurityService;
-import com.wwinfo.service.TAdminService;
+import com.wwinfo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,16 +17,16 @@ import java.util.concurrent.ConcurrentHashMap;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MallSecurityConfig extends SecurityConfig {
+public class RFIDSecurityConfig extends SecurityConfig {
 
     @Autowired
-    private TAdminService adminService;
+    private UserService userService;
 
     @Override
     @Bean
     public UserDetailsService userDetailsService() {
         //获取后台登录用户信息
-        return username -> adminService.loadUserByUsername(username);
+        return username -> userService.loadUserByUserName(username);
     }
 
     @Bean

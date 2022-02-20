@@ -33,7 +33,7 @@ public class OrganizeAddVO {
      */
     @ApiModelProperty(value = "级别(0为顶级)", required = true)
     @NotNull(message = "级别不能为空")
-    private Integer level;
+    private Integer orgLevel;
 
     /**
      * 上一级别的orgID

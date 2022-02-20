@@ -37,7 +37,7 @@ public class Alarm implements Serializable {
      * 报警级别
      */
     @ApiModelProperty(value = "报警级别")
-    private Integer level;
+    private Integer alarmLevel;
 
     /**
      * 报警产生时间
