@@ -1,7 +1,12 @@
 package com.wwinfo.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.model.Assetoutreg;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.pojo.query.AssetoutregQuery;
+import com.wwinfo.pojo.res.AssetoutregRes;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +18,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface AssetoutregMapper extends BaseMapper<Assetoutreg> {
 
+    IPage page(Page<AssetoutregRes> page, @Param("assetoutregQuery") AssetoutregQuery assetoutregQuery);
 }

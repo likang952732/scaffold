@@ -77,7 +77,7 @@ public class SysLogAspect {
             } catch (Exception e) {
                 log.error("获取description异常: {}", e);
             }
-            syslog.setDescript(description);
+            syslog.setDescription(description);
         }
 
         //获取请求的类名
@@ -99,7 +99,7 @@ public class SysLogAspect {
         /*HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         sysLog.setIp(IPUtils.getIpAddr(request));*/
 
-        log.info("用户{} 进行了{} 操作", syslog.getUserName(), syslog.getDescript());
+        log.info("用户{} 进行了{} 操作", syslog.getUserName(), syslog.getDescription());
         //调用service保存SysLog实体类到数据库
        // syslog.set(new Date());
         sysLogService.add(syslog);

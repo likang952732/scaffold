@@ -37,7 +37,7 @@ public class Invetorytask implements Serializable {
      * 计划开始日期
      */
     @TableField("startDate")
-    private LocalDate startDate;
+    private Date startDate;
 
     /**
      * 计划结束日期

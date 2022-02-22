@@ -50,3 +50,5 @@ pic:
 user:
   defaultpassword: Passwd!23
 
+system:
+  secritmap: "[{restcode:8,secrit:rt,sourcesystem:0}]"

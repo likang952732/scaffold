@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,4 +23,9 @@ public class UserLoginParam {
     @ApiModelProperty(value = "验证码(通过验证码接口获取base64验证码)", required = true)
     @NotBlank(message = "验证码不能为空")
     private String code;
+
+    @ApiModelProperty(hidden=true)
+    @JsonIgnore
+    private String clientIP;
+
 }

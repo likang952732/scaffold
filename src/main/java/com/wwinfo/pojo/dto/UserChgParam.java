@@ -19,6 +19,10 @@ public class UserChgParam {
     @NotBlank(message = "用户名称不能为空")
     private String userName;
 
+    @ApiModelProperty(value = "用户类型(1->系统管理员；2->部门管理员；3->日志管理员)", required = true)
+    @NotNull(message = "userType不能为空")
+    private Integer userType;
+
     @ApiModelProperty(value = "所属部门ID", required = true)
     @NotNull(message = "orgID不能为空")
     private Long orgID;

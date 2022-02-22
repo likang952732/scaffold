@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
+import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -79,4 +80,10 @@ public interface UserService extends IService<User> {
      */
     int resetPass(String userName);
 
+    /**
+     * 用户登录
+     * @param userLoginParam
+     * @return
+     */
+    String login(UserLoginParam userLoginParam);
 }

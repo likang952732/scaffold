@@ -62,6 +62,6 @@ public class TSyslog implements Serializable {
      * 操作描述信息
      */
     @ApiModelProperty(value = "操作描述信息")
-    private String descript;
+    private String description;
 
 }

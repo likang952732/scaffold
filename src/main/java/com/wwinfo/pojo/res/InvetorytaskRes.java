@@ -30,6 +30,9 @@ public class InvetorytaskRes {
     @ApiModelProperty(value = "计划结束日期")
     private Date endDate;
 
+    @ApiModelProperty(value = "盘点任务说明")
+    private String description;
+
     @ApiModelProperty(value = "盘点状态(0->盘点中;1->盘点结束;2->盘点取消)")
     private Integer status;
 

@@ -34,5 +34,9 @@ spring:
     # 合并多个DruidDataSource的监控数据
     #useGlobalDataSourceStat: true
 
+##用户默认密码
 user:
   defaultpassword: Passwd!23
+
+system:
+  secritmap: "[{restcode:8,secrit:rt,sourcesystem:0}]"

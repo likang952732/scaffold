@@ -101,7 +101,7 @@ public class AssetController {
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxx')", required = true) })
-    @ApiOperation(value = "资产出库")
+   // @ApiOperation(value = "资产出库")
     @PostMapping("/retrieval")
     @MyLog(operate = "出库", objectType = "资产出库", objectName = "资产出库", descript = "资产出库: #{#admin.username}")
     public CommonResult retrieval(List<AssetOutRegVO> assetOutRegVO, BindingResult result){

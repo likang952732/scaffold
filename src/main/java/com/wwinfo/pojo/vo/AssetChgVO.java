@@ -17,7 +17,7 @@ import java.util.Date;
 @Data
 public class AssetChgVO {
 
-    @ApiModelProperty(value = "id")
+    @ApiModelProperty(value = "资产id")
     @NotNull(message = "id不能为空")
     private Long id;
 

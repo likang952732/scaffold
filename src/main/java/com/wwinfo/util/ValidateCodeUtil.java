@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -80,7 +81,7 @@ public class ValidateCodeUtil {
     //生成随机图片
     public boolean getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
         boolean b = false;
-        HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
@@ -96,12 +97,10 @@ public class ValidateCodeUtil {
         for (int i = 0; i < randomStrNum; i++) {
             randomStr = drawString(g, randomStr, i);
         }
-        System.out.println("随机字符："+randomStr);
+        log.info("随机字符：{}", randomStr);
         g.dispose();
-        //移除之前的session中的验证码信息
-        session.removeAttribute(sessionKey);
-        //重新将验证码放入session
-        session.setAttribute(sessionKey, randomStr);
+        context.removeAttribute(sessionKey);
+        context.setAttribute(sessionKey,randomStr);
         try {
             //  将图片以png格式返回,返回的是图片
             b = ImageIO.write(image, "PNG", response.getOutputStream());

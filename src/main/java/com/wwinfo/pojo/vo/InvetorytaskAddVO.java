@@ -21,10 +21,6 @@ public class InvetorytaskAddVO {
     @NotNull(message = "orgID不能为空")
     private Long orgID;
 
-    @ApiModelProperty(value = "所属部门名称", required = true)
-    @NotBlank(message = "orgName不能为空")
-    private String orgName;
-
     @ApiModelProperty(value = "计划开始日期", required = true)
     @NotNull(message = "startDate不能为空")
     private Date startDate;
@@ -34,6 +30,6 @@ public class InvetorytaskAddVO {
     private Date endDate;
 
     @ApiModelProperty(value = "计划结束日期(最大长度90)")
-    private String desc;
+    private String description;
 
 }

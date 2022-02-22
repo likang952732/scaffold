@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
- * Description: 盘点任务取消
+ * Description: 盘点任务结束或取消
  *
  * @Author: lk
  * DateTime: 2022-02-16 10:16
@@ -21,16 +21,12 @@ public class InvTaskCancelParam {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "盘点状态", required = true)
-    @NotNull(message = "status不能为空")
-    private Integer status;
+    @ApiModelProperty(value = "类型(1->盘点结束;2->盘点取消)", required = true)
+    @NotNull(message = "type不能为空")
+    private Integer type;
 
     @ApiModelProperty(value = "盘点取消原因(最大长度90)", required = true)
     @NotBlank(message = "cancelReason不能为空")
     private String cancelReason;
-
-    @ApiModelProperty(value = "盘点取消时间", required = true)
-    @NotNull(message = "finishTime不能为空")
-    private Date finishTime;
 
 }

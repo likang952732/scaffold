@@ -55,7 +55,8 @@ public class OrganizeController {
     }
 
 
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization",
+            value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "获取指定部门的下级部门列表")
     @PostMapping("/nextLevel/{orgID}")
     public CommonResult<CommonPage<Organize>> nextLevel(@ApiParam(name="orgID",value="部门ID",required=true)

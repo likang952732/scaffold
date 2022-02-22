@@ -21,4 +21,13 @@ public interface InvetoryassetService extends IService<Invetoryasset> {
      * @return
      */
     IPage listPage(InvetoryassetQuery invetoryassetQuery);
+
+    /**
+     *
+     * @param id 任务id
+     * @param assetIDs 需要确认的资产id(逗号分隔)
+     * @return
+     */
+    int confirm(Long id, String assetIDs);
+
 }

@@ -1,10 +1,12 @@
 package com.wwinfo.controller;
 
 
+import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
+import com.wwinfo.common.ResultCode;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.dto.UserChgParam;
@@ -19,8 +21,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -68,21 +74,27 @@ public class UserController {
 
     @ApiOperation(value = "登录以后返回token")
     @PostMapping("/login")
-    public CommonResult login(UserLoginParam userLoginParam, BindingResult result) {
-       /* List<FieldError> fieldErrors = result.getFieldErrors();
+    @MyLog(operate = "登录", objectType = "用户登录", objectName = "用户登录", descript = "用户登录: #{#userLoginParam.userName}")
+    public CommonResult login(@Validated UserLoginParam userLoginParam, BindingResult result, HttpServletRequest request) {
+        List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        String token = userService.login(umsAdminLoginParam.getUsername(), umsAdminLoginParam.getPassword());
-        if (token == null) {
+
+        //校验验证码
+        String sessionCode = String.valueOf(request.getServletContext().getAttribute("JCCODE")).toLowerCase();
+        String receivedCode = userLoginParam.getCode().toLowerCase();
+        boolean b = !sessionCode.equals("") && !receivedCode.equals("") && sessionCode.equals(receivedCode);
+        if(!b)
+            return CommonResult.failed(ResultCode.VALIDATE_FAILED,"验证码错误");
+        userLoginParam.setClientIP(ServletUtil.getClientIP(request));
+        String token = userService.login(userLoginParam);
+        if (token == null)
             return CommonResult.validateFailed("用户名或密码错误");
-        }
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
-        return CommonResult.success(tokenMap);*/
-
-        return null;
+        return CommonResult.success(tokenMap);
     }
 
 
@@ -104,7 +116,7 @@ public class UserController {
 
     @ApiOperation(value = "添加用户")
     @PostMapping("/add")
-    @MyLog(operate = "添加", objectType = "系统权限管理", objectName = "用户管理", descript = "添加用户: #{#admin.username}")
+    @MyLog(operate = "添加", objectType = "系统权限管理", objectName = "用户管理", descript = "添加用户: #{#userAddVO.userName}")
     public CommonResult add(@Validated UserAddVO userAddVO, BindingResult result){
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
@@ -120,6 +132,7 @@ public class UserController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑用户(用户登录名称不能修改)")
     @PostMapping("/update")
+    @MyLog(operate = "编辑", objectType = "系统权限管理", objectName = "用户管理", descript = "编辑用户: #{#userChgParam.userName}")
     public CommonResult update(@Validated UserChgParam userChgParam, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
@@ -135,6 +148,7 @@ public class UserController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除用户")
     @PostMapping("/delete/{userName}")
+    @MyLog(operate = "删除", objectType = "系统权限管理", objectName = "用户管理", descript = "删除用户: #{#userName}")
     public CommonResult delete(@ApiParam(name="userName",value="用户登录名称",required=true)@PathVariable("userName") String userName) {
         int count = userService.delete(userName);
         if(count > 0)
@@ -145,7 +159,7 @@ public class UserController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("修改密码")
     @PostMapping("/updatepwd")
-    @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "修改用户密码")
+    @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "修改用户密码: #{#userChgpwdParam.userName}")
     public CommonResult updatePass(@Validated UserChgpwdParam userChgpwdParam, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
@@ -160,7 +174,7 @@ public class UserController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("管理员重置密码")
     @PostMapping("/resetpwd/{userName}")
-    @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "管理员重置密码")
+    @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "管理员重置密码: #{#userName}")
     public CommonResult resetPass(@ApiParam(name="userName",value="用户登录名称",required=true)@PathVariable("userName") String userName) {
         int count = userService.resetPass(userName);
         if(count > 0)

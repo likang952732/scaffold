@@ -60,10 +60,11 @@ secure:
       - /druid/**
       - /syslog/**
       - /upload/**
-      - /rfidreader/**
+      - /validateCode/**
       - /entrypos/**
       - /room/**
       - /organize/**
+      - /user/**
 
 
 uploadFile:

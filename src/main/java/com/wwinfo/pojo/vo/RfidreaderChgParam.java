@@ -17,6 +17,7 @@ import java.util.Date;
 @Data
 public class RfidreaderChgParam {
 
+    @ApiModelProperty(value = "id")
     @NotNull(message = "id不能为空")
     private Long id;
 
