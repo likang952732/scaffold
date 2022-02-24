@@ -54,4 +54,5 @@ public class UserChgParam {
     @ApiModelProperty(value = "是否停用")
     @NotNull(message = "isStop不能为空")
     private Integer isStop;
+
 }

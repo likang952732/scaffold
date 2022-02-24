@@ -1,7 +1,9 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.model.Assetoutreg;
 import com.wwinfo.mapper.AssetoutregMapper;
 import com.wwinfo.model.Room;
@@ -12,6 +14,7 @@ import com.wwinfo.pojo.vo.AssetoutregAddVO;
 import com.wwinfo.service.AssetoutregService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -35,18 +38,26 @@ public class AssetoutregServiceImpl extends ServiceImpl<AssetoutregMapper, Asset
         return assetoutregMapper.page(page, assetoutregQuery);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(AssetoutregAddVO assetoutregAddVO) {
-        return 0;
+        Assetoutreg assetoutreg = BeanUtil.copyProperties(assetoutregAddVO, Assetoutreg.class);
+        return assetoutregMapper.insert(assetoutreg);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int chgStatus(ChgStatusParam chgStatusParam) {
-        return 0;
+        Assetoutreg assetoutreg = BeanUtil.copyProperties(chgStatusParam, Assetoutreg.class);
+        return assetoutregMapper.updateById(assetoutreg);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int delete(Long id) {
-        return 0;
+        if(id == null){
+            throw new BusinessException("id不能为空");
+        }
+        return assetoutregMapper.deleteById(id);
     }
 }

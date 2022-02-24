@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,8 +59,8 @@ public class AssetAddVO {
     @ApiModelProperty(value = "价格(元为单位)")
     private Integer price;
 
-    @ApiModelProperty(value = "编制日期")
-    private Date setDate;
+    @ApiModelProperty(value = "编制日期(yyyy-MM-dd)")
+    private String setDate;
 
     @ApiModelProperty(value = "责任人(最大长度为30)")
     private String staff;

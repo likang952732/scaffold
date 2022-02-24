@@ -1,7 +1,5 @@
 package com.wwinfo.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -77,4 +75,5 @@ public class OrganizeChgVO {
      */
     @ApiModelProperty(value = "负责人手机号(最大长度64)")
     private String mobile;
+
 }

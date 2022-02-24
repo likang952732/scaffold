@@ -5,7 +5,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -42,9 +41,9 @@ public class RfidreaderAddVO {
     @NotNull(message = "hasAlarm不能为空")
     private Integer hasAlarm;
 
-    @ApiModelProperty(value = "安装日期", required = true)
+    @ApiModelProperty(value = "安装日期(yyyy-MM-dd)", required = true)
     @NotNull(message = "setupDate不能为空")
-    private Date setupDate;
+    private String setupDate;
 
     @ApiModelProperty(value = "断线是否报警(0->否;1->是)", required = true)
     @NotNull(message = "isAlarm不能为空")

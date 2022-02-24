@@ -81,4 +81,5 @@ public class UserAddVO {
     @ApiModelProperty(value = "是否停用(0->使用; 1->停用)", required = true)
     @NotNull(message = "isStop不能为空")
     private Integer isStop;
+
 }

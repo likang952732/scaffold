@@ -70,4 +70,5 @@ public class OrganizeAddVO {
      */
     @ApiModelProperty(value = "负责人手机号(最大长度64)")
     private String mobile;
+
 }

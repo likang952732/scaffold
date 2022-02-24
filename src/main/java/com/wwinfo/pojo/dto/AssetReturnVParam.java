@@ -3,7 +3,6 @@ package com.wwinfo.pojo.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,8 +18,11 @@ public class AssetReturnVParam {
     @NotNull(message = "资产id不能为空")
     private Long assetID;
 
-    @ApiModelProperty(value = "归还时间", required = true)
+    @ApiModelProperty(value = "归还时间(yyyy-MM-dd HH:mm:ss)", required = true)
     @NotNull(message = "归还时间不能为空")
-    private Date returnTime;
+    private String returnTime;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
 }

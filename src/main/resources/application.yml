@@ -1,7 +1,7 @@
 server:
   tomcat:
     max-swallow-size: -1
-  port: 8080
+  port: 8199
 
 
 
@@ -64,7 +64,7 @@ secure:
       - /entrypos/**
       - /room/**
       - /organize/**
-      - /user/**
+      - /asset/**
 
 
 uploadFile:

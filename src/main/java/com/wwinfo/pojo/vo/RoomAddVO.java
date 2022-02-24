@@ -1,13 +1,9 @@
 package com.wwinfo.pojo.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.wwinfo.annotation.FieldRepeatValidator;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 /**
  * Created with IntelliJ IDEA.

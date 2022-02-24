@@ -2,9 +2,9 @@ package com.wwinfo.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
-import com.wwinfo.model.Assetoutreg;
 import com.wwinfo.pojo.dto.ChgStatusParam;
 import com.wwinfo.pojo.query.AssetoutregQuery;
 import com.wwinfo.pojo.res.AssetoutregRes;
@@ -62,6 +62,7 @@ public class AssetoutregController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "状态修改")
     @PostMapping("/chgStatus")
+    @MyLog(operate = "修改", objectType = "资产出库状态修改", objectName = "资产出库状态修改", descript = "资产出库状态修改: #{#chgStatusParam.id}")
     public CommonResult chgStatus(@Validated ChgStatusParam chgStatusParam, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
@@ -76,6 +77,7 @@ public class AssetoutregController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("资产出库登记删除")
     @PostMapping("/delete/{id}")
+    @MyLog(operate = "删除", objectType = "资产出库登记删除", objectName = "资产出库登记删除", descript = "资产出库登记删除: #{#id}")
     public CommonResult delete(@ApiParam(name="id",value="资产出库登记id",required=true)@PathVariable Long id) {
         int count = assetoutregService.delete(id);
         if(count > 0)
