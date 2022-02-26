@@ -8,6 +8,7 @@ import com.wwinfo.pojo.vo.RoomAddVO;
 import com.wwinfo.pojo.vo.RoomChgVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -60,4 +61,20 @@ public interface RoomService extends IService<Room> {
      * @return
      */
     int delete(Long id);
+
+    /**
+     * 验证库房是否上传了盘点信息
+     * @param roomID
+     * @return
+     */
+    Map<String, Object> checkRoom(Long roomID);
+
+    /**
+     *
+     * @param roomID
+     * @param rfids
+     * @return
+     */
+    int invetories(Long roomID, String rfids);
+
 }

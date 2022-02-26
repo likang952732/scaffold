@@ -30,9 +30,6 @@ public class AssetRes {
     @ApiModelProperty(value = "资产编号")
     private String assetNo;
 
-    @ApiModelProperty(value = "RFID编号")
-    private String rfidNo;
-
     @ApiModelProperty(value = "使用部门")
     private String useOrg;
 
@@ -55,7 +52,7 @@ public class AssetRes {
     private String serialNo;
 
     @ApiModelProperty(value = "说明")
-    private String desc;
+    private String description;
 
     @ApiModelProperty(value = "价格(元为单位)")
     private Integer price;
@@ -125,4 +122,5 @@ public class AssetRes {
 
     @ApiModelProperty(value = "黑名单设置时间")
     private Date blackTime;
+
 }

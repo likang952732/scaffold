@@ -58,6 +58,7 @@ secure:
       - /**/*.xls
       - /actuator/**
       - /druid/**
+      - /api/**
       - /syslog/**
       - /upload/**
       - /validateCode/**

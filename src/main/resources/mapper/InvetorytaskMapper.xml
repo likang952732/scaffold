@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.InvetorytaskMapper">
+    <resultMap id="apiMap" type="com.wwinfo.pojo.res.AssetApiRes">
+        <result property="ID" column="ID" />
+        <result property="orgID" column="orgID" />
+        <result property="name" column="name" />
+        <result property="assetNo" column="assetNo" />
+        <result property="brand" column="brand" />
+        <result property="model" column="model" />
+        <result property="remark" column="remark" />
+        <result property="orgName" column="orgName" />
+        <collection property="rfids" column="ID" select="getRFIDIds" ofType="list" />
+    </resultMap>
+
+
+    <select id="page" parameterType="com.wwinfo.pojo.query.InvetorytaskQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+        select
+            task.ID,
+            task.orgID,
+            task.startDate,
+            task.endDate,
+            task.description,
+            task.status,
+            task.addTime,
+            task.cancelReason,
+            task.finishTime,
+            org.orgName,
+            org.remark
+        FROM invetoryTask task
+        LEFT JOIN organize org ON task.orgID = org.orgID
+        <where>
+            <if test="invetorytaskQuery.status != null" >
+                AND task.status = #{invetorytaskQuery.status}
+            </if>
+        </where>
+    </select>
+    
+    <select id="getTaskByParam" parameterType="map" resultType="com.wwinfo.pojo.res.InvetorytaskRes">
+        SELECT
+           task.orgID,
+           org.orgName,
+           org.remark
+        FROM invetoryTask task
+        LEFT JOIN organize org ON task.orgID = org.orgID
+        WHERE task.status = #{map.status}
+    </select>
+
+
+    <select id="getAssetByTask" parameterType="map" resultType="com.wwinfo.pojo.res.AssetApiRes">
+        SELECT
+            ast.ID,
+            ast.orgID,
+            ast.name,
+            ast.assetNo,
+            ast.brand,
+            ast.model,
+            ast.remark,
+            org.orgName
+        FROM invetoryTask task
+        JOIN organize org ON task.orgID = org.orgID
+        JOIN asset ast ON ast.orgID = org.orgID
+        WHERE task.status = #{map.status}
+    </select>
+
+    <select id="getRFIDIds" resultType="java.lang.String">
+        SELECT rfid_real_no FROM rfid_asset WHERE assetID = #{ID}
+    </select>
+
+</mapper>

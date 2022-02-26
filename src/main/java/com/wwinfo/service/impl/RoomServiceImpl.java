@@ -1,6 +1,7 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -82,4 +85,40 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
             throw new BusinessException("id不能重复");
         return roomMapper.deleteById(id);
     }
+
+    @Override
+    public Map<String, Object> checkRoom(Long roomID) {
+        if(roomID == null) {
+            throw new BusinessException("roomID不能为空");
+        }
+        Map<String, Object> result = new HashMap<>();
+        Room room = getRoomByRoomID(roomID);
+        result.put("ID", roomID);
+        result.put("invetory", 0);
+        if(room != null){
+            result.put("invetory", 1);
+        }
+        return result;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int invetories(Long roomID, String rfids) {
+        if(roomID == null || StrUtil.isBlank(rfids)){
+            throw new BusinessException("roomID, rfids不能为空");
+        }
+        Room room = getRoomByRoomID(roomID);
+        if(room != null){
+
+        }
+
+        return 0;
+    }
+
+    private Room getRoomByRoomID(Long roomID){
+        QueryWrapper<Room> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("roomID", roomID);
+        return roomMapper.selectOne(wrapper);
+    }
+
 }

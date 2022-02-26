@@ -26,7 +26,7 @@ public class CheckSecritUtil {
 
     public final static String codeParamName = "restcode";
     public final static String timeParamName = "resttime";
-    public final static String CHECKPARAMNAME = "checksecrit";
+    public final static String CHECKPARAMNAME = "checksecret";
     private static Map<String, String> serviceSecrit = new HashMap<>();
 
     /*
@@ -35,7 +35,7 @@ public class CheckSecritUtil {
      * null: 验证成功
      * String: 失败原因
      */
-    public Map<String, Object> checkSecrit(HttpServletRequest request, Map<String, Object> requestParam ) throws Exception{
+    public String checkSecrit(HttpServletRequest request, Map<String, Object> requestParam ) throws Exception{
         Map<String,String[]> mapParam = request.getParameterMap();
         List<String> listParam = new ArrayList<>();
         JSONObject result = new JSONObject();
@@ -52,22 +52,22 @@ public class CheckSecritUtil {
         JSONArray secritArray = JSONUtil.parseArray(secritmap);
 
         if (checkCodeObj == null){
-            result.put("status","5001");
+            //result.put("status","5001");
             //参数错误，未提交验证码
-            result.put("message","Parameter error, verification code not submitted");
-            return result;
+            //result.put("message","Parameter error, verification code not submitted");
+            return "checksecret没有提交";
         }
         if(codeObj == null) {
-            result.put("status","5002");
+            //result.put("status","5002");
             //参数错误，未提交应用代码
-            result.put("message","Parameter error, application code not submitted");
-            return result;
+            //result.put("message","Parameter error, application code not submitted");
+            return "restcode没有提交";
         }
         if(timeObj == null){
-            result.put("status","5003");
+            //result.put("status","5003");
             //参数错误，未提交时间戳
-            result.put("message","Parameter error, no timestamp submitted");
-            return result;
+            //result.put("message","Parameter error, no timestamp submitted");
+            return "resttime没有提交";
         }
         JSONObject secritJson = null;
         String secrit = "";
@@ -79,10 +79,10 @@ public class CheckSecritUtil {
             }
         }
         if(StrUtil.isBlank(secrit)){
-            result.put("status","5004");
+            //result.put("status","5004");
             //不存在的应用代码
-            result.put("message","Application code that does not exist");
-            return result;
+            //result.put("message","Application code that does not exist");
+            return "secret不存在";
         }
         String checkCode = checkCodeObj.toString();
         Collections.sort(listParam);	//参数以字母顺序排序
@@ -110,19 +110,19 @@ public class CheckSecritUtil {
         time = Long.valueOf(timeObj.toString());
         if (Math.abs(curTime - time) > 5*60*1000L){
             //log.info("curTime: {}",curTime);
-            result.put("status","5004");
+            //result.put("status","5004");
             //时钟不同步，相差超过5分钟
-            result.put("message","Clocks are out of sync, more than 5 minutes apart");
-            return result;
+            //result.put("message","Clocks are out of sync, more than 5 minutes apart");
+            return "时钟不同步，相差超过5分钟";
         }
         //计算验证码
         String calcCode = calcCheckSecrit(contentBuilder.toString(), secrit);
         if (!checkCode.equals(calcCode)){
             log.info("calcCode: {}",calcCode);
-            result.put("status","5005");
+            //result.put("status","5005");
             //验证码错误
-            result.put("message","Verification code error");
-            return result;
+            //result.put("message","Verification code error");
+            return "checksecret错误";
         }
         return null;
     }

@@ -6,6 +6,7 @@ import com.wwinfo.model.Asset;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wwinfo.pojo.bo.AssetStatusExcel;
 import com.wwinfo.pojo.query.AssetQuery;
+import com.wwinfo.pojo.res.AssetApiRes;
 import com.wwinfo.pojo.res.AssetRes;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,5 +32,9 @@ public interface AssetMapper extends BaseMapper<Asset> {
     List<Asset> checkRepeat(@Param("assetList") List<Asset> assetList);
 
     void addBatch(@Param("assetList")List<Asset> assetList);
+
+    List<AssetApiRes> getAssetListByOrgs(@Param("orgs") List<Long> orgs);
+
+    List<String> getRFIDIds(@Param("assetId")Long assetId);
 
 }

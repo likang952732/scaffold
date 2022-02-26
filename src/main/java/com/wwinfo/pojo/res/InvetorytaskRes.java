@@ -45,4 +45,7 @@ public class InvetorytaskRes {
     @ApiModelProperty(value = "结束或取消时间")
     private Date finishTime;
 
+    @ApiModelProperty(value = "部门备注")
+    private String remark;
+
 }

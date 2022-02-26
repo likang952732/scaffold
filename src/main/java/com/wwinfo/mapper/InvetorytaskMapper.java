@@ -5,8 +5,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.model.Invetorytask;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wwinfo.pojo.query.InvetorytaskQuery;
+import com.wwinfo.pojo.res.AssetApiRes;
 import com.wwinfo.pojo.res.InvetorytaskRes;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -19,5 +23,11 @@ import org.apache.ibatis.annotations.Param;
 public interface InvetorytaskMapper extends BaseMapper<Invetorytask> {
 
     IPage page(Page<InvetorytaskRes> page, @Param("invetorytaskQuery") InvetorytaskQuery invetorytaskQuery);
+
+    List<InvetorytaskRes> getTaskByParam(@Param("map")Map<String, Object> map);
+
+    List<AssetApiRes> getAssetByTask(@Param("map")Map<String, Object> map);
+
+    List<String> getRFIDIds(@Param("assetId")Long assetId);
 
 }

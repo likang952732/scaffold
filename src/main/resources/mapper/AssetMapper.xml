@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.AssetMapper">
+    <resultMap id="apiMap" type="com.wwinfo.pojo.res.AssetApiRes">
+        <result property="ID" column="ID" />
+        <result property="orgID" column="orgID" />
+        <result property="name" column="name" />
+        <result property="assetNo" column="assetNo" />
+        <result property="brand" column="brand" />
+        <result property="model" column="model" />
+        <result property="remark" column="remark" />
+        <result property="orgName" column="orgName" />
+        <collection property="rfids" column="ID" select="getRFIDIds" ofType="list" />
+    </resultMap>
+
+
+    <select id="getAssetListByOrgs" parameterType="list" resultType="com.wwinfo.pojo.res.AssetApiRes">
+        SELECT
+           ast.ID,
+           ast.orgID,
+           ast.name,
+           ast.assetNo,
+           ast.brand,
+           ast.model,
+           ast.remark,
+           org.orgName
+        FROM asset ast
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        WHERE ast.orgID IN
+        <foreach item="item" index="index" collection="orgs" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getRFIDIds" resultType="java.lang.String">
+       SELECT rfid_real_no FROM rfid_asset WHERE assetID = #{ID}
+    </select>
+
+</mapper>

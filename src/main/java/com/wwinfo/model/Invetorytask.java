@@ -45,6 +45,8 @@ public class Invetorytask implements Serializable {
     @TableField("endDate")
     private Date endDate;
 
+    private String description;
+
     /**
      * 盘点状态
      */
