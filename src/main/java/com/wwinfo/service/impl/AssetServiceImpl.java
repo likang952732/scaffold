@@ -1,6 +1,7 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.ExcelWriter;
@@ -131,8 +132,21 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int delete(Long id) {
-        if(id == null)
+        if(id == null) {
             throw new BusinessException("id不能为空");
+        }
+
+        //校验状态
+        Asset asset = assetMapper.selectById(id);
+        if(asset.getDelStatus() != SysConstant.DELSTATUS_NOT){
+            throw new BusinessException("未销毁状态的才能删除");
+        }
+
+        //校验是否绑定了RFID标签
+        List<RfidAsset> rfidAssetList = rfidAssetMapper.getByAssetID(id);
+        if(CollUtil.isNotEmpty(rfidAssetList)){
+            throw new BusinessException("该资产已经绑定了RFID标签，不能直接删除");
+        }
         return assetMapper.deleteById(id);
     }
 
@@ -143,7 +157,12 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         Map<String, Object> map = new HashMap<>();
         map.put("delStatus", SysConstant.DELSTATUS_ED);
         map.put("delReason", assetDestoryParam.getDelReason());
-        return assetMapper.updateBatchByParam(idList, map);
+        assetMapper.updateBatchByParam(idList, map);
+
+        //更新RFID资源绑定的状态
+        map.put("status", 1);  //已废弃
+        rfidAssetMapper.updateBatchStatus(idList, map);
+        return 1;
     }
 
     @Transactional(rollbackFor = Exception.class)

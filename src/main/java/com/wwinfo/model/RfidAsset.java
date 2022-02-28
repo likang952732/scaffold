@@ -30,6 +30,8 @@ public class RfidAsset implements Serializable {
 
     private Long assetID;
 
+    private Integer status;
+
     private Date createTime;
 
 }

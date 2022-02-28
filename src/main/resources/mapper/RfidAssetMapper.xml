@@ -14,5 +14,22 @@
       </foreach >
     </insert>
 
+    <select id="getByAssetID" resultType="com.wwinfo.model.RfidAsset" parameterType="java.lang.Long">
+        SELECT id, rfid_real_no, assetID FROM rfid_asset WHERE assetID = #{assetID}
+    </select>
+
+    <update id="updateBatchStatus">
+        UPDATE rfid_asset
+        <set>
+            <if test="map.status!= null">
+                delStatus = #{map.sStatus},
+            </if>
+        </set>
+        WHERE id IN
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+
+    </update>
 
 </mapper>
