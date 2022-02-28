@@ -19,9 +19,6 @@ public class AssetQueryParam {
     @ApiModelProperty(value = "资产编号")
     private String assetNo;
 
-    @ApiModelProperty(value = "RFID编号")
-    private String rfidNo;
-
     @ApiModelProperty(value = "开始日期(yyyy-MM-dd)")
     private String startDate;
 

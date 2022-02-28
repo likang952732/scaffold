@@ -92,7 +92,7 @@ public class Asset implements Serializable {
     /**
      * 说明
      */
-    private String desc;
+    private String description;
 
     /**
      * 价格(元为单位)

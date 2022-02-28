@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.model.Invetoryasset;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wwinfo.model.TSyslog;
 import com.wwinfo.pojo.query.InvetoryassetQuery;
+import com.wwinfo.pojo.res.InvetoryassetRes;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -18,6 +18,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface InvetoryassetMapper extends BaseMapper<Invetoryasset> {
 
-    IPage page(Page<TSyslog> page, @Param("invetoryassetQuery") InvetoryassetQuery invetoryassetQuery);
+    IPage page(Page<InvetoryassetRes> page, @Param("invetoryassetQuery") InvetoryassetQuery invetoryassetQuery);
 
 }

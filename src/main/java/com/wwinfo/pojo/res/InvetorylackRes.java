@@ -33,4 +33,5 @@ public class InvetorylackRes {
 
     @ApiModelProperty(value = "盘点结果确认(0->未确认;1->确认)")
     private Integer resultCheck;
+
 }

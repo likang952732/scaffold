@@ -16,9 +16,12 @@ import com.wwinfo.component.ValidateProcessor;
 import com.wwinfo.constant.SysConstant;
 import com.wwinfo.constant.ValidateTypeConstant;
 import com.wwinfo.mapper.AssetoutregMapper;
+import com.wwinfo.mapper.RfidAssetMapper;
 import com.wwinfo.model.Asset;
 import com.wwinfo.mapper.AssetMapper;
 import com.wwinfo.model.Assetoutreg;
+import com.wwinfo.model.RfidAsset;
+import com.wwinfo.model.RfidMapping;
 import com.wwinfo.pojo.bo.AssetStatusExcel;
 import com.wwinfo.pojo.dto.AssetDestoryParam;
 import com.wwinfo.pojo.dto.AssetQueryParam;
@@ -28,8 +31,10 @@ import com.wwinfo.pojo.query.AssetQuery;
 import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.vo.AssetAddVO;
 import com.wwinfo.pojo.vo.AssetChgVO;
+import com.wwinfo.pojo.vo.BindRFIDVO;
 import com.wwinfo.service.AssetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wwinfo.service.RfidMappingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,10 +45,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -66,6 +68,12 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
     @Resource
     private AssetoutregMapper assetoutregMapper;
+
+    @Resource
+    private RfidAssetMapper rfidAssetMapper;
+
+    @Resource
+    private RfidMappingService rfidMappingService;
 
     @Override
     public IPage listPage(AssetQuery assetQuery) {
@@ -179,6 +187,8 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         Map<String, Object> map = new HashMap<>();
         map.put("name", assetQueryParam.getName());
         map.put("assetNo", assetQueryParam.getAssetNo());
+        map.put("startDate", assetQueryParam.getStartDate());
+        map.put("endDate", assetQueryParam.getEndDate());
         List<AssetStatusExcel> list = assetMapper.getExportListByParam(map);
 
         String fileName = "资产实时状态报告";
@@ -232,8 +242,45 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void batchImport(List<Asset> assetList) {
-        assetMapper.addBatch(assetList);
+    public void batchImport(List<Asset> assetList, int count) {
+        int insertLength = assetList.size();
+        int i = 0;
+        List<Asset> partialList = null;
+        while (insertLength > count){
+            partialList = assetList.subList(i, i+count);
+            assetMapper.addBatch(partialList);
+            i = i + count;
+            insertLength = insertLength - count;
+        }
+        if(insertLength > 0){
+            partialList = assetList.subList(i, i+insertLength);
+            assetMapper.addBatch(partialList);
+        }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int bindRFID(BindRFIDVO bindRFIDVO) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("rfidPrintNo", bindRFIDVO.getRfidPrintNo());
+        RfidMapping existRfMp = rfidMappingService.getByMap(map);
+        if(existRfMp == null){
+            throw new BusinessException("该打印编号没有匹配到实际编号");
+        }
+        if(existRfMp.getStatus() == 1){
+            throw new BusinessException("该RFID标签已经被使用");
+        }
+
+        //保存绑定
+        RfidAsset rfidAsset = BeanUtil.copyProperties(bindRFIDVO, RfidAsset.class);
+        rfidAssetMapper.insert(rfidAsset);
+
+        //更新资产的roomID
+        List<Long> idList = new ArrayList<>();
+        idList.add(bindRFIDVO.getAssetID());
+        map.put("roomID", bindRFIDVO.getRoomID());
+        assetMapper.updateBatchByParam(idList, map);
+        return 1;
     }
 
 }

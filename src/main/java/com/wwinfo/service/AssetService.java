@@ -10,6 +10,7 @@ import com.wwinfo.pojo.dto.BlackListVParam;
 import com.wwinfo.pojo.query.AssetQuery;
 import com.wwinfo.pojo.vo.AssetAddVO;
 import com.wwinfo.pojo.vo.AssetChgVO;
+import com.wwinfo.pojo.vo.BindRFIDVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -96,9 +97,16 @@ public interface AssetService extends IService<Asset> {
     void exportCustomExcel(HttpServletResponse response, AssetQueryParam assetQueryParam);
 
     /**
-     * 批量导入
+     * 分批导入
      * @param assetList
      */
-    void batchImport(List<Asset> assetList);
+    void batchImport(List<Asset> assetList, int count);
+
+    /**
+     * 资产RFID绑定
+     * @param bindRFIDVO
+     * @return
+     */
+    int bindRFID(BindRFIDVO bindRFIDVO);
 
 }

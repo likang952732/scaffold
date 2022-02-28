@@ -6,6 +6,7 @@ import com.wwinfo.model.Assetrecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wwinfo.pojo.query.AssetrecordQuery;
 import com.wwinfo.pojo.res.AssetrecordRes;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -17,8 +18,8 @@ import com.wwinfo.pojo.res.AssetrecordRes;
  */
 public interface AssetrecordMapper extends BaseMapper<Assetrecord> {
 
-    IPage page(Page<AssetrecordRes> page, AssetrecordQuery assetrecordQuery);
+    IPage page(Page<AssetrecordRes> page, @Param("assetrecordQuery") AssetrecordQuery assetrecordQuery);
 
-    IPage getByAssetIDAndSortType(Long assetID, Integer sortType);
+    IPage getByAssetIDAndSortType(Page<AssetrecordRes> page, @Param("assetID")Long assetID, @Param("sortType")Integer sortType);
 
 }

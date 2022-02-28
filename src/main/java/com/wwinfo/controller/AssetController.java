@@ -10,6 +10,7 @@ import com.wwinfo.pojo.query.AssetQuery;
 import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.vo.AssetAddVO;
 import com.wwinfo.pojo.vo.AssetChgVO;
+import com.wwinfo.pojo.vo.BindRFIDVO;
 import com.wwinfo.service.AssetService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -169,6 +170,20 @@ public class AssetController {
     @PostMapping("/custom/export")
     public void customExport(HttpServletResponse response, AssetQueryParam assetQueryParam){
         assetService.exportCustomExcel(response, assetQueryParam);
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation(value = "资产RFID绑定")
+    @PostMapping("/bindRFID")
+    public CommonResult bindRFID(@Validated BindRFIDVO bindRFIDVO, BindingResult result){
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        if(!fieldErrors.isEmpty()){
+            return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
+        }
+        int count = assetService.bindRFID(bindRFIDVO);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();
     }
 
 }

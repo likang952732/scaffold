@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.AssetrecordMapper">
+
+    <sql id="baseSql">
+       asr.ID,
+       asr.assetID,
+       asr.posID,
+       asr.directory,
+       asr.timeAdd,
+       asr.preStatus,
+       asr.timePreStatus,
+       asr.statusTimes,
+       asr.statusMatched,
+       asr.isAlarm,
+       asr.alarmType,
+       anp.posName,
+       ast.name AS "assetName"
+    </sql>
+
+    <select id="page" parameterType="com.wwinfo.pojo.query.AssetrecordQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+       select
+          <include refid="baseSql" />
+        from assetRecord asr
+        LEFT JOIN asset ast ON asr.assetID = ast.ID
+        LEFT JOIN entryPos enp ON asr.posID = enp.ID
+        <where>
+            <if test="assetrecordQuery.directory != null">
+                AND asr.directory = #{assetrecordQuery.directory}
+            </if>
+            <if test="assetrecordQuery.preStatus != null">
+                AND asr.preStatus = #{assetrecordQuery.preStatus}
+            </if>
+            <if test="assetrecordQuery.statusMatched != null">
+                AND asr.statusMatched = #{assetrecordQuery.statusMatched}
+            </if>
+            <if test="assetrecordQuery.isAlarm != null">
+                AND asr.isAlarm = #{assetrecordQuery.isAlarm}
+            </if>
+            <if test="assetrecordQuery.alarmType != null">
+                AND asr.alarmType = #{assetrecordQuery.alarmType}
+            </if>
+        </where>
+    </select>
+
+    <select id="getByAssetIDAndSortType" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+        select
+            <include refid="baseSql" />
+        from assetRecord asr
+        LEFT JOIN asset ast ON asr.assetID = ast.ID
+        LEFT JOIN entryPos enp ON asr.posID = enp.ID
+        <where>
+            <if test="assetID != null">
+                AND asr.assetID = #{assetID}
+            </if>
+            <choose>
+                <when test="sortType == 0">
+                    order by timeAdd DESC
+                </when>
+                <otherwise>
+                    order by timeAdd ASC
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+
+</mapper>

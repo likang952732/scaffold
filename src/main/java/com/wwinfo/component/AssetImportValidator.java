@@ -84,7 +84,7 @@ public class AssetImportValidator  extends BusinValidatorTemplate {
                 throw new BusinValidateException("资产名称,资产编号,RFID编号不能重复");
             }
 
-            assetService.batchImport(assetList);
+            assetService.batchImport(assetList, 100);
         } catch (IOException e) {
             log.error("AssetImportValidator校验异常: {}", e);
         } finally {

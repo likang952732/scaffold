@@ -1,16 +1,14 @@
 package com.wwinfo.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.mapper.InvetorytaskMapper;
 import com.wwinfo.model.Invetoryasset;
 import com.wwinfo.mapper.InvetoryassetMapper;
 import com.wwinfo.model.Invetorytask;
-import com.wwinfo.model.TSyslog;
 import com.wwinfo.pojo.query.InvetoryassetQuery;
+import com.wwinfo.pojo.res.InvetoryassetRes;
 import com.wwinfo.service.InvetoryassetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -37,7 +35,7 @@ public class InvetoryassetServiceImpl extends ServiceImpl<InvetoryassetMapper, I
 
     @Override
     public IPage listPage(InvetoryassetQuery invetoryassetQuery) {
-        Page<TSyslog> page = new Page<>(invetoryassetQuery.getPageNum(), invetoryassetQuery.getPageSize());
+        Page<InvetoryassetRes> page = new Page<>(invetoryassetQuery.getPageNum(), invetoryassetQuery.getPageSize());
         return invetoryassetMapper.page(page, invetoryassetQuery);
     }
 

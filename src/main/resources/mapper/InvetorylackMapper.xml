@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.InvetorylackMapper">
+
+    <select id="page" parameterType="com.wwinfo.pojo.query.InvetorylackQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+        SELECT
+           lack.taskID,
+           lack.assetID,
+           lack.shouldRoomID,
+           lack.resultCheck,
+           org.orgName,
+           ast.name AS "assetName"
+        FROM invetoryLack lack
+        LEFT JOIN asset ast ON lack.assetID = ast.ID
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        <where>
+            <if test="invetorylackQuery.resultCheck != null">
+                AND lack.resultCheck = #{invetorylackQuery.resultCheck}
+            </if>
+        </where>
+    </select>
+
+</mapper>

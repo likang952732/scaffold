@@ -19,9 +19,6 @@ public class AssetQuery {
     @ApiModelProperty(value = "资产编号")
     private String assetNo;
 
-    @ApiModelProperty(value = "RFID编号")
-    private String rfidNo;
-
     @ApiModelProperty(value = "当前状态(0->内部；1->外部)")
     private Integer curStatus;
 

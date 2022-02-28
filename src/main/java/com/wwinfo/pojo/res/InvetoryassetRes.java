@@ -30,6 +30,9 @@ public class InvetoryassetRes {
     @ApiModelProperty(value = "库房ID")
     private Long roomID;
 
+    @ApiModelProperty(value = "盘点器ID")
+    private String machineID;
+
     @ApiModelProperty(value = "库房名称")
     private String roomName;
 

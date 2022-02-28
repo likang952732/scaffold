@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.model.Assetoutreg;
 import com.wwinfo.mapper.AssetoutregMapper;
-import com.wwinfo.model.Room;
 import com.wwinfo.pojo.dto.ChgStatusParam;
 import com.wwinfo.pojo.query.AssetoutregQuery;
 import com.wwinfo.pojo.res.AssetoutregRes;

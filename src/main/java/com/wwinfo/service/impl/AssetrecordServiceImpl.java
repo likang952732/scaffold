@@ -36,6 +36,9 @@ public class AssetrecordServiceImpl extends ServiceImpl<AssetrecordMapper, Asset
     @Override
     public IPage trajectory(Long assetID, Integer sortType, Integer pageSize, Integer pageNum) {
         Page<AssetrecordRes> page = new Page<>(pageNum, pageSize);
-        return assetrecordMapper.getByAssetIDAndSortType(assetID, sortType);
+        if(sortType == null){
+            sortType = 0;
+        }
+        return assetrecordMapper.getByAssetIDAndSortType(page,assetID, sortType);
     }
 }

@@ -13,6 +13,74 @@
         <collection property="rfids" column="ID" select="getRFIDIds" ofType="list" />
     </resultMap>
 
+    <sql id="baseSql">
+        ast.ID,
+        ast.orgID,
+        ast.name,
+        ast.assetNo,
+        ast.useOrg,
+        ast.secLevel,
+        ast.largeClass,
+        ast.littleClass,
+        ast.brand,
+        ast.model,
+        ast.serialNo,
+        ast.description,
+        ast.price,
+        ast.setDate,
+        ast.staff,
+        ast.period,
+        ast.remark,
+        ast.roomID,
+        ast.posAlarmType,
+        ast.curStatus,
+        ast.timeStatus,
+        ast.isAbnormal,
+        ast.reasonType,
+        ast.lendStatus,
+        ast.lendStart,
+        ast.lendEnd,
+        ast.timeAdd,
+        ast.timeModify,
+        ast.delStatus,
+        ast.delTime,
+        ast.delReason,
+        ast.isBlack,
+        ast.blackReason,
+        ast.blackTime
+    </sql>
+
+    <select id="page" parameterType="com.wwinfo.pojo.query.AssetQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+        SELECT
+           <include refid="baseSql" />,
+           org.orgName
+        FROM asset ast
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        <where>
+            <if test="assetQuery.name != null and assetQuery.name != ''">
+                AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="assetQuery.assetNo != null and assetQuery.assetNo != ''">
+                AND ast.assetNo = #{assetQuery.assetNo}
+            </if>
+            <if test="assetQuery.curStatus != null">
+                AND ast.curStatus = #{assetQuery.curStatus}
+            </if>
+            <if test="assetQuery.isAbnormal != null">
+                AND ast.isAbnormal = #{assetQuery.isAbnormal}
+            </if>
+            <if test="assetQuery.lendStatus != null">
+                AND ast.lendStatus = #{assetQuery.lendStatus}
+            </if>
+            <if test="assetQuery.delStatus != null">
+                AND ast.delStatus = #{assetQuery.delStatus}
+            </if>
+            <if test="assetQuery.isBlack != null">
+                AND ast.isBlack = #{assetQuery.isBlack}
+            </if>
+        </where>
+    </select>
+
 
     <select id="getAssetListByOrgs" parameterType="list" resultType="com.wwinfo.pojo.res.AssetApiRes">
         SELECT
@@ -35,5 +103,115 @@
     <select id="getRFIDIds" resultType="java.lang.String">
        SELECT rfid_real_no FROM rfid_asset WHERE assetID = #{ID}
     </select>
+
+    <select id="getExportListByParam" resultType="com.wwinfo.pojo.bo.AssetStatusExcel" parameterType="map">
+        SELECT
+            <include refid="baseSql" />,
+            org.orgName
+        FROM asset ast
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        <where>
+            <if test="map.name != null and map.name != ''">
+                AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="map.assetNo != null and map.assetNo != ''">
+                AND ast.assetNo = #{assetQuery.assetNo ,jdbcType=VARCHAR}
+            </if>
+            <if test="map.startDate != null and map.startDate != ''">
+                <![CDATA[ AND DATE(ast.timeAdd) >= #{map.startDate} ]]>
+            </if>
+            <if test="map.endDate != null and map.endDate != ''">
+                <![CDATA[ AND DATE(ast.timeAdd) <= #{map.endDate} ]]>
+            </if>
+        </where>
+    </select>
+
+    <select id="checkRepeat" parameterType="list" resultType="com.wwinfo.model.Asset">
+        select
+           ID
+        from asset
+        WHERE
+        <foreach collection="assetList" item="item" open="(" close=")" separator="or">
+            (
+            name = #{item.name,jdbcType=VARCHAR}
+            OR assetNo = #{item.assetNo,jdbcType=VARCHAR}
+            )
+        </foreach>
+
+    </select>
+
+    <update id="updateBatchByParam">
+        UPDATE asset
+        <set>
+            <if test="map.roomID!= null">
+                roomID = #{map.roomID},
+            </if>
+            <if test="map.delStatus!= null">
+                delStatus = #{map.delStatus},
+            </if>
+            <if test="map.isBlack!= null  ">
+                isBlack = #{map.isBlack},
+            </if>
+            <if test="map.blackReason!= null and map.blackReason != ''">
+                blackReason = #{map.blackReason},
+            </if>
+            <if test="map.blackTime!= null  ">
+                blackTime = #{map.blackTime},
+            </if>
+        </set>
+        WHERE id IN
+        <foreach collection="idList" item="item" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <insert id="addBatch" parameterType="list">
+        INSERT INTO asset(
+            orgID,
+            name,
+            assetNo,
+            useOrg,
+            secLevel,
+            largeClass,
+            littleClass,
+            brand,
+            model,
+            serialNo,
+            description,
+            price,
+            setDate,
+            staff,
+            period,
+            remark,
+            roomID,
+            posAlarmType,
+            curStatus,
+            timeStatus
+        ) VALUES
+        <foreach collection ="list" item="item" index= "index" separator =",">
+            (
+            #{item.orgID, jdbcType=BIGINT},
+            #{item.name, jdbcType=VARCHAR},
+            #{item.assetNo,jdbcType=VARCHAR},
+            #{item.useOrg,jdbcType=BIGINT},
+            #{item.secLevel,jdbcType=VARCHAR},
+            #{item.largeClass,jdbcType=VARCHAR},
+            #{item.littleClass,jdbcType=VARCHAR},
+            #{item.brand,jdbcType=VARCHAR},
+            #{item.model,jdbcType=VARCHAR},
+            #{item.serialNo,jdbcType=VARCHAR},
+            #{item.description,jdbcType=VARCHAR},
+            #{item.price},
+            #{item.setDate},
+            #{item.staff,jdbcType=VARCHAR},
+            #{item.period,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR},
+            #{item.roomID,jdbcType=BIGINT},
+            #{item.posAlarmType,jdbcType=BIGINT},
+            #{item.curStatus,jdbcType=BIGINT},
+            #{item.timeStatus}
+            )
+        </foreach >
+    </insert>
 
 </mapper>
