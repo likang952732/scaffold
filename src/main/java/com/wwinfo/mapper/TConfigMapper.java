@@ -2,6 +2,9 @@ package com.wwinfo.mapper;
 
 import com.wwinfo.model.TConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-02-17
  */
 public interface TConfigMapper extends BaseMapper<TConfig> {
+
+    TConfig getConfigByMap(@Param("map") Map<String, Object> map);
 
 }

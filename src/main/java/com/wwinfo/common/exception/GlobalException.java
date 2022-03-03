@@ -25,11 +25,10 @@ public class GlobalException {
     public CommonResult handle(Exception e) {
         if (e instanceof BusinessException) {
             log.error("业务逻辑处理异常：{}", ((BusinessException) e).getMsg());
-            e.printStackTrace();
             return CommonResult.failed(((BusinessException) e).getMsg());
         }
         log.error("系统异常：{}", e);
-        return CommonResult.failed(e.getMessage());
+        return CommonResult.failed("系统异常");
     }
 
     @ExceptionHandler(value = ValidationException.class)

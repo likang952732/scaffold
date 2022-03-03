@@ -12,6 +12,8 @@ import com.wwinfo.pojo.vo.MenuAddVO;
 import com.wwinfo.pojo.vo.MenuChgVO;
 import com.wwinfo.service.TMenuService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 public class MenuController {
+
     @Autowired
     private TMenuService menuService;
 
@@ -51,6 +54,7 @@ public class MenuController {
         return CommonResult.success(CommonPage.restPage(page));
     }*/
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取菜单")
     @PostMapping("/list/{parentId}")
     public CommonResult<CommonPage<TMenu>> list(MenuParam menuParam,
@@ -60,6 +64,7 @@ public class MenuController {
         return CommonResult.success(CommonPage.restPage(page));
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("树形结构返回所有菜单列表")
     @PostMapping("/treeList")
     public CommonResult<List<MenuNode>> treeList() {
@@ -67,6 +72,7 @@ public class MenuController {
         return CommonResult.success(menuNodes);
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("添加菜单")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "菜单", objectName = "菜单管理", descript = "添加菜单: #{#menuAddVO.name}")
@@ -81,6 +87,7 @@ public class MenuController {
         return CommonResult.failed();
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("编辑菜单")
     @PostMapping("/update")
     @MyLog(operate = "修改", objectType = "菜单", objectName = "菜单管理", descript = "编辑菜单")
@@ -95,6 +102,7 @@ public class MenuController {
         return CommonResult.failed();
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除菜单")
     @PostMapping("/delete/{id}")
     @MyLog(operate = "删除", objectType = "菜单", objectName = "菜单管理", descript = "删除菜单: #{#id}")

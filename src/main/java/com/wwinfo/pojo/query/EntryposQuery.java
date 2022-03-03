@@ -15,11 +15,11 @@ import lombok.Data;
 @Data
 public class EntryposQuery {
 
-    @ApiModelProperty(value = "首次读到的阅读器名称")
+ /*   @ApiModelProperty(value = "首次读到的阅读器名称")
     private String startReaderName;
 
     @ApiModelProperty(value = "最后读到的阅读器名称")
-    private String endReaderName;
+    private String endReaderName;*/
 
     @ApiModelProperty(value = "进出方向(0->进；1->出)")
     private Integer directory;

@@ -1,7 +1,11 @@
 package com.wwinfo.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.model.Entrypos;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.pojo.query.EntryposQuery;
+import com.wwinfo.pojo.res.EntryposRes;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
@@ -20,4 +24,5 @@ public interface EntryposMapper extends BaseMapper<Entrypos> {
 
     List<HashMap<String, Object>> getByParam(@Param("map") Map<String, Object> map);
 
+    IPage Page(Page<EntryposRes> page, @Param("entryposQuery") EntryposQuery entryposQuery);
 }

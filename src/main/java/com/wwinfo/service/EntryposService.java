@@ -1,7 +1,12 @@
 package com.wwinfo.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.wwinfo.model.Entrypos;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wwinfo.pojo.query.ConfigQuery;
+import com.wwinfo.pojo.query.EntryposQuery;
+import com.wwinfo.pojo.vo.EntryposAddVO;
+import com.wwinfo.pojo.vo.EntryposChgVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +22,31 @@ import java.util.Map;
  */
 public interface EntryposService extends IService<Entrypos> {
 
+    /**
+     * 分页获取RFID进出口设置
+     * @param entryposQuery
+     * @return
+     */
+    IPage listPage(EntryposQuery entryposQuery);
+
+
+
     List<HashMap<String,Object>> getByParam(Map<String, Object> map);
+
+    /**
+     *
+     * @param entryposAddVO
+     * @return
+     */
+    int add(EntryposAddVO entryposAddVO);
+
+    /**
+     *
+     * @param entryposChgVO
+     * @return
+     */
+    int update(EntryposChgVO entryposChgVO);
+
+    int delete(Long id);
 
 }

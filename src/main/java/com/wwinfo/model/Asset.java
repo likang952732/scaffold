@@ -44,12 +44,6 @@ public class Asset implements Serializable {
     private String assetNo;
 
     /**
-     * RFID编号
-     */
-    @TableField("rfidNo")
-    private String rfidNo;
-
-    /**
      * 使用部门
      */
     @TableField("useOrg")

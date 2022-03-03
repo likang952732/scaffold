@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -42,7 +44,9 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
 
     @Override
     public TConfig getConfig(String fieldName) {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("fieldName", fieldName);
+        return configMapper.getConfigByMap(map);
     }
 
     @Transactional(rollbackFor = Exception.class)

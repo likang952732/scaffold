@@ -55,6 +55,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         if(existReader != null)
             throw new BusinessException("阅读器名称或阅读器IP地址不能重复");
         Rfidreader rfidreader = BeanUtil.copyProperties(rfidreaderAddVO, Rfidreader.class);
+        rfidreader.setLastStatus(0);
         return rfidreaderMapper.insert(rfidreader);
     }
 
@@ -65,6 +66,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         if(existReader != null && rfidreaderChgParam.getId() != existReader.getID())
             throw new BusinessException("阅读器名称或阅读器IP地址不能重复");
         Rfidreader rfidreader = BeanUtil.copyProperties(rfidreaderChgParam, Rfidreader.class);
+        rfidreader.setID(rfidreaderChgParam.getId());
         return rfidreaderMapper.updateById(rfidreader);
     }
 

@@ -87,6 +87,7 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
         if(existRoom != null && roomChgVO.getId() != existRoom.getID())
             throw new BusinessException("库房名称不能重复");
         Room room = BeanUtil.copyProperties(roomChgVO, Room.class);
+        room.setID(roomChgVO.getId());
         return roomMapper.updateById(room);
     }
 

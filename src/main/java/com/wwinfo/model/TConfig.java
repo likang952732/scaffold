@@ -36,6 +36,7 @@ public class TConfig implements Serializable {
     /**
      * 参数键名
      */
+    @TableField("fieldName")
     @ApiModelProperty(value = "参数键名")
     private String fieldName;
 

@@ -10,8 +10,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.constant.SysConstant;
+import com.wwinfo.mapper.TConfigMapper;
 import com.wwinfo.mapper.TUserRoleMapper;
 import com.wwinfo.mapper.UserMapper;
+import com.wwinfo.model.TConfig;
 import com.wwinfo.model.TRole;
 import com.wwinfo.model.TUserRole;
 import com.wwinfo.model.User;
@@ -38,9 +40,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -58,6 +58,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private TUserRoleMapper userRoleMapper;
+
+    @Resource
+    private TConfigMapper configMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -164,10 +167,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return null;
         }
 
+        Map<String, Object> map = new HashMap<>();
         //验证用户锁住
         if (user.getTimeLocked() != null) {
             int lockminutes = getTimeDifference(DateUtil.format(user.getTimeLocked(), "yyyy-MM-dd hh:mm:ss"), DateUtil.format(new Date(),"yyyy-MM-dd hh:mm"));
-            if (SysConstant.LOCKUP.equals(user.getIsLocked().toString()) && lockminutes < 5) {
+
+            map.put("fieldName", "lockTime");
+            TConfig config = configMapper.getConfigByMap(map);
+            int lockminutesValue = 5;   //默认锁住时长5分钟
+            if(config != null){
+                lockminutesValue = Integer.valueOf(config.getValue());
+            }
+
+            if (SysConstant.LOCKUP.equals(user.getIsLocked().toString()) && lockminutes < lockminutesValue) {
                 throw new UsernameNotFoundException("多次密码错误锁住,请稍后再试！");
             }
         }
@@ -176,7 +188,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(!passwordEncoder.matches(userLoginParam.getPassword(), userDetails.getPassword())) {
             user.setErrorTimes(user.getErrorTimes()+1);
             String flag = "";
-            if(user.getErrorTimes() >= 3){
+            int lockCount = 3;   //默认3次锁住
+            map.put("fieldName", "lockCount");
+            TConfig config = configMapper.getConfigByMap(map);
+            if(config != null){
+                lockCount = Integer.valueOf(config.getValue());
+            }
+
+            if(user.getErrorTimes() >= lockCount){
                 user.setIsLocked(1);
                 user.setTimeLocked(new Date());
                 flag = "99";

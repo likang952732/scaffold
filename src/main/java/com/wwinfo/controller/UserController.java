@@ -9,6 +9,7 @@ import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.common.ResultCode;
 import com.wwinfo.model.TAdmin;
+import com.wwinfo.model.TConfig;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.dto.UserChgParam;
@@ -16,6 +17,7 @@ import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
 import com.wwinfo.pojo.vo.UserRoleVO;
+import com.wwinfo.service.TConfigService;
 import com.wwinfo.service.TMenuService;
 import com.wwinfo.service.TRoleService;
 import com.wwinfo.service.UserService;
@@ -60,6 +62,9 @@ public class UserController {
 
     @Autowired
     private TMenuService menuService;
+
+    @Autowired
+    private TConfigService configService;
 
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
@@ -114,10 +119,12 @@ public class UserController {
 
         User user = userService.getUserByUserName(userLoginParam.getUserName());
         Integer firstFlag = user.getFirstFlag();
-        tokenMap.put("firstFlag", firstFlag);
-        if("0".equals(firstFlag.toString())){
-            return CommonResult.success(tokenMap,"用户为首次登陆,请重新修改密码");
+        TConfig config = configService.getConfig("forceChgPwd");
+        String forceChgPwd = "0";   //默认强制修改密码
+        if(config != null){
+            forceChgPwd = config.getValue();
         }
+        tokenMap.put("forceChgPwd", forceChgPwd);
         return CommonResult.success(tokenMap);
     }
 
@@ -214,6 +221,7 @@ public class UserController {
         return CommonResult.failed();
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("分配角色")
     @PostMapping("/updaterole")
     @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "角色管理", descript = "用户角色分配")
