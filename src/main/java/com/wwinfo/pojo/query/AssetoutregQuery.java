@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.query;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -18,6 +19,9 @@ public class AssetoutregQuery {
 
     @ApiModelProperty(value = "当前状态(0->还未出库;1->已出库;2->已归还)")
     private Integer status;
+
+    @JsonIgnore
+    private Long orgID;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

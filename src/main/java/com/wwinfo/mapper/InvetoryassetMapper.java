@@ -8,6 +8,9 @@ import com.wwinfo.pojo.query.InvetoryassetQuery;
 import com.wwinfo.pojo.res.InvetoryassetRes;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 资产盘点清单表 Mapper 接口
@@ -19,5 +22,9 @@ import org.apache.ibatis.annotations.Param;
 public interface InvetoryassetMapper extends BaseMapper<Invetoryasset> {
 
     IPage page(Page<InvetoryassetRes> page, @Param("invetoryassetQuery") InvetoryassetQuery invetoryassetQuery);
+
+    int updateByTaskID(@Param("map")Map<String, Object> map);
+
+    int addBatch(@Param("invastList") List<Invetoryasset> invastList);
 
 }

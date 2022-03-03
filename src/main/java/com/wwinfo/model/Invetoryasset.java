@@ -38,6 +38,8 @@ public class Invetoryasset implements Serializable {
     @TableField("roomID")
     private Long roomID;
 
+    private String machineID;
+
     /**
      * 盘点时间
      */

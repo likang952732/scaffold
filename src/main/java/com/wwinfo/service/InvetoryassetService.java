@@ -5,6 +5,8 @@ import com.wwinfo.model.Invetoryasset;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.InvetoryassetQuery;
 
+import java.util.List;
+
 /**
  * <p>
  * 资产盘点清单表 服务类
@@ -29,5 +31,7 @@ public interface InvetoryassetService extends IService<Invetoryasset> {
      * @return
      */
     int confirm(Long id, String assetIDs);
+
+    int addBatch(List<Invetoryasset> invastList);
 
 }

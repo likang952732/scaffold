@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
+import com.wwinfo.model.Asset;
 import com.wwinfo.model.Invetorytask;
 import com.wwinfo.mapper.InvetorytaskMapper;
 import com.wwinfo.model.Room;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -40,9 +42,18 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
         return invetorytaskMapper.page(page, invetorytaskQuery);
     }
 
+    @Override
+    public List<Invetorytask> getByAssetID(Long assetID) {
+        QueryWrapper<Invetorytask> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("assetID", assetID);
+        return invetorytaskMapper.selectList(wrapper);
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(InvetorytaskAddVO invetorytaskAddVO) {
+
+
         Invetorytask invetorytask = BeanUtil.copyProperties(invetorytaskAddVO, Invetorytask.class);
         return invetorytaskMapper.insert(invetorytask);
     }

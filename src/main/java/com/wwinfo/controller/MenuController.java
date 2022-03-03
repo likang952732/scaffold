@@ -8,6 +8,8 @@ import com.wwinfo.common.CommonResult;
 import com.wwinfo.model.TMenu;
 import com.wwinfo.pojo.bo.MenuNode;
 import com.wwinfo.pojo.dto.MenuParam;
+import com.wwinfo.pojo.vo.MenuAddVO;
+import com.wwinfo.pojo.vo.MenuChgVO;
 import com.wwinfo.service.TMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,14 +42,14 @@ public class MenuController {
         return CommonResult.success(menuService.list());
     }*/
 
-    @ApiOperation("根据级数获取菜单")
+   /* @ApiOperation("根据级数获取菜单")
     @PostMapping("/listLevel")
     public CommonResult<CommonPage<TMenu>> listLevel(MenuParam menuParam,
                                                @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         Page page = menuService.listLevel(menuParam, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));
-    }
+    }*/
 
     @ApiOperation(value = "分页获取菜单")
     @PostMapping("/list/{parentId}")
@@ -67,13 +69,13 @@ public class MenuController {
 
     @ApiOperation("添加菜单")
     @PostMapping("/add")
-    @MyLog(operate = "添加", objectType = "菜单", objectName = "菜单管理", descript = "添加菜单: #{#menu.name}")
-    public CommonResult create(@Validated TMenu menu, BindingResult result) {
+    @MyLog(operate = "添加", objectType = "菜单", objectName = "菜单管理", descript = "添加菜单: #{#menuAddVO.name}")
+    public CommonResult create(@Validated MenuAddVO menuAddVO, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        int count = menuService.create(menu);
+        int count = menuService.create(menuAddVO);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
@@ -82,12 +84,12 @@ public class MenuController {
     @ApiOperation("编辑菜单")
     @PostMapping("/update")
     @MyLog(operate = "修改", objectType = "菜单", objectName = "菜单管理", descript = "编辑菜单")
-    public CommonResult update(@Validated TMenu menu, BindingResult result) {
+    public CommonResult update(@Validated MenuChgVO menuChgVO, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        int count = menuService.update(menu);
+        int count = menuService.update(menuChgVO);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
@@ -95,12 +97,9 @@ public class MenuController {
 
     @ApiOperation("删除菜单")
     @PostMapping("/delete/{id}")
+    @MyLog(operate = "删除", objectType = "菜单", objectName = "菜单管理", descript = "删除菜单: #{#id}")
     public CommonResult delete(@PathVariable("id") Long id) {
-        String name = "";
-        TMenu menu = menuService.getById(id);
-        if(menu != null)
-            name = menu.getName();
-        int count = menuService.delete(id, name);
+        int count = menuService.delete(id);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();

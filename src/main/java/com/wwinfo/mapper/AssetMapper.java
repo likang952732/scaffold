@@ -35,6 +35,8 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     List<AssetApiRes> getAssetListByOrgs(@Param("orgs") List<Long> orgs);
 
+    List<AssetRes> getAssetListByIDs(@Param("ids") List<Long> ids);
+
     List<String> getRFIDIds(@Param("assetId")Long assetId);
 
 }

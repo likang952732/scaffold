@@ -11,6 +11,9 @@ public class SysConstant {
 
     public static final String LOCKUP = "1";   //锁住
 
+    /**-----------------用户类型--------------**/
+    public static final Integer USER_TYPE_ORG = 2;  //部门管理员
+
     /**-----------------销毁状态--------------**/
     public static final Integer DELSTATUS_NOT = 0; //未销毁
     public static final Integer DELSTATUS_ED = 1;  //销毁
@@ -29,5 +32,16 @@ public class SysConstant {
     public static final Integer IS_NOT_BLACK = 0;    //不是黑名单
     public static final Integer IS_BLACK = 1;    //是黑名单
 
+    /**----------------rfid_asset状态---------**/
+    public static final Integer RFID_ASSET_STATUS = 1;  //已废弃
+
+    /**----------------资产出库状态-----------**/
+    public static final Integer ASSET_OUTREG_STATUS = 0;  //还未出库
+
+    /**----------------盘点任务状态-----------**/
+    public static final Integer INVETORY_TASK_STATUS_END = 1;
+
+    /**----------------盘点结果确认-----------**/
+    public static final Integer RESULTCHECK_CONFIRM = 1;  //确认
 
 }

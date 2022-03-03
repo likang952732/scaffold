@@ -2,12 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwinfo.mapper.TRoleMapper">
 
-    <select id="getUmsRole" resultType="com.wwinfo.model.UserRole">
-        SELECT role_id from t_admin_role where user_id=#{adminId,jdbcType=VARBINARY}
+    <sql id="baseSql">
+        tr.id,
+        tr.name,
+        tr.description,
+        tr.status,
+        tr.create_time
+    </sql>
+
+    <select id="getRoleByName" parameterType="string" resultType="com.wwinfo.model.TRole">
+       SELECT <include refid="baseSql" /> FROM t_role tr WHERE name = #{name}
     </select>
 
-    <select id="getRoleList" resultType="com.wwinfo.model.TRole">
-        select user_id from t_admin_role where role_id=#{roleId,jdbcType=VARBINARY}
+    <select id="getRoleByUserId" parameterType="long" resultType="com.wwinfo.model.TRole">
+        SELECT
+            <include refid="baseSql" />
+        FROM t_user_role tur
+        LEFT JOIN t_role tr ON tur.role_id = tr.id
+        WHERE tur.user_id = #{userId}
     </select>
+
 
 </mapper>

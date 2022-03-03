@@ -62,10 +62,9 @@ secure:
       - /syslog/**
       - /upload/**
       - /validateCode/**
-      - /entrypos/**
-      - /room/**
-      - /organize/**
-      - /asset/**
+      - /user/login
+      - /role/**
+      - /menu/**
 
 
 uploadFile:

@@ -14,12 +14,6 @@
         a.front_img
     </sql>
 
-    <select id="getUmsMenuByAdminId" resultType="com.wwinfo.model.TMenu">
-        SELECT <include refid="menuSql"/> from  t_menu a
-        join t_role_menu b
-        on a.id=b.menu_id where b.role_id=(select role_id from t_admin_role where user_id=#{adminId,jdbcType=VARBINARY})
-    </select>
-
     <select id="getUmsMenu" resultType="com.wwinfo.model.TMenu">
         SELECT <include refid="menuSql"/>
         from t_menu a
@@ -29,6 +23,19 @@
 
     <select id="selectMenuList" resultType="com.wwinfo.model.TMenu">
         select id,name,parent_id,level,sort,create_time,update_time,status FROM t_menu WHERE level = 0 LIMIT 0,20
+    </select>
+
+    <select id="getMenuByName" resultType="com.wwinfo.model.TMenu" parameterType="java.lang.String">
+      SELECT <include refid="menuSql" /> FROM t_menu a WHERE a.name = #{name}
+    </select>
+
+    <select id="getMenuByUserId" resultType="com.wwinfo.model.TMenu" parameterType="java.lang.Long">
+        SELECT
+           <include refid="menuSql"/>
+        FROM t_menu a
+        JOIN t_role_menu b
+        ON a.id = b.menu_id
+        WHERE b.role_id IN (select role_id from t_user_role where user_id = #{userId})
     </select>
 
 </mapper>

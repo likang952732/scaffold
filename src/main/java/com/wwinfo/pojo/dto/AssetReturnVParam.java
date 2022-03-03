@@ -2,6 +2,8 @@ package com.wwinfo.pojo.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,7 +21,7 @@ public class AssetReturnVParam {
     private Long assetID;
 
     @ApiModelProperty(value = "归还时间(yyyy-MM-dd HH:mm:ss)", required = true)
-    @NotNull(message = "归还时间不能为空")
+    @NotBlank(message = "归还时间不能为空")
     private String returnTime;
 
     @ApiModelProperty(value = "备注")

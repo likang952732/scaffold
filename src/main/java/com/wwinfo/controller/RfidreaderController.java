@@ -35,7 +35,6 @@ public class RfidreaderController {
     @Autowired
     private RfidreaderService rfidreaderService;
 
-
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取RFID阅读器")
     @PostMapping("/page")

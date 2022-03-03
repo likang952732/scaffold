@@ -2,6 +2,7 @@ package com.wwinfo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wwinfo.model.User;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.wwinfo.model.User;
  * @since 2022-02-14
  */
 public interface UserMapper extends BaseMapper<User> {
+
+    User getByUserName(@Param("userName") String userName);
 
 }

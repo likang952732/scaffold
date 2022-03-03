@@ -8,6 +8,9 @@ import com.wwinfo.pojo.query.AssetrecordQuery;
 import com.wwinfo.pojo.res.AssetrecordRes;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 资产进出记录表 Mapper 接口
@@ -21,5 +24,7 @@ public interface AssetrecordMapper extends BaseMapper<Assetrecord> {
     IPage page(Page<AssetrecordRes> page, @Param("assetrecordQuery") AssetrecordQuery assetrecordQuery);
 
     IPage getByAssetIDAndSortType(Page<AssetrecordRes> page, @Param("assetID")Long assetID, @Param("sortType")Integer sortType);
+
+    List<Assetrecord> getByMap(@Param("map") Map<String, Object> map);
 
 }

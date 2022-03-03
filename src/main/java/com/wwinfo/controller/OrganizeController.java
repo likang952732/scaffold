@@ -48,10 +48,10 @@ public class OrganizeController {
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
-    @ApiOperation(value = "获取父级部门列表")
+    @ApiOperation(value = "获取部门列表")
     @PostMapping("/list")
-    public CommonResult<List<Organize>> list() {
-        return CommonResult.success(organizeService.list());
+    public CommonResult<List<Organize>> list(@ApiParam(name="orgLevel",value="级别")Integer orgLevel) {
+        return CommonResult.success(organizeService.list(orgLevel));
     }
 
 

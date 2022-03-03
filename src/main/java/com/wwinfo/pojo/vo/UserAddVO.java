@@ -1,7 +1,10 @@
 package com.wwinfo.pojo.vo;
 
+import com.wwinfo.annotation.Phone;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +40,7 @@ public class UserAddVO {
      * 电子邮箱
      */
     @ApiModelProperty(value = "电子邮箱(最大长度64)")
+    @Email
     private String email;
 
     /**
@@ -49,6 +53,7 @@ public class UserAddVO {
      * 电话
      */
     @ApiModelProperty(value = "电话(最大长度64)")
+    @Phone
     private String phone;
 
     /**

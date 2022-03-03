@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.query;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -33,6 +34,9 @@ public class AssetQuery {
 
     @ApiModelProperty(value = "是否黑名单(0->否;1->是)")
     private Integer isBlack;
+
+    @JsonIgnore
+    private Long orgID;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

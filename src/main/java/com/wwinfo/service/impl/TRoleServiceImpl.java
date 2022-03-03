@@ -1,5 +1,6 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -10,9 +11,13 @@ import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.mapper.TMenuMapper;
 import com.wwinfo.mapper.TRoleMenuMapper;
+import com.wwinfo.mapper.TUserRoleMapper;
 import com.wwinfo.model.TMenu;
 import com.wwinfo.model.TRole;
 import com.wwinfo.model.TRoleMenu;
+import com.wwinfo.model.TUserRole;
+import com.wwinfo.pojo.vo.RoleAddVO;
+import com.wwinfo.pojo.vo.RoleChgVO;
 import com.wwinfo.service.TRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +44,9 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
     private TRoleMenuMapper roleMenuMapper;
 
     @Resource
+    private TUserRoleMapper userRoleMapper;
+
+    @Resource
     private TMenuMapper menuMapper;
 
     @Override
@@ -54,23 +62,36 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int create(TRole role) {
+    public int create(RoleAddVO roleAddVO) {
+        TRole existRole = roleMapper.getRoleByName(roleAddVO.getName());
+        if(existRole != null){
+            throw new BusinessException("角色名称不能重复");
+        }
+        TRole role = BeanUtil.copyProperties(roleAddVO, TRole.class);
         return roleMapper.insert(role);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int update(TRole role) {
+    public int update(RoleChgVO roleChgVO) {
+        TRole existRole = roleMapper.getRoleByName(roleChgVO.getName());
+        if(existRole != null && existRole.getId() != roleChgVO.getId()){
+            throw new BusinessException("角色名称不能重复");
+        }
+        TRole role = BeanUtil.copyProperties(roleChgVO, TRole.class);
         return roleMapper.updateById(role);
     }
 
-    @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "角色管理", descript = "删除角色: #{#name}")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int delete(Long id, String name) {
-        if(id == null)
+    public int delete(Long id) {
+        if(id == null) {
             throw new BusinessException("id不能为空");
-        List<TRole> roleList = roleMapper.getRoleList(id);
+        }
+
+        QueryWrapper<TUserRole> wrapper = new QueryWrapper();
+        wrapper.eq("role_id", id);
+        List<TUserRole> roleList = userRoleMapper.selectList(wrapper);
         if(roleList.size()>0) {
             throw new BusinessException("用户角色已分配不能删除");
         }
@@ -99,8 +120,8 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
     }
 
     @Override
-    public List<TRole> getUmsRole(Long adminId) {
-        return roleMapper.getUmsRole(adminId);
+    public List<TRole> getRoleByUserId(Long userId) {
+        return roleMapper.getRoleByUserId(userId);
     }
 
     @Override
@@ -110,7 +131,7 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
 
     @Override
     public List<TMenu> getUmsMenuByAdminId(Long adminId) {
-        return menuMapper.getUmsMenuByAdminId(adminId);
+        return menuMapper.getMenuByUserId(adminId);
     }
 
     @Override

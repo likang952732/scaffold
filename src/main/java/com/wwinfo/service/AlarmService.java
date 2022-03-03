@@ -22,4 +22,6 @@ public interface AlarmService extends IService<Alarm> {
      */
     IPage listPage(AlarmQuery alarmQuery);
 
+    int add(Alarm alarm);
+
 }

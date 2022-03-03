@@ -1,5 +1,7 @@
 package com.wwinfo.model;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
@@ -24,11 +26,14 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
     /**
      * 用户名称
      */
     @ApiModelProperty(value = "用户名称")
-    @TableId("userName")
+    @TableField("userName")
     private String userName;
 
     @ApiModelProperty(value = "用户类型(1->系统管理员；2->部门管理员；3->日志管理员)")
@@ -101,7 +106,7 @@ public class User implements Serializable {
      * 用户锁住时间
      */
     @ApiModelProperty(value = "用户锁住时间")
-    @TableField("timeLocked")
+    @TableField(value ="timeLocked", updateStrategy=FieldStrategy.IGNORED)
     private Date timeLocked;
 
     /**
@@ -154,5 +159,9 @@ public class User implements Serializable {
     @ApiModelProperty(value = "是否停用(0->使用; 1->停用)")
     @TableField("isStop")
     private Integer isStop;
+
+    @ApiModelProperty(value = "是否首次登录(0->是;1->否)")
+    @TableField("firstFlag")
+    private Integer firstFlag;
 
 }

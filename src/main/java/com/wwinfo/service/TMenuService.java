@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.model.TMenu;
 import com.wwinfo.pojo.bo.MenuNode;
 import com.wwinfo.pojo.dto.MenuParam;
+import com.wwinfo.pojo.vo.MenuAddVO;
+import com.wwinfo.pojo.vo.MenuChgVO;
 
 import java.util.List;
 
@@ -24,15 +26,32 @@ public interface TMenuService extends IService<TMenu> {
 
     List<MenuNode> treeList();
 
-    int create(TMenu menu);
+    /**
+     *
+     * @param menuAddVO
+     * @return
+     */
+    int create(MenuAddVO menuAddVO);
 
-    int update(TMenu menu);
+    /**
+     *
+     * @param menuChgVO
+     * @return
+     */
+    int update(MenuChgVO menuChgVO);
 
     /**
      *
      * @param id 菜单id
      * @return
      */
-    int delete(Long id, String name);
+    int delete(Long id);
+
+    /**
+     *
+     * @param userId
+     * @return
+     */
+    List<TMenu> getMenuByUserId(Long userId);
 
 }

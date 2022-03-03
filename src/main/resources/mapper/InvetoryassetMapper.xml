@@ -4,16 +4,16 @@
 
     <select id="page" parameterType="com.wwinfo.pojo.query.InvetoryassetQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
        select
-        ist.taskID,
-              ist.assetID,
-              ist.roomID,
-              ist.machineID,
-              ist.checkTime,
-              ist.checkResult,
-              ist.shouldRoomID,
-              ist.resultCheck,
-              org.orgName,
-              rm.roomName
+          ist.taskID,
+          ist.assetID,
+          ist.roomID,
+          ist.machineID,
+          ist.checkTime,
+          ist.checkResult,
+          ist.shouldRoomID,
+          ist.resultCheck,
+          org.orgName,
+          rm.roomName
        FROM invetoryAsset ist
        LEFT JOIN asset ast ON ist.assetID = ast.ID
        LEFT JOIN room rm ON ist.roomID = rm.ID
@@ -30,5 +30,33 @@
            </if>
        </where>
     </select>
+
+    <update id="updateByTaskID" parameterType="map">
+        UPDATE invetoryAsset
+        <set>
+            <if test="map.resultCheck!= null">
+                resultCheck = #{map.resultCheck},
+            </if>
+        </set>
+        WHERE taskID = #{map.taskID}
+    </update>
+
+    <insert id="addBatch" parameterType="list">
+        insert into invetoryAsset(
+            taskID,                           assetID,                         roomID,                             machineID,
+            checkResult,                      shouldRoomID,                    resultCheck
+        )
+        <foreach collection ="invastList" item="item" index= "index" separator =",">
+            (
+            #{item.taskID,jdbcType=BIGINT},
+            #{item.assetID, jdbcType=BIGINT},
+            #{item.roomID, jdbcType=BIGINT},
+            #{item.machineID, jdbcType=VARCHAR},
+            #{item.checkResult, jdbcType=BIGINT},
+            #{item.shouldRoomID, jdbcType=BIGINT},
+            #{item.resultCheck, jdbcType=BIGINT}
+            )
+        </foreach >
+    </insert>
 
 </mapper>

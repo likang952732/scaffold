@@ -26,13 +26,16 @@
            <include refid="baseSql" />,
            ast.name AS "assetName"
         FROM assetOutReg asout
-        LEFT JOIN asset ast ON asout.assetID = ast.ID
+        JOIN asset ast ON asout.assetID = ast.ID
         <where>
             <if test="assetoutregQuery.outType != null">
                 AND asout.outType = #{assetoutregQuery.outType}
             </if>
             <if test="assetoutregQuery.status != null">
                 AND asout.status = #{assetoutregQuery.status}
+            </if>
+            <if test="assetoutregQuery.orgID != null">
+                AND ast.orgID = #{assetoutregQuery.orgID}
             </if>
         </where>
     </select>

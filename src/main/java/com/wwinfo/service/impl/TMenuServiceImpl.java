@@ -1,5 +1,6 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +11,8 @@ import com.wwinfo.mapper.TMenuMapper;
 import com.wwinfo.model.TMenu;
 import com.wwinfo.pojo.bo.MenuNode;
 import com.wwinfo.pojo.dto.MenuParam;
+import com.wwinfo.pojo.vo.MenuAddVO;
+import com.wwinfo.pojo.vo.MenuChgVO;
 import com.wwinfo.service.TMenuService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -77,34 +80,42 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int create(TMenu menu) {
-        if(menu.getParentId() == null)
-            menu.setParentId(0L);
+    public int create(MenuAddVO menuAddVO) {
+        TMenu exist = menuMapper.getMenuByName(menuAddVO.getName());
+        if(exist != null){
+            throw new BusinessException("菜单名称不能重复");
+        }
+        if(menuAddVO.getParentId() == null) {
+            menuAddVO.setParentId(0L);
+        }
+        TMenu menu = BeanUtil.copyProperties(menuAddVO, TMenu.class);
         return menuMapper.insert(menu);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int update(TMenu menu) {
-        if(menu.getId() == null) {
-            throw new BusinessException("id不能为空");
+    public int update(MenuChgVO menuChgVO) {
+        TMenu exist = menuMapper.getMenuByName(menuChgVO.getName());
+        if(exist != null && exist.getId() != menuChgVO.getId()){
+            throw new BusinessException("菜单名称不能重复");
         }
-        if(StrUtil.isBlank(menu.getFrontImg())){
-            menu.setFrontImg("");
-        }
-        if(StrUtil.isBlank(menu.getFrontName())){
-            menu.setFrontName("");
-        }
+        if(menuChgVO.getParentId() == null)
+            menuChgVO.setParentId(0L);
+        TMenu menu = BeanUtil.copyProperties(menuChgVO, TMenu.class);
         return menuMapper.updateById(menu);
     }
 
-    @MyLog(operate = "删除", objectType = "菜单", objectName = "菜单管理", descript = "删除菜单: #{#name}")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int delete(Long id, String name) {
+    public int delete(Long id) {
         if(id == null)
             throw new BusinessException("id不能为空");
         return menuMapper.deleteById(id);
+    }
+
+    @Override
+    public List<TMenu> getMenuByUserId(Long userId) {
+        return menuMapper.getMenuByUserId(userId);
     }
 
     private MenuNode covertMenuNode(TMenu menu, List<TMenu> menuList) {

@@ -8,6 +8,8 @@ import com.wwinfo.pojo.query.InvetorytaskQuery;
 import com.wwinfo.pojo.vo.InvetorytaskAddVO;
 import com.wwinfo.pojo.vo.InvetorytaskChgVO;
 
+import java.util.List;
+
 /**
  * <p>
  * 资产盘点任务表 服务类
@@ -24,6 +26,13 @@ public interface InvetorytaskService extends IService<Invetorytask> {
      * @return
      */
     IPage listPage(InvetorytaskQuery invetorytaskQuery);
+
+    /**
+     *
+     * @param assetID
+     * @return
+     */
+    List<Invetorytask> getByAssetID(Long assetID);
 
     /**
      * 添加资产盘点任务

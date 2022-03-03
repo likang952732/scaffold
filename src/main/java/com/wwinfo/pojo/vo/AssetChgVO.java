@@ -81,4 +81,7 @@ public class AssetChgVO {
     @NotNull(message = "当前状态不能为空")
     private Integer curStatus;
 
+    @ApiModelProperty(value = "出入口ID列表(针对posAlarmType为1或2时的允许位置或不允许位置列表，以逗号分隔的数字字符串，如：1,2,3)")
+    private String assetPos;
+
 }

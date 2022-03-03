@@ -15,9 +15,12 @@ import java.util.List;
  * @since 2021-02-24
  */
 public interface TMenuMapper extends BaseMapper<TMenu> {
+
+    TMenu getMenuByName(@Param("name")String name);
+
     List<TMenu> getUmsMenu(@Param("roleId") Long roleId);
 
-    List<TMenu> getUmsMenuByAdminId(@Param("adminId") Long adminId);
+    List<TMenu> getMenuByUserId(@Param("userId") Long userId);
 
     List<TMenu> selectMenuList(@Param("name") String keyword,@Param("parent_id") String parentId,Integer pageSize, Integer pageNum);
 

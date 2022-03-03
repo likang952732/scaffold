@@ -64,5 +64,19 @@
         </where>
     </select>
 
+    <select id="getByMap" parameterType="map" resultType="com.wwinfo.model.Assetrecord">
+        select
+            <include refid="baseSql" />
+        from assetRecord asr
+        <where>
+            <if test="map.assetID != null">
+                AND asr.assetID = #{map.assetID}
+            </if>
+            <if test="map.directory != null">
+                AND asr.directory = #{map.directory}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

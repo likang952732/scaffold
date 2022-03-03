@@ -45,4 +45,6 @@ public interface RfidreaderService extends IService<Rfidreader> {
      */
     int delete(Long id);
 
+    Rfidreader getByReaderName(String readerName);
+
 }

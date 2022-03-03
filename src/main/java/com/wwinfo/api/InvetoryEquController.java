@@ -8,6 +8,7 @@ import com.wwinfo.service.InvetoryEquService;
 import com.wwinfo.util.BusinUtil;
 import com.wwinfo.util.RequestUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @Author: lk
  * DateTime: 2022-02-24 21:30
  */
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class InvetoryEquController {
@@ -81,6 +83,7 @@ public class InvetoryEquController {
 
     private String checkRequest(HttpServletRequest request) throws Exception{
         Map<String, Object> requestParam = RequestUtil.analysisRequestParam(request);
+        log.info("InvetoryEquController中{}接收到的参数: {}", request.getServletPath(), requestParam.toString());
         return businUtil.checkRequest(request, requestParam);
     }
 

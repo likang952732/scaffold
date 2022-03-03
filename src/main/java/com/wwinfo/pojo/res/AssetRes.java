@@ -123,4 +123,9 @@ public class AssetRes {
     @ApiModelProperty(value = "黑名单设置时间")
     private Date blackTime;
 
+    @ApiModelProperty(value = "任务id")
+    private Long taskID;
+
+    private Integer taskStatus;
+
 }

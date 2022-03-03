@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
-import com.wwinfo.model.Room;
 import com.wwinfo.model.TConfig;
 import com.wwinfo.mapper.TConfigMapper;
 import com.wwinfo.pojo.query.ConfigQuery;
@@ -41,6 +40,11 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
         return configMapper.selectPage(page, wrapper);
     }
 
+    @Override
+    public TConfig getConfig(String fieldName) {
+        return null;
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(ConfigAddVO configAddVO) {
@@ -55,9 +59,11 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int update(ConfigChgVO configChgVO) {
-        TConfig existConfig = getConfig(configChgVO.getName(), configChgVO.getFieldName());
+        QueryWrapper<TConfig> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("name", configChgVO.getName());
+        TConfig existConfig = configMapper.selectOne(wrapper);
         if(existConfig != null && configChgVO.getId() != existConfig.getId()){
-            throw new BusinessException("参数名称或参数键名不能重复");
+            throw new BusinessException("参数名称不能重复");
         }
         TConfig config = BeanUtil.copyProperties(configChgVO, TConfig.class);
         return configMapper.updateById(config);
@@ -67,7 +73,7 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
     @Override
     public int delete(Long id) {
         if(id == null){
-            throw new BusinessException("id不能重复");
+            throw new BusinessException("id不能为空");
         }
         return configMapper.deleteById(id);
     }

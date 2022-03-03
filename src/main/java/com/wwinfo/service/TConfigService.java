@@ -24,6 +24,8 @@ public interface TConfigService extends IService<TConfig> {
      */
     IPage listPage(ConfigQuery configQuery);
 
+    TConfig getConfig(String fieldName);
+
     /**
      *
      * @param configAddVO

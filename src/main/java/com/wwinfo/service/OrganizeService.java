@@ -31,7 +31,7 @@ public interface OrganizeService extends IService<Organize> {
      * 获取父级部门列表
      * @return
      */
-    List<Organize> list();
+    List<Organize> list(Integer orgLevel);
 
     /**
      * 获取指定部门的下级部门列表

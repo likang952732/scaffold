@@ -1,17 +1,23 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
+import com.wwinfo.mapper.AssetMapper;
+import com.wwinfo.mapper.EntryposMapper;
+import com.wwinfo.model.Asset;
+import com.wwinfo.model.Entrypos;
 import com.wwinfo.model.Room;
 import com.wwinfo.mapper.RoomMapper;
 import com.wwinfo.pojo.query.RoomQuery;
 import com.wwinfo.pojo.vo.RoomAddVO;
 import com.wwinfo.pojo.vo.RoomChgVO;
+import com.wwinfo.service.AssetService;
 import com.wwinfo.service.RoomService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -35,6 +41,12 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
     
     @Resource
     private RoomMapper roomMapper;
+
+    @Resource
+    private AssetMapper assetMapper;
+
+    @Resource
+    private EntryposMapper entryposMapper;
 
     @Override
     public IPage listPage(RoomQuery roomQuery) {
@@ -82,7 +94,22 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
     @Override
     public int delete(Long id) {
         if(id == null)
-            throw new BusinessException("id不能重复");
+            throw new BusinessException("id不能为空");
+        //如果库房当前有资产或在出入口设置中被关联，则不能删除
+        QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("roomID", id);
+        List<Asset> list = assetMapper.selectList(wrapper);
+        if(CollUtil.isNotEmpty(list)){
+            throw new BusinessException("该库房存在资产，不能删除");
+        }
+
+        QueryWrapper<Entrypos> enWrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("roomID", id);
+        List<Entrypos> entryposList = entryposMapper.selectList(enWrapper);
+        if(CollUtil.isNotEmpty(entryposList)){
+            throw new BusinessException("该库房已在出入口设置中被关联，不能删除");
+        }
+
         return roomMapper.deleteById(id);
     }
 

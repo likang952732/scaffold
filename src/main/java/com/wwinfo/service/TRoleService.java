@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.model.TMenu;
 import com.wwinfo.model.TRole;
+import com.wwinfo.pojo.vo.RoleAddVO;
+import com.wwinfo.pojo.vo.RoleChgVO;
 
 import java.util.List;
 
@@ -18,16 +20,16 @@ public interface TRoleService extends IService<TRole> {
 
     Page listPage(String keyword, Integer pageSize, Integer pageNum);
 
-    int create(TRole role);
+    int create(RoleAddVO roleAddVO);
 
-    int update(TRole role);
+    int update(RoleChgVO roleChgVO);
 
     /**
      *
      * @param id 角色id
      * @return
      */
-    int delete(Long id, String name);
+    int delete(Long id);
 
     /**
      *
@@ -39,10 +41,10 @@ public interface TRoleService extends IService<TRole> {
 
     /**
      *
-     * @param adminId 后台用户id
+     * @param userId 用户id
      * @return
      */
-    List<TRole> getUmsRole(Long adminId);
+    List<TRole> getRoleByUserId(Long userId);
 
     /**
      *

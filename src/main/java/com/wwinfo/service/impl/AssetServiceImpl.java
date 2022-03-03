@@ -18,11 +18,8 @@ import com.wwinfo.constant.SysConstant;
 import com.wwinfo.constant.ValidateTypeConstant;
 import com.wwinfo.mapper.AssetoutregMapper;
 import com.wwinfo.mapper.RfidAssetMapper;
-import com.wwinfo.model.Asset;
+import com.wwinfo.model.*;
 import com.wwinfo.mapper.AssetMapper;
-import com.wwinfo.model.Assetoutreg;
-import com.wwinfo.model.RfidAsset;
-import com.wwinfo.model.RfidMapping;
 import com.wwinfo.pojo.bo.AssetStatusExcel;
 import com.wwinfo.pojo.dto.AssetDestoryParam;
 import com.wwinfo.pojo.dto.AssetQueryParam;
@@ -35,7 +32,10 @@ import com.wwinfo.pojo.vo.AssetChgVO;
 import com.wwinfo.pojo.vo.BindRFIDVO;
 import com.wwinfo.service.AssetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wwinfo.service.InvetorytaskService;
 import com.wwinfo.service.RfidMappingService;
+import com.wwinfo.service.RfidrecordService;
+import com.wwinfo.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,8 +76,16 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Resource
     private RfidMappingService rfidMappingService;
 
+    @Resource
+    private RfidrecordService rfidrecordService;
+
+    @Resource
+    private InvetorytaskService invetorytaskService;
+
     @Override
     public IPage listPage(AssetQuery assetQuery) {
+        User user = UserUtil.getCurrentUser();
+        assetQuery.setOrgID(user.getOrgID());
         Page<AssetRes> page = new Page<>(assetQuery.getPageNum(), assetQuery.getPageSize());
         return assetMapper.page(page, assetQuery);
     }
@@ -147,6 +155,18 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         if(CollUtil.isNotEmpty(rfidAssetList)){
             throw new BusinessException("该资产已经绑定了RFID标签，不能直接删除");
         }
+
+        //校验阅读器是否检测到过
+        List<Rfidrecord> rfidrecordList = rfidrecordService.getByrAssetID(id);
+        if(CollUtil.isNotEmpty(rfidrecordList)){
+            throw new BusinessException("此资产已经被阅读器检测到过，不能删除");
+        }
+
+        //校验是否盘点过
+        List<Invetorytask> invetorytaskList = invetorytaskService.getByAssetID(id);
+        if(CollUtil.isNotEmpty(invetorytaskList)){
+            throw new BusinessException("此资产已经被盘点过，不能删除");
+        }
         return assetMapper.deleteById(id);
     }
 
@@ -154,13 +174,21 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public int destroy(AssetDestoryParam assetDestoryParam) {
         List<Long> idList = Arrays.asList(assetDestoryParam.getIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+        //校验状态
+        List<AssetRes> resList = assetMapper.getAssetListByIDs(idList);
+        for(AssetRes res: resList){
+            if(res.getDelStatus() == SysConstant.DELSTATUS_ED) {
+                throw new BusinessException("未销毁状态的资产才能进行销毁");
+            }
+        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("delStatus", SysConstant.DELSTATUS_ED);
         map.put("delReason", assetDestoryParam.getDelReason());
         assetMapper.updateBatchByParam(idList, map);
 
         //更新RFID资源绑定的状态
-        map.put("status", 1);  //已废弃
+        map.put("status", SysConstant.RFID_ASSET_STATUS);
         rfidAssetMapper.updateBatchStatus(idList, map);
         return 1;
     }

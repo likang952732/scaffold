@@ -78,6 +78,9 @@
             <if test="assetQuery.isBlack != null">
                 AND ast.isBlack = #{assetQuery.isBlack}
             </if>
+            <if test="assetQuery.orgID != null">
+                AND ast.orgID = #{assetQuery.orgID}
+            </if>
         </where>
     </select>
 
@@ -138,6 +141,20 @@
             )
         </foreach>
 
+    </select>
+
+    <select id="getAssetListByIDs" resultType="com.wwinfo.pojo.res.AssetRes" parameterType="long">
+        SELECT
+            <include refid="baseSql" />,
+            task.ID AS "taskID",
+            task.status AS "taskStatus"
+        FROM asset ast
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        LEFT JOIN invetoryTask task ON org.orgID = task.orgID
+        WHERE ast.ID IN
+        <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <update id="updateBatchByParam">

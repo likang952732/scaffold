@@ -52,9 +52,9 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     }
 
     @Override
-    public List<Organize> list(){
+    public List<Organize> list(Integer orgLevel){
         QueryWrapper<Organize> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("orgLevel", 0);
+        wrapper.eq("orgLevel", orgLevel);
         return organizeMapper.selectList(wrapper);
     }
 
@@ -79,6 +79,11 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(OrganizeAddVO organizeAddVO) {
+        //校验orgName唯一性
+        Organize exist = getOrganizeByOrgName(organizeAddVO.getOrgName());
+        if(exist != null){
+            throw new BusinessException("部门名称不能为空");
+        }
         Organize organize = BeanUtil.copyProperties(organizeAddVO, Organize.class);
         return organizeMapper.insert(organize);
     }
@@ -86,9 +91,21 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int update(OrganizeChgVO organizeChgVO) {
+        //校验orgName唯一性
+        Organize exist = getOrganizeByOrgName(organizeChgVO.getOrgName());
+        if(exist != null && exist.getOrgID() != organizeChgVO.getOrgID()){
+            throw new BusinessException("部门名称不能为空");
+        }
         Organize organize = BeanUtil.copyProperties(organizeChgVO, Organize.class);
         return organizeMapper.updateById(organize);
     }
+
+    private Organize getOrganizeByOrgName(String orgName){
+        QueryWrapper<Organize> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("orgName", orgName);
+        return organizeMapper.selectOne(wrapper);
+    }
+
 
     @Transactional(rollbackFor = Exception.class)
     @Override

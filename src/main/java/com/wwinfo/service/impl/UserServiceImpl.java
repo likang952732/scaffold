@@ -1,18 +1,19 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.constant.SysConstant;
+import com.wwinfo.mapper.TUserRoleMapper;
 import com.wwinfo.mapper.UserMapper;
-import com.wwinfo.model.Room;
-import com.wwinfo.model.TAdmin;
+import com.wwinfo.model.TRole;
+import com.wwinfo.model.TUserRole;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.bo.AdminUserDetails;
 import com.wwinfo.pojo.dto.UserChgParam;
@@ -20,12 +21,12 @@ import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
+import com.wwinfo.pojo.vo.UserRoleVO;
 import com.wwinfo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wwinfo.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +38,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -52,6 +55,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     private UserMapper userMapper;
+
+    @Resource
+    private TUserRoleMapper userRoleMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -107,17 +113,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = BeanUtil.copyProperties(userChgpwdParam, User.class);
         user.setPassword(passwordEncoder.encode(userChgpwdParam.getNewPassword()));
         user.setTimeModify(new Date());
+        user.setFirstFlag(1);
         return userMapper.updateById(user);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int delete(String userName) {
-        if(StrUtil.isBlank(userName))
-            throw new BusinessException("userName不能为空");
-        QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("userName", userName);
-        return userMapper.delete(wrapper);
+    public int delete(Long id) {
+        if(id == null)
+            throw new BusinessException("id不能为空");
+        return userMapper.deleteById(id);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -140,9 +145,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int resetPass(String userName) {
-        User user = getUserByUserName(userName);
+    public int resetPass(Long id) {
+        User user = userMapper.selectById(id);
         user.setPassword(passwordEncoder.encode(defaultpassword));
+        user.setErrorTimes(0);
+        user.setTimeLocked(null);
+        user.setFirstFlag(0);
         return userMapper.updateById(user);
     }
 
@@ -151,27 +159,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String login(UserLoginParam userLoginParam) {
         String userName = userLoginParam.getUserName();
         UserDetails userDetails = loadUserByUserName(userName);
-        if(userDetails == null)
-            throw new UsernameNotFoundException("用户名或密码错误");
-
         User user = getUserByUserName(userName);
-        //处理用户锁住
-        if(!passwordEncoder.matches(userLoginParam.getPassword(), userDetails.getPassword())) {
-            user.setErrorTimes(user.getErrorTimes()+1);
-            if(user.getErrorTimes() >= 3){
-                user.setIsLocked(1);
-                user.setTimeLocked(new Date());
-                userMapper.updateById(user);
-            }
-            throw new BadCredentialsException("密码不正确");
+        if(user == null){
+            return null;
         }
 
-        // 验证用户锁住
+        //验证用户锁住
         if (user.getTimeLocked() != null) {
-            int lockminutes = getTimeDifference(user.getTimeLocked().toString(), DateUtil.format(new Date(), "yyyy-MM-dd hh:mm"));
+            int lockminutes = getTimeDifference(DateUtil.format(user.getTimeLocked(), "yyyy-MM-dd hh:mm:ss"), DateUtil.format(new Date(),"yyyy-MM-dd hh:mm"));
             if (SysConstant.LOCKUP.equals(user.getIsLocked().toString()) && lockminutes < 5) {
                 throw new UsernameNotFoundException("多次密码错误锁住,请稍后再试！");
             }
+        }
+
+        //处理用户锁住
+        if(!passwordEncoder.matches(userLoginParam.getPassword(), userDetails.getPassword())) {
+            user.setErrorTimes(user.getErrorTimes()+1);
+            String flag = "";
+            if(user.getErrorTimes() >= 3){
+                user.setIsLocked(1);
+                user.setTimeLocked(new Date());
+                flag = "99";
+            }
+            userMapper.updateById(user);
+            return flag;
         }
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -186,6 +197,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setTimeLocked(null);
         userMapper.updateById(user);
         return token;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int updateRole(Long userId, List<Long> roleIds) {
+        if(userId == null){
+            throw new BusinessException("用户id不能为空");
+        }
+
+        if(CollUtil.isEmpty(roleIds)){
+            throw new BusinessException("roleIds不能为空");
+        }
+
+        userRoleMapper.deleteByUserId(userId);
+
+        List<TUserRole> userRoleList = new ArrayList<>();
+        if(!CollUtil.isEmpty(roleIds)){
+            TUserRole userRole = null;
+            for (Long roleId: roleIds) {
+                userRole = new TUserRole();
+                userRole.setUserId(userId);
+                userRole.setRoleId(roleId);
+                userRoleList.add(userRole);
+            }
+        }
+        return userRoleMapper.addBatch(userRoleList);
     }
 
     /**

@@ -10,6 +10,7 @@ import com.wwinfo.pojo.query.AlarmQuery;
 import com.wwinfo.service.AlarmService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -37,6 +38,12 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
         wrapper.ge("timeAdd", alarmQuery.getStartTime());
         wrapper.le("timeAdd", alarmQuery.getEndTime());
         return alarmMapper.selectPage(page, wrapper);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int add(Alarm alarm) {
+        return alarmMapper.insert(alarm);
     }
 
 }

@@ -8,7 +8,10 @@ import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
+import com.wwinfo.pojo.vo.UserRoleVO;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.List;
 
 /**
  * <p>
@@ -54,10 +57,10 @@ public interface UserService extends IService<User> {
 
     /**
      * 删除用户
-     * @param userName
+     * @param id
      * @return
      */
-    int delete(String userName);
+    int delete(Long id);
 
     /**
      * 添加用户
@@ -75,10 +78,10 @@ public interface UserService extends IService<User> {
 
     /**
      * 重置密码
-     * @param userName
+     * @param id
      * @return
      */
-    int resetPass(String userName);
+    int resetPass(Long id);
 
     /**
      * 用户登录
@@ -86,4 +89,12 @@ public interface UserService extends IService<User> {
      * @return
      */
     String login(UserLoginParam userLoginParam);
+
+    /**
+     * 分配角色
+     * @param
+     * @return
+     */
+    int updateRole(Long userId, List<Long> roleIds);
+
 }

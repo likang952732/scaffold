@@ -13,7 +13,8 @@ import java.util.List;
  */
 public interface TRoleMapper extends BaseMapper<TRole> {
 
-    List<TRole> getUmsRole(@Param("adminId") Long adminId);
+    TRole getRoleByName(@Param("name") String name);
 
-    List<TRole> getRoleList(@Param("roleId") Long roleId);
+    List<TRole> getRoleByUserId(@Param("userId") Long userId);
+
 }

@@ -30,4 +30,6 @@ public interface InvetorytaskMapper extends BaseMapper<Invetorytask> {
 
     List<String> getRFIDIds(@Param("assetId")Long assetId);
 
+    List<InvetorytaskRes> getByTaskIDAndAssetIDs(Long id, List<Long> assetIDList);
+
 }

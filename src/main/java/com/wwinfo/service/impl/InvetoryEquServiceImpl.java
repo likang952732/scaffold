@@ -11,19 +11,20 @@ import com.wwinfo.mapper.AssetMapper;
 import com.wwinfo.mapper.InvetoryassetMapper;
 import com.wwinfo.mapper.InvetorytaskMapper;
 import com.wwinfo.mapper.RoomMapper;
+import com.wwinfo.model.Asset;
 import com.wwinfo.model.Invetoryasset;
+import com.wwinfo.model.Invetorylack;
 import com.wwinfo.model.Room;
 import com.wwinfo.pojo.res.AssetApiRes;
+import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.res.InvetorytaskRes;
 import com.wwinfo.service.InvetoryEquService;
+import com.wwinfo.service.InvetoryassetService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +48,9 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
 
     @Resource
     private InvetoryassetMapper invetoryassetMapper;
+
+    @Resource
+    private InvetoryassetService invetoryassetService;
 
     @Override
     public JSONArray list() {
@@ -133,9 +137,61 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
             throw new BusinessException("业务参数不能为空");
         }
 
-        QueryWrapper<Invetoryasset> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("machineID", machineID);
+        //系统中存在的资产
+        QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("roomID", roomID);
+        List<Asset> actualList = assetMapper.selectList(wrapper);
+        if(",".equals(iDs)){
 
+            /*List<Invetorylack> lackList = new ArrayList<>();
+            Invetorylack lck = null;
+            for(Asset ast: actualList){
+                lck = new Invetorylack();
+                lck.setAssetID(ast.getID());
+                lck.setTaskID();
+                actualList.add(lck);
+            }
+
+            addInvetoryLack(actualList);*/
+            return;
+        }
+        //盘点到的资产
+        List<Long> idList = Arrays.asList(iDs.split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+        List<AssetRes> assetList = assetMapper.getAssetListByIDs(idList);
+
+        //资产信息比对
+        if(CollUtil.isNotEmpty(assetList) && CollUtil.isNotEmpty(actualList)){
+            List<Invetoryasset> invastList = new ArrayList<>();
+            Invetoryasset invast = null;
+            Integer checkResult = null;
+            for(AssetRes ast: assetList){
+                invast = new Invetoryasset();
+                for(Asset actAst: actualList){
+                    if(ast.getID() != actAst.getID())
+                        continue;
+
+                    if(ast.getRoomID() == actAst.getRoomID()){
+                        checkResult = 0;
+                    } else if(ast.getRoomID() != actAst.getRoomID()){
+                        invast.setShouldRoomID(actAst.getRoomID());
+                        checkResult = 1;
+                    } else {
+                        checkResult = 2;
+                    }
+
+                    invast.setTaskID(ast.getTaskID());
+                    invast.setAssetID(ast.getID());
+                    invast.setRoomID(roomID);
+                    invast.setMachineID(machineID);
+                    invast.setCheckResult(checkResult);
+                    invastList.add(invast);
+                    break;
+                }
+            }
+
+            invetoryassetService.addBatch(invastList);
+
+        }
     }
 
 }
