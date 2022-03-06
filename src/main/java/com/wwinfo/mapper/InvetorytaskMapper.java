@@ -32,4 +32,8 @@ public interface InvetorytaskMapper extends BaseMapper<Invetorytask> {
 
     List<InvetorytaskRes> getByTaskIDAndAssetIDs(Long id, List<Long> assetIDList);
 
+    Invetorytask getTaskByOrgId(@Param("orgID")Long orgID);
+
+    List<Invetorytask> getTaskByAssetID(@Param("assetID") Long assetID);
+
 }

@@ -85,7 +85,7 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public IPage listPage(AssetQuery assetQuery) {
         User user = UserUtil.getCurrentUser();
-        assetQuery.setOrgID(user.getOrgID());
+        Optional.ofNullable(user).ifPresent(e -> assetQuery.setOrgID(user.getOrgID()));
         Page<AssetRes> page = new Page<>(assetQuery.getPageNum(), assetQuery.getPageSize());
         return assetMapper.page(page, assetQuery);
     }
@@ -93,12 +93,13 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(AssetAddVO assetAddVO) {
-        Asset existAsset = getAssetByParam(assetAddVO.getName(), assetAddVO.getAssetNo(), assetAddVO.getRfidNo());
+        Asset existAsset = getAssetByParam(assetAddVO.getName(), assetAddVO.getAssetNo());
         if(existAsset != null){
-            throw new BusinessException("资产名称,资产编号,RFID编号不能重复");
+            throw new BusinessException("资产名称,资产编号不能重复");
         }
         Asset asset = BeanUtil.copyProperties(assetAddVO, Asset.class);
         asset.setDelStatus(SysConstant.DELSTATUS_NOT);
+        asset.setTimeStatus(new Date());
         return assetMapper.insert(asset);
     }
 
@@ -106,24 +107,21 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public int update(AssetChgVO assetChgVO) {
         QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("name", assetChgVO.getName())
-                .or()
-                .eq("rfidNo", assetChgVO.getRfidNo());
+        wrapper.eq("name", assetChgVO.getName());
         Asset existAsset = assetMapper.selectOne(wrapper);
         if(existAsset != null && assetChgVO.getId() != existAsset.getID()){
             throw new BusinessException("资产名称,RFID编号不能重复");
         }
         Asset asset = BeanUtil.copyProperties(assetChgVO, Asset.class);
+        asset.setID(assetChgVO.getId());
         return assetMapper.updateById(asset);
     }
 
-    private Asset getAssetByParam(String name, String assetNo, String rfidNo){
+    private Asset getAssetByParam(String name, String assetNo){
         QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
         wrapper.eq("name", name)
                 .or()
-                .eq("assetNo", assetNo)
-                .or()
-                .eq("rfidNo", rfidNo);
+                .eq("assetNo", assetNo);
         return assetMapper.selectOne(wrapper);
     }
 
@@ -146,6 +144,9 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
         //校验状态
         Asset asset = assetMapper.selectById(id);
+        if(asset == null){
+            return 0;
+        }
         if(asset.getDelStatus() != SysConstant.DELSTATUS_NOT){
             throw new BusinessException("未销毁状态的才能删除");
         }
@@ -197,7 +198,10 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public int assetReturn(AssetReturnVParam assetReturnVParam) {
         //只有出库登记状态status=0还未出库或1已出库的才允许设置归还
-        Assetoutreg assetoutreg = assetoutregMapper.selectById(assetReturnVParam.getAssetID());
+        Assetoutreg assetoutreg = assetoutregMapper.getByAssetID(assetReturnVParam.getAssetID());
+        if(assetoutreg == null){
+            throw new BusinessException("未查询到出库登记记录");
+        }
         String statusStr = assetoutreg.getStatus().toString();
         if(!SysConstant.OUT_STATUS_NOT_DELIVE.toString().equals(statusStr) && !SysConstant.OUT_STATUS_DELIVEED.toString().equals(statusStr)){
             throw new BusinessException("只有出库登记状态为还未出库或已出库的才允许设置归还");
@@ -219,6 +223,7 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         if(SysConstant.BLACK_TYPE_SET == setType && StrUtil.isBlank(blackReason)){
             throw new BusinessException("设置黑名单时,原因不能为空");
         }
+
         List<Long> idList = Arrays.asList(blackListVParam.getIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
         Map<String, Object> map = new HashMap<>();
         map.put("isBlack", SysConstant.IS_NOT_BLACK);
@@ -320,14 +325,8 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
         //保存绑定
         RfidAsset rfidAsset = BeanUtil.copyProperties(bindRFIDVO, RfidAsset.class);
-        rfidAssetMapper.insert(rfidAsset);
-
-        //更新资产的roomID
-        List<Long> idList = new ArrayList<>();
-        idList.add(bindRFIDVO.getAssetID());
-        map.put("roomID", bindRFIDVO.getRoomID());
-        assetMapper.updateBatchByParam(idList, map);
-        return 1;
+        rfidAsset.setRfidRealNo(existRfMp.getRfidRealNo());
+        return rfidAssetMapper.insert(rfidAsset);
     }
 
 }

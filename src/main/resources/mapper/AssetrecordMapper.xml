@@ -13,14 +13,14 @@
        asr.statusTimes,
        asr.statusMatched,
        asr.isAlarm,
-       asr.alarmType,
-       anp.posName,
-       ast.name AS "assetName"
+       asr.alarmType
     </sql>
 
     <select id="page" parameterType="com.wwinfo.pojo.query.AssetrecordQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
        select
-          <include refid="baseSql" />
+          <include refid="baseSql" />,
+          ast.name AS "assetName",
+          enp.posName
         from assetRecord asr
         LEFT JOIN asset ast ON asr.assetID = ast.ID
         LEFT JOIN entryPos enp ON asr.posID = enp.ID

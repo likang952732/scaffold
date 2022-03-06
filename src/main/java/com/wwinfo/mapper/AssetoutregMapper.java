@@ -20,4 +20,6 @@ public interface AssetoutregMapper extends BaseMapper<Assetoutreg> {
 
     IPage page(Page<AssetoutregRes> page, @Param("assetoutregQuery") AssetoutregQuery assetoutregQuery);
 
+    Assetoutreg getByAssetID(Long assetID);
+
 }

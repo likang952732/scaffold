@@ -22,12 +22,12 @@
         UPDATE rfid_asset
         <set>
             <if test="map.status!= null">
-                delStatus = #{map.sStatus},
+                status = #{map.status},
             </if>
         </set>
-        WHERE id IN
+        WHERE assetID IN
         <foreach collection="idList" item="item" open="(" separator="," close=")">
-            #{item.id}
+            #{item}
         </foreach>
 
     </update>

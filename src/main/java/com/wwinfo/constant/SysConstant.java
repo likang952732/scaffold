@@ -39,7 +39,8 @@ public class SysConstant {
     public static final Integer ASSET_OUTREG_STATUS = 0;  //还未出库
 
     /**----------------盘点任务状态-----------**/
-    public static final Integer INVETORY_TASK_STATUS_END = 1;
+    public static final Integer INVETORY_TASK_STATUS_PROCESS = 0;  //盘点中
+    public static final Integer INVETORY_TASK_STATUS_END = 1;  //盘点结束
 
     /**----------------盘点结果确认-----------**/
     public static final Integer RESULTCHECK_CONFIRM = 1;  //确认

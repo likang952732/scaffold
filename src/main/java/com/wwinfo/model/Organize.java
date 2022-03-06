@@ -45,6 +45,7 @@ public class Organize implements Serializable {
      * 级别
      */
     @ApiModelProperty(value = "级别(0为顶级)")
+    @TableField("orgLevel")
     private Integer orgLevel;
 
     /**

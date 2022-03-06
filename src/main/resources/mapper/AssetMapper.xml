@@ -50,7 +50,7 @@
         ast.blackTime
     </sql>
 
-    <select id="page" parameterType="com.wwinfo.pojo.query.AssetQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+    <select id="page" parameterType="com.wwinfo.pojo.query.AssetQuery" resultType="com.wwinfo.pojo.res.AssetRes">
         SELECT
            <include refid="baseSql" />,
            org.orgName
@@ -166,6 +166,9 @@
             <if test="map.delStatus!= null">
                 delStatus = #{map.delStatus},
             </if>
+            <if test="map.delReason!= null and map.delReason != ''">
+                delReason = #{map.delReason},
+            </if>
             <if test="map.isBlack!= null  ">
                 isBlack = #{map.isBlack},
             </if>
@@ -176,9 +179,9 @@
                 blackTime = #{map.blackTime},
             </if>
         </set>
-        WHERE id IN
+        WHERE ID IN
         <foreach collection="idList" item="item" open="(" separator="," close=")">
-            #{item.id}
+            #{item}
         </foreach>
     </update>
 

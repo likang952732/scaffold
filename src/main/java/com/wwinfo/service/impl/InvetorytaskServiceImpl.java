@@ -1,10 +1,13 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
+import com.wwinfo.common.exception.BusinessException;
+import com.wwinfo.constant.SysConstant;
 import com.wwinfo.model.Asset;
 import com.wwinfo.model.Invetorytask;
 import com.wwinfo.mapper.InvetorytaskMapper;
@@ -20,7 +23,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,16 +49,19 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
 
     @Override
     public List<Invetorytask> getByAssetID(Long assetID) {
-        QueryWrapper<Invetorytask> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("assetID", assetID);
-        return invetorytaskMapper.selectList(wrapper);
+        return invetorytaskMapper.getTaskByAssetID(assetID);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(InvetorytaskAddVO invetorytaskAddVO) {
-
-
+        Map<String, Object> map = new HashMap<>();
+        map.put("orgID", invetorytaskAddVO.getOrgID());
+        map.put("status", SysConstant.INVETORY_TASK_STATUS_PROCESS);
+        List<InvetorytaskRes> list = invetorytaskMapper.getTaskByParam(map);
+        if(CollUtil.isNotEmpty(list)){
+            throw new BusinessException("同一个部门只能存在一个盘点中的任务");
+        }
         Invetorytask invetorytask = BeanUtil.copyProperties(invetorytaskAddVO, Invetorytask.class);
         return invetorytaskMapper.insert(invetorytask);
     }
@@ -62,6 +70,7 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
     @Override
     public int update(InvetorytaskChgVO invetorytaskChgVO) {
         Invetorytask invetorytask = BeanUtil.copyProperties(invetorytaskChgVO, Invetorytask.class);
+        invetorytask.setID(invetorytaskChgVO.getId());
         return invetorytaskMapper.updateById(invetorytask);
     }
 

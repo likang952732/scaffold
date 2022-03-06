@@ -40,4 +40,8 @@
         </where>
     </select>
 
+    <select id="getByAssetID" resultType="com.wwinfo.model.Assetoutreg" parameterType="java.lang.Long">
+        SELECT <include refid="baseSql" /> FROM assetOutReg asout WHERE asout.assetID = #{assetID}
+    </select>
+
 </mapper>

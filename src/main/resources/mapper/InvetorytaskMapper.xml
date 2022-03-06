@@ -43,7 +43,14 @@
            org.remark
         FROM invetoryTask task
         LEFT JOIN organize org ON task.orgID = org.orgID
-        WHERE task.status = #{map.status}
+        <where>
+            <if test="map.status != null">
+               AND task.status = #{map.status}
+            </if>
+            <if test="map.orgID != null">
+                AND task.orgID = #{map.orgID}
+            </if>
+        </where>
     </select>
 
 
@@ -65,6 +72,23 @@
 
     <select id="getRFIDIds" resultType="java.lang.String">
         SELECT rfid_real_no FROM rfid_asset WHERE assetID = #{ID}
+    </select>
+
+    <select id="getTaskByOrgId" resultType="com.wwinfo.model.Invetorytask" parameterType="java.lang.Long">
+        select ID from invetoryTask where orgID =#{orgID}
+    </select>
+
+    <select id="getTaskByAssetID" resultType="com.wwinfo.model.Invetorytask" parameterType="java.lang.Long">
+       SELECT
+           task.ID,
+           task.orgID,
+           task.startDate,
+           task.endDate,
+           task.description,
+           task.status
+       FROM asset aet
+       JOIN invetoryTask task ON aet.orgID = task.orgID
+       WHERE aet.ID = #{assetID}
     </select>
 
 </mapper>

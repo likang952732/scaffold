@@ -28,10 +28,6 @@ public class AssetAddVO {
     @NotBlank(message = "资产编号不能为空")
     private String assetNo;
 
-    @ApiModelProperty(value = "RFID编号(最大长度为32)")
-    @NotBlank(message = "RFID编号不能为空")
-    private String rfidNo;
-
     @ApiModelProperty(value = "使用部门(最大长度为30)")
     private String useOrg;
 

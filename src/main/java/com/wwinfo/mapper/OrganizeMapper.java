@@ -2,6 +2,7 @@ package com.wwinfo.mapper;
 
 import com.wwinfo.model.Organize;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2022-02-14
  */
 public interface OrganizeMapper extends BaseMapper<Organize> {
+
+    int deleteById(@Param("orgID")Long orgID);
 
 }
