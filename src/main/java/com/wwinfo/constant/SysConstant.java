@@ -43,6 +43,7 @@ public class SysConstant {
     public static final Integer INVETORY_TASK_STATUS_END = 1;  //盘点结束
 
     /**----------------盘点结果确认-----------**/
+    public static final Integer RESULTCHECK_NOT_CONFIRM = 0;  //未确认
     public static final Integer RESULTCHECK_CONFIRM = 1;  //确认
 
 }

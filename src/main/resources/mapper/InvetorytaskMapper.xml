@@ -74,8 +74,12 @@
         SELECT rfid_real_no FROM rfid_asset WHERE assetID = #{ID}
     </select>
 
-    <select id="getTaskByOrgId" resultType="com.wwinfo.model.Invetorytask" parameterType="java.lang.Long">
-        select ID from invetoryTask where orgID =#{orgID}
+    <select id="getTaskByOrgIds" resultType="com.wwinfo.model.Invetorytask" parameterType="java.lang.Long">
+        select ID from invetoryTask
+        where orgID IN
+        <foreach collection="orgIDList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="getTaskByAssetID" resultType="com.wwinfo.model.Invetorytask" parameterType="java.lang.Long">
@@ -89,6 +93,16 @@
        FROM asset aet
        JOIN invetoryTask task ON aet.orgID = task.orgID
        WHERE aet.ID = #{assetID}
+    </select>
+
+    <select id="getTaskByRoomId" resultType="java.util.Map" parameterType="java.lang.Long">
+        SELECT
+            task.ID AS "taskID",
+            aet.ID AS "assetID",
+            aet.roomID
+        FROM invetoryTask task
+        JOIN asset aet ON task.orgID = aet.orgID
+        WHERE aet.roomID = #{roomID} AND task.status = 0
     </select>
 
 </mapper>

@@ -8,6 +8,8 @@ import com.wwinfo.pojo.query.InvetorylackQuery;
 import com.wwinfo.pojo.res.InvetorylackRes;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 资产盘点缺少表 Mapper 接口
@@ -19,5 +21,7 @@ import org.apache.ibatis.annotations.Param;
 public interface InvetorylackMapper extends BaseMapper<Invetorylack> {
 
     IPage page(Page<InvetorylackRes> page, @Param("invetorylackQuery") InvetorylackQuery invetorylackQuery);
+
+    int addBatch(@Param("lackList") List<Invetorylack> lackList);
 
 }

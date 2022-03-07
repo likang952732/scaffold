@@ -139,8 +139,8 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
         }
 
         //校验是否存在任务
-        Invetorytask task = invetorytaskMapper.getTaskByOrgId(orgID);
-        if(task != null){
+        List<Invetorytask> taskList = invetorytaskMapper.getTaskByOrgIds(orgList);
+        if(CollUtil.isNotEmpty(taskList)){
             throw new BusinessException("该部门下存在盘点任务，不能删除");
         }
         return organizeMapper.deleteById(orgID);

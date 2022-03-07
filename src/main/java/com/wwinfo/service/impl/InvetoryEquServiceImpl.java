@@ -7,19 +7,15 @@ import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
-import com.wwinfo.mapper.AssetMapper;
-import com.wwinfo.mapper.InvetoryassetMapper;
-import com.wwinfo.mapper.InvetorytaskMapper;
-import com.wwinfo.mapper.RoomMapper;
-import com.wwinfo.model.Asset;
-import com.wwinfo.model.Invetoryasset;
-import com.wwinfo.model.Invetorylack;
-import com.wwinfo.model.Room;
+import com.wwinfo.constant.SysConstant;
+import com.wwinfo.mapper.*;
+import com.wwinfo.model.*;
 import com.wwinfo.pojo.res.AssetApiRes;
 import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.res.InvetorytaskRes;
 import com.wwinfo.service.InvetoryEquService;
 import com.wwinfo.service.InvetoryassetService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +31,7 @@ import java.util.stream.Collectors;
  * DateTime: 2022-02-25 17:01
  */
 @Service
+@Slf4j
 public class InvetoryEquServiceImpl implements InvetoryEquService {
 
     @Resource
@@ -51,6 +48,9 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
 
     @Resource
     private InvetoryassetService invetoryassetService;
+
+    @Resource
+    private InvetorylackMapper invetorylackMapper;
 
     @Override
     public JSONArray list() {
@@ -76,7 +76,7 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
     public JSONArray getOrgs() {
         JSONArray array = new JSONArray();
         Map<String, Object> map = new HashMap<>();
-        map.put("status", 0);
+        map.put("status", SysConstant.INVETORY_TASK_STATUS_PROCESS);
         List<InvetorytaskRes> taskList = invetorytaskMapper.getTaskByParam(map);
         if(CollUtil.isNotEmpty(taskList)){
             JSONObject json = null;
@@ -100,7 +100,7 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
             handleResult(array, resList);
         } else {
             Map<String, Object> map = new HashMap<>();
-            map.put("status", 0);
+            map.put("status", SysConstant.INVETORY_TASK_STATUS_PROCESS);
             List<AssetApiRes> resList = invetorytaskMapper.getAssetByTask(map);
             handleResult(array, resList);
         }
@@ -137,27 +137,32 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
             throw new BusinessException("业务参数不能为空");
         }
 
-        //系统中存在的资产
-        QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("roomID", roomID);
-        List<Asset> actualList = assetMapper.selectList(wrapper);
         if(",".equals(iDs)){
-
-            /*List<Invetorylack> lackList = new ArrayList<>();
-            Invetorylack lck = null;
-            for(Asset ast: actualList){
-                lck = new Invetorylack();
-                lck.setAssetID(ast.getID());
-                lck.setTaskID();
-                actualList.add(lck);
+            //系统中存在的资产
+            List<Map<String, Object>> mapList = invetorytaskMapper.getTaskByRoomId(roomID);
+            if(CollUtil.isNotEmpty(mapList)){
+                List<Invetorylack> lackList = new ArrayList<>();
+                Invetorylack lck = null;
+                for(Map<String, Object> m: mapList){
+                    lck = new Invetorylack();
+                    lck.setTaskID(Long.valueOf(m.get("taskID").toString()));
+                    lck.setAssetID(Long.valueOf(m.get("assetID").toString()));
+                    lck.setShouldRoomID(Long.valueOf(m.get("roomID").toString()));
+                    lck.setResultCheck(SysConstant.RESULTCHECK_NOT_CONFIRM);
+                    lackList.add(lck);
+                }
+                invetorylackMapper.addBatch(lackList);
             }
-
-            addInvetoryLack(actualList);*/
             return;
         }
         //盘点到的资产
         List<Long> idList = Arrays.asList(iDs.split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
         List<AssetRes> assetList = assetMapper.getAssetListByIDs(idList);
+
+        //系统中存在的资产
+        QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
+        wrapper.eq("roomID", roomID);
+        List<Asset> actualList = assetMapper.selectList(wrapper);
 
         //资产信息比对
         if(CollUtil.isNotEmpty(assetList) && CollUtil.isNotEmpty(actualList)){
@@ -167,8 +172,9 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
             for(AssetRes ast: assetList){
                 invast = new Invetoryasset();
                 for(Asset actAst: actualList){
-                    if(ast.getID() != actAst.getID())
+                    if(ast.getID() != actAst.getID()) {
                         continue;
+                    }
 
                     if(ast.getRoomID() == actAst.getRoomID()){
                         checkResult = 0;
@@ -178,7 +184,6 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
                     } else {
                         checkResult = 2;
                     }
-
                     invast.setTaskID(ast.getTaskID());
                     invast.setAssetID(ast.getID());
                     invast.setRoomID(roomID);
@@ -188,9 +193,7 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
                     break;
                 }
             }
-
             invetoryassetService.addBatch(invastList);
-
         }
     }
 

@@ -45,7 +45,7 @@
         insert into invetoryAsset(
             taskID,                           assetID,                         roomID,                             machineID,
             checkResult,                      shouldRoomID,                    resultCheck
-        )
+        ) VALUES
         <foreach collection ="invastList" item="item" index= "index" separator =",">
             (
             #{item.taskID,jdbcType=BIGINT},
