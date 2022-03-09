@@ -30,4 +30,14 @@
         </where>
     </select>
 
+    <select id="getByParam" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+            <include refid="baseSql" />
+        FROM entryPos ep
+        where ep.startReaderID = #{map.startReaderID}
+        <if test="map.endReaderID != null">
+            AND ep.endReaderID = #{map.endReaderID}
+        </if>
+    </select>
+
 </mapper>

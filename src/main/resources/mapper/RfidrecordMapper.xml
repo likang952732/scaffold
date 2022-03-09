@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.RfidrecordMapper">
+
+    <update id="updateByMap" parameterType="map">
+        update rfidRecord
+        <set>
+            <if test="map.status != null">
+                status = #{map.status},
+            </if>
+            <if test="county != null and county != ''">
+                county = #{county},
+            </if>
+        </set>
+        where ID = #{map.ID}
+    </update>
+
+</mapper>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -57,6 +58,12 @@ public class RfidrecordServiceImpl extends ServiceImpl<RfidrecordMapper, Rfidrec
     @Override
     public int add(Rfidrecord rfidrecord) {
         return rfidrecordMapper.insert(rfidrecord);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public int updateByMap(Map<String, Object> map) {
+        return rfidrecordMapper.updateByMap(map);
     }
 
 }

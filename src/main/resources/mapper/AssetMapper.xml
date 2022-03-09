@@ -160,13 +160,13 @@
     <select id="getAllRFIDRecord" resultType="java.util.HashMap">
         SELECT
            <include refid="baseSql" />,
+           rfr.ID AS "rfidRecordID",
            rfr.rfidNo AS "rfidNo",
+           rfr.readerID AS "readerID",
            rfr.timeAdd AS "rfrtimeAdd"
-           rrea.readerName AS "readerName"
         FROM asset ast
         JOIN rfid_asset ra ON ast.ID = ra.assetID
         JOIN rfidRecord rfr ON ra.rfid_real_no = rfr.rfidNo
-        JOIN rfidReader rrea ON rfr.readerID = rrea.ID
         ORDER BY rfr.timeAdd DESC
     </select>
 

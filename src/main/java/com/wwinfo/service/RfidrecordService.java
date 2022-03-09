@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.RfidrecordQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -39,5 +40,7 @@ public interface RfidrecordService extends IService<Rfidrecord> {
     List<Rfidrecord> getByrAssetID(Long assetID);
 
     int add(Rfidrecord rfidrecord);
+
+    int updateByMap(Map<String, Object> hmData);
 
 }
