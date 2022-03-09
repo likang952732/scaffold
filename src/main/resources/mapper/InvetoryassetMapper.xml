@@ -31,6 +31,19 @@
        </where>
     </select>
 
+    <select id="getByTaskIdAndAssetIDs" resultType="java.util.Map" parameterType="list">
+        SELECT
+            taskID,
+            assetID,
+            roomID,
+            shouldRoomID
+        FROM invetoryAsset where taskID = #{taskID}
+        AND assetID IN
+        <foreach collection="assetIDList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <update id="updateByTaskID" parameterType="map">
         UPDATE invetoryAsset
         <set>

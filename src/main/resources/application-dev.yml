@@ -54,5 +54,29 @@ system:
   secritmap: "[{restcode:8,secrit:rt,sourcesystem:0}]"
 
 
+## 定时任务配置
+task:
+  ##30秒执行一次
+  ping: 0/30 * * * * ?
+  ##检查资产外出超过天数 (每天23点执行一次)
+  checkOutDay: 0 0 23 * * ?
+  ##向每个连接的RFID发送读取请求
+  rfidsend: 0/30 * * * * ?
+  ##分析数据库中读到的RFID记录
+  analysisrfid: 0/30 * * * * ?
+
+## mail
+mail:
+  #邮件服务器的SMTP地址
+  host: smtp.qq.com
+  #邮件服务器的SMTP端口，可选，默认25
+  port: 25
+  #发件人
+  from: 1973711398@qq.com
+  tos: 1973711398@qq.com
+  #用户名，默认为发件人邮箱前缀
+  user: 1973711398
+
+
 ##手机号校验
 phoneregex: ^[1][3,4,5,6,7,8,9][0-9]{9}$

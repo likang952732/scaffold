@@ -10,6 +10,7 @@ import com.wwinfo.pojo.res.AssetApiRes;
 import com.wwinfo.pojo.res.AssetRes;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,5 +39,11 @@ public interface AssetMapper extends BaseMapper<Asset> {
     List<AssetRes> getAssetListByIDs(@Param("ids") List<Long> ids);
 
     List<String> getRFIDIds(@Param("assetId")Long assetId);
+
+    int updateBatchMap(@Param("mapList") List<Map<String, Object>> mapList);
+
+    List<HashMap<String, Object>> getAllRFIDRecord();
+
+    List<HashMap<String, Object>> getAssetByMap(Map<String, Object> condition);
 
 }

@@ -27,4 +27,6 @@ public interface InvetoryassetMapper extends BaseMapper<Invetoryasset> {
 
     int addBatch(@Param("invastList") List<Invetoryasset> invastList);
 
+    List<Map<String, Object>> getByTaskIdAndAssetIDs(@Param("taskID")Long taskID, @Param("assetIDList") List<Long> assetIDList);
+
 }

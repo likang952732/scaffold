@@ -157,6 +157,27 @@
         </foreach>
     </select>
 
+    <select id="getAllRFIDRecord" resultType="java.util.HashMap">
+        SELECT
+           <include refid="baseSql" />,
+           rfr.rfidNo AS "rfidNo",
+           rfr.timeAdd AS "rfrtimeAdd"
+           rrea.readerName AS "readerName"
+        FROM asset ast
+        JOIN rfid_asset ra ON ast.ID = ra.assetID
+        JOIN rfidRecord rfr ON ra.rfid_real_no = rfr.rfidNo
+        JOIN rfidReader rrea ON rfr.readerID = rrea.ID
+        ORDER BY rfr.timeAdd DESC
+    </select>
+
+    <select id="getAssetByMap" resultType="java.util.HashMap" parameterType="map">
+        SELECT
+            <include refid="baseSql" />
+        FROM asset ast
+        where ast.isAbnormal = #{map.isAbnormal}
+        <![CDATA[ AND DATE(ast.timeStatus) <= #{param.endDate,jdbcType=VARCHAR} ]]>
+    </select>
+
     <update id="updateBatchByParam">
         UPDATE asset
         <set>
@@ -182,6 +203,20 @@
         WHERE ID IN
         <foreach collection="idList" item="item" open="(" separator="," close=")">
             #{item}
+        </foreach>
+    </update>
+
+    <update id="updateBatchMap" parameterType="list">
+        update asset
+        set roomID =
+        <foreach collection="list" item="item" index="index"
+                 separator=" " open="case" close="end">
+            when ID = #{item.assetID} then #{item.roomID}
+        </foreach>
+        where assetID IN
+        <foreach collection="list" index="index" item="item"
+                 separator="," open="(" close=")">
+            #{item.assetID,jdbcType=BIGINT}
         </foreach>
     </update>
 

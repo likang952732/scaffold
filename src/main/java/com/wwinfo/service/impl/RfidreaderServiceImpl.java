@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -72,6 +73,12 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
 
     @Transactional(rollbackFor = Exception.class)
     @Override
+    public int update(Rfidreader rfidreader) {
+        return rfidreaderMapper.updateById(rfidreader);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
     public int delete(Long id) {
         if(id == null)
             throw new BusinessException("id不能为空");
@@ -92,6 +99,11 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         QueryWrapper<Rfidreader> wrapper = new ExcludeEmptyQueryWrapper<>();
         wrapper.eq("readerName", readerName);
         return rfidreaderMapper.selectOne(wrapper);
+    }
+
+    @Override
+    public List<HashMap<String,Object>> getAllReader() {
+        return rfidreaderMapper.getAllReader();
     }
 
 

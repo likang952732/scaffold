@@ -63,8 +63,8 @@ secure:
       - /upload/**
       - /validateCode/**
       - /user/login
-      - /role/**
-      - /menu/**
+      - /assetoutreg/**
+      - /invetorytask/**
 
 
 uploadFile:

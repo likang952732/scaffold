@@ -14,6 +14,7 @@ import com.wwinfo.pojo.vo.BindRFIDVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -108,5 +109,11 @@ public interface AssetService extends IService<Asset> {
      * @return
      */
     int bindRFID(BindRFIDVO bindRFIDVO);
+
+    /**
+     * 获取所有的资产的RFIDrecord
+     * @return
+     */
+    List<HashMap<String, Object>> getAllRFIDRecord();
 
 }

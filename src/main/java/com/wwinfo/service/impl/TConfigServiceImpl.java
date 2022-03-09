@@ -13,6 +13,7 @@ import com.wwinfo.pojo.vo.ConfigAddVO;
 import com.wwinfo.pojo.vo.ConfigChgVO;
 import com.wwinfo.service.TConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +54,7 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
     @Override
     public int add(ConfigAddVO configAddVO) {
         TConfig existConfig = getConfig(configAddVO.getName(), configAddVO.getFieldName());
-        if(existConfig != null){
+        if (existConfig != null) {
             throw new BusinessException("参数名称或参数键名不能重复");
         }
         TConfig config = BeanUtil.copyProperties(configAddVO, TConfig.class);
@@ -66,7 +67,7 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
         QueryWrapper<TConfig> wrapper = new ExcludeEmptyQueryWrapper<>();
         wrapper.eq("name", configChgVO.getName());
         TConfig existConfig = configMapper.selectOne(wrapper);
-        if(existConfig != null && configChgVO.getId() != existConfig.getId()){
+        if (existConfig != null && configChgVO.getId() != existConfig.getId()) {
             throw new BusinessException("参数名称不能重复");
         }
         TConfig config = BeanUtil.copyProperties(configChgVO, TConfig.class);
@@ -76,7 +77,7 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int delete(Long id) {
-        if(id == null){
+        if (id == null) {
             throw new BusinessException("id不能为空");
         }
         return configMapper.deleteById(id);

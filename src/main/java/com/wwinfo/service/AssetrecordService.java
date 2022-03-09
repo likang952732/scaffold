@@ -32,4 +32,6 @@ public interface AssetrecordService extends IService<Assetrecord> {
      */
     IPage trajectory(Long assetID, Integer sortType, Integer pageSize, Integer pageNum);
 
+    int add(Assetrecord assetrecord);
+
 }

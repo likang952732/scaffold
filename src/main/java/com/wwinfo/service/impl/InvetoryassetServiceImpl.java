@@ -1,9 +1,11 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.constant.SysConstant;
+import com.wwinfo.mapper.AssetMapper;
 import com.wwinfo.mapper.InvetorytaskMapper;
 import com.wwinfo.model.Invetoryasset;
 import com.wwinfo.mapper.InvetoryassetMapper;
@@ -39,6 +41,9 @@ public class InvetoryassetServiceImpl extends ServiceImpl<InvetoryassetMapper, I
     @Resource
     private InvetorytaskMapper invetorytaskMapper;
 
+    @Resource
+    private AssetMapper assetMapper;
+
     @Override
     public IPage listPage(InvetoryassetQuery invetoryassetQuery) {
         Page<InvetoryassetRes> page = new Page<>(invetoryassetQuery.getPageNum(), invetoryassetQuery.getPageSize());
@@ -49,20 +54,22 @@ public class InvetoryassetServiceImpl extends ServiceImpl<InvetoryassetMapper, I
     @Override
     public int confirm(Long id, String assetIDs) {
         Invetorytask invetorytask = invetorytaskMapper.selectById(id);
-        if(invetorytask.getStatus() != SysConstant.INVETORY_TASK_STATUS_END)
+        if(invetorytask.getStatus() != SysConstant.INVETORY_TASK_STATUS_END) {
             throw new BusinessException("只有结束状态的盘点任务才能确认");
+        }
 
         Map<String, Object> map = new HashMap<>();
         map.put("taskID", id);
         map.put("resultCheck", SysConstant.RESULTCHECK_CONFIRM);
         invetoryassetMapper.updateByTaskID(map);
 
-        //更新资产的room
+        //更新资产的roomID
         List<Long> assetIDList = Arrays.asList(assetIDs.split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
-        invetorytaskMapper.getByTaskIDAndAssetIDs(id, assetIDList);
-        //TODO
-
-        return 0;
+        List<Map<String, Object>> maplist = invetoryassetMapper.getByTaskIdAndAssetIDs(id, assetIDList);
+        if(CollUtil.isNotEmpty(maplist)){
+            assetMapper.updateBatchMap(maplist);
+        }
+        return 1;
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -7,6 +7,9 @@ import com.wwinfo.pojo.query.RfidreaderQuery;
 import com.wwinfo.pojo.vo.RfidreaderAddVO;
 import com.wwinfo.pojo.vo.RfidreaderChgParam;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * <p>
  * RFID阅读器表 服务类
@@ -38,6 +41,8 @@ public interface RfidreaderService extends IService<Rfidreader> {
      */
     int update(RfidreaderChgParam rfidreaderChgParam);
 
+    int update(Rfidreader rfidreader);
+
     /**
      * 删除RFID阅读器
      * @param id
@@ -46,5 +51,7 @@ public interface RfidreaderService extends IService<Rfidreader> {
     int delete(Long id);
 
     Rfidreader getByReaderName(String readerName);
+
+    List<HashMap<String,Object>> getAllReader();
 
 }

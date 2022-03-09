@@ -329,4 +329,9 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         return rfidAssetMapper.insert(rfidAsset);
     }
 
+    @Override
+    public List<HashMap<String, Object>> getAllRFIDRecord() {
+        return assetMapper.getAllRFIDRecord();
+    }
+
 }

@@ -41,4 +41,9 @@ public class AssetrecordServiceImpl extends ServiceImpl<AssetrecordMapper, Asset
         }
         return assetrecordMapper.getByAssetIDAndSortType(page,assetID, sortType);
     }
+
+    @Override
+    public int add(Assetrecord assetrecord) {
+        return assetrecordMapper.insert(assetrecord);
+    }
 }

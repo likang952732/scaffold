@@ -15,11 +15,11 @@ import com.uhf.api.cls.Reader.TAGINFO;
  */
 @Slf4j
 public class ZKYAsynReader {
+
 	private HashMap m_readerInfo = null;
 	private String m_ip="";
 	private int m_antennaNum = 0;
 	private Reader devReader = null;
-	//private Logger logger = Logger.getLogger(ZKYAsynReader.class.getName());
 	private short m_antCount = 0;
 	private int[] m_ants = null;
 	private Thread m_readThread = null;
@@ -137,7 +137,7 @@ public class ZKYAsynReader {
 						try{
 							String cardNo = Reader.bytes_Hexstr(tags[i].EpcId); 
 							log.debug(m_ip+"读到标签："+cardNo);
-							RFIDReader.settleReadCard(cardNo,false,m_readerInfo);
+							RFIDReaderUtil.settleReadCard(cardNo,false,m_readerInfo);
 						}catch(Exception e){
 							e.printStackTrace();
 						}
