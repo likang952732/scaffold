@@ -170,12 +170,22 @@
         ORDER BY rfr.timeAdd DESC
     </select>
 
-    <select id="getAssetByMap" resultType="java.util.HashMap" parameterType="map">
+    <select id="getAssetByMap" resultType="com.wwinfo.model.Asset" parameterType="map">
         SELECT
             <include refid="baseSql" />
         FROM asset ast
-        where ast.isAbnormal = #{map.isAbnormal}
-        <![CDATA[ AND DATE(ast.timeStatus) <= #{param.endDate,jdbcType=VARCHAR} ]]>
+        <where>
+            <if test="map.isAbnormal != null">
+                ast.isAbnormal = #{map.isAbnormal}
+            </if>
+            <if test="map.curStatus != null">
+                AND ast.curStatus = #{map.curStatus}
+            </if>
+            <if test="map.endDate != null">
+                <![CDATA[ AND DATE(ast.timeStatus) <= #{map.endDate,jdbcType=VARCHAR} ]]>
+            </if>
+        </where>
+
     </select>
 
     <update id="updateBatchByParam">
@@ -218,6 +228,19 @@
                  separator="," open="(" close=")">
             #{item.assetID,jdbcType=BIGINT}
         </foreach>
+    </update>
+
+    <update id="updateByParam" parameterType="map">
+        update asset
+        <set>
+            <if test="map.isAbnormal!= null">
+                isAbnormal = #{map.isAbnormal},
+            </if>
+            <if test="map.reasonType!= null">
+                reasonType = #{map.reasonType},
+            </if>
+        </set>
+        where assetID = #{map.assetID}
     </update>
 
     <insert id="addBatch" parameterType="list">

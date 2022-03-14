@@ -59,12 +59,9 @@ secure:
       - /actuator/**
       - /druid/**
       - /api/**
-      - /syslog/**
       - /upload/**
       - /validateCode/**
       - /user/login
-      - /assetoutreg/**
-      - /invetorytask/**
 
 
 uploadFile:

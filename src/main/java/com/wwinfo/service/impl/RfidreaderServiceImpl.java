@@ -112,7 +112,6 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         wrapper.eq("readerName", readerName)
                 .or()
                 .eq("readerIP", readerIP);
-
         return rfidreaderMapper.selectOne(wrapper);
     }
 

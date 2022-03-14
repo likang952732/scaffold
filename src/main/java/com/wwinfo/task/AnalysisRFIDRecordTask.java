@@ -43,6 +43,9 @@ public class AnalysisRFIDRecordTask {
     @Autowired
     private RfidrecordService rfidrecordService;
 
+    @Autowired
+    private RFIDReaderUtil rfidReaderUtil;
+
     @Value("${mail.tos}")
     private String mailtos;
 
@@ -204,7 +207,7 @@ public class AnalysisRFIDRecordTask {
         rfidrecordService.updateByMap(hmData);
 
         //内存中读取记录清除，重新读取
-        List<HashMap> readerList = RFIDReaderUtil.getReaderList();
+        List<HashMap> readerList = rfidReaderUtil.getReaderList();
         synchronized(readerList){
             for(HashMap item: readerList){
                 HashMap<String,Long> readedCard = (HashMap<String,Long>)item.get("readedCard");

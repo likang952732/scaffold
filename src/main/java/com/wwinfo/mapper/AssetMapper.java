@@ -44,6 +44,7 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     List<HashMap<String, Object>> getAllRFIDRecord();
 
-    List<HashMap<String, Object>> getAssetByMap(Map<String, Object> condition);
+    List<Asset> getAssetByMap(@Param("map") Map<String, Object> map);
 
+    void updateByParam(Map<String, Object> hmData);
 }

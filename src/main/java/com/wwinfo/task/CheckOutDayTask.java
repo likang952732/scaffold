@@ -54,26 +54,18 @@ public class CheckOutDayTask {
         condition.put("curStatus", 1);
       /*  condition.put("notReasonType", 1);*/
         condition.put("timeStatusEnd", endDate);
-        List<HashMap<String,Object>> assetList = assetMapper.getAssetByMap(condition);
-
+        List<Asset> assetList = assetMapper.getAssetByMap(condition);
         if (null != assetList && !assetList.isEmpty()){
-            HashMap hmData = new HashMap();
-            for(HashMap<String,Object> asset: assetList){
-                hmData.clear();
-                Long assetID = Long.valueOf(asset.get("assetID").toString());
-                hmData.put("assetID",assetID);
-                hmData.put("isAbnormal",1);
-                hmData.put("reasonType",1);
-                //db.updateTableData("asset", hmData);
-
+            for(Asset asset: assetList){
+                asset.setIsAbnormal(1);
+                asset.setReasonType(1);
+                assetMapper.updateById(asset);
 
                 StringBuilder sbAlarm = new StringBuilder();
                 sbAlarm.append("资产");
-                sbAlarm.append(asset.get("name"));
+                sbAlarm.append(asset.getName());
                 sbAlarm.append("(资产编号：");
-                sbAlarm.append(asset.get("assetNo"));
-                sbAlarm.append(";RFID号码：");
-                sbAlarm.append(asset.get("rfidNo"));
+                sbAlarm.append(asset.getAssetNo());
                 sbAlarm.append(")外出达到");
                 sbAlarm.append(maxDays);
                 sbAlarm.append("天");

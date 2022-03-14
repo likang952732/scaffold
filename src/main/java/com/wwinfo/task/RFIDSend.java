@@ -7,9 +7,13 @@ import com.wwinfo.model.Rfidrecord;
 import com.wwinfo.service.AlarmService;
 import com.wwinfo.service.RfidreaderService;
 import com.wwinfo.service.RfidrecordService;
+import com.wwinfo.util.BusinUtil;
 import com.wwinfo.util.RFIDReaderUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +32,8 @@ import java.util.List;
  * DateTime: 2022-03-08 14:59
  */
 @Slf4j
-//@Component
-public class RFIDSend {
+@Component
+public class RFIDSend implements ApplicationRunner {
 
     private static int rfidSameTime = 3;	//同一卡号视为一次的间隔时间
 
@@ -42,14 +46,26 @@ public class RFIDSend {
     @Autowired
     private AlarmService alarmService;
 
+    @Autowired
+    private RFIDReaderUtil rfidReaderUtil;
+
+    @Autowired
+    private BusinUtil businUtil;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        log.info("run ...........");
+        rfidReaderUtil.init();
+    }
+
+
     @Scheduled(cron="${task.rfidsend}")
     public void pullInfo() {
-        RFIDReaderUtil.init();
-
+        log.info("task start............");
         //向所有已连接的RFID设备发送读取请求
-        byte[] sendData0 = buildSendData(0,(byte)1);		//ML-M5000五字节通信协议
-        byte[] sendData1 = buildSendData(1,(byte)1);		//原708设备通信协议
-        List<HashMap> readerList = RFIDReaderUtil.getReaderList();
+        byte[] sendData0 = rfidReaderUtil.buildSendData(0,(byte)1);		//ML-M5000五字节通信协议
+        byte[] sendData1 = rfidReaderUtil.buildSendData(1,(byte)1);		//原708设备通信协议
+        List<HashMap> readerList = rfidReaderUtil.getReaderList();
         synchronized(readerList){
             for(HashMap reader: readerList){
                 int interfaceType = -1;
@@ -94,9 +110,9 @@ public class RFIDSend {
         }
     }
 
-    /*
+   /* *//*
      * 组建向RFID设备发送的字节内容
-     */
+     *//*
     private byte[] buildSendData(int interfaceType,Byte addr){
         if (interfaceType == 1){		//原708设备
             byte[] sendData={0x0A,0x01,0x02,(byte)0x9A,0x00};
@@ -116,12 +132,12 @@ public class RFIDSend {
                 sendData[0]=addr;
             return sendData;
         }
-    }
+    }*/
 
     /*
      * Read到请求数据的回调
      */
-    private class ReadHandler implements CompletionHandler<Integer, AsynchronousSocketChannel> {
+   /* private class ReadHandler implements CompletionHandler<Integer, AsynchronousSocketChannel> {
         public HashMap readerInfo;        //读卡器信息
         private ByteBuffer buffer;        //读取缓冲内存
         private int interfaceType = 0;    //读卡器类型
@@ -145,7 +161,7 @@ public class RFIDSend {
                 if (result < 0) {    // 客户端关闭了连接
                     attachment.close();
                     readerInfo.put("socketChannel", null);
-                    log.error("client closed. ip=" + attachment.getRemoteAddress().toString());
+                    log.error("client closed. ip: {}", attachment.getRemoteAddress().toString());
                     return;
                 } else if (result == 0) {    // 空数据
                 } else {
@@ -171,15 +187,15 @@ public class RFIDSend {
             try {
                 attachment.close();
                 readerInfo.put("socketChannel", null);
-                log.error("client failed. ip=" + attachment.getRemoteAddress().toString());
+                log.error("client failed. ip: {}", attachment.getRemoteAddress().toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        /*
+        *//*
          * 处理ML-M5000五字节协议返回的内容
-         */
+         *//*
         private void readData0(AsynchronousSocketChannel attachment)
                 throws Exception {
             if (buffer.position() < 6) {
@@ -257,9 +273,9 @@ public class RFIDSend {
             }
         }
 
-        /*
+        *//*
          * 处理原708设备的协议返回内容
-         */
+         *//*
         private void readData1(AsynchronousSocketChannel attachment)
                 throws Exception {
             if (buffer.position() < 3) {
@@ -272,13 +288,13 @@ public class RFIDSend {
             byte[] head = new byte[3];
             buffer.get(head);
             if (0x0B != head[0]) {
-                log.error("read first byte data is not 0x0B from RFID,ip=" + attachment.getRemoteAddress().toString());
+                log.error("read first byte data is not 0x0B from RFID,ip: {}", attachment.getRemoteAddress().toString());
                 attachment.shutdownInput();
                 attachment.shutdownOutput();
                 return;
             }
             if (head[2] < 3 || ((head[2] - 3) % 8) != 0) {
-                log.error("data length is wrong from RFID,ip=" + attachment.getRemoteAddress().toString());
+                log.error("data length is wrong from RFID,ip: {}", attachment.getRemoteAddress().toString());
                 attachment.shutdownInput();
                 attachment.shutdownOutput();
                 return;
@@ -306,7 +322,7 @@ public class RFIDSend {
             }
             buffer.compact();        //剩余字节移到最前面，供下次处理
         }
-    }
+    }*/
 
     /*
      * 处理读到的卡号内容
@@ -314,7 +330,7 @@ public class RFIDSend {
      * 		cardInfo: 读取到的8字节信息
      * 		readerInfo: 对应的RFID探测器信息
      */
-    public void settleReadCard(String cardNo, boolean isLowerPower,HashMap readerInfo){
+   /* public void settleReadCard(String cardNo, boolean isLowerPower,HashMap readerInfo){
         if (null == cardNo || cardNo.isEmpty())
             return;
         //检查是否连续读到同一卡号
@@ -354,6 +370,7 @@ public class RFIDSend {
 
         //低电报警
         if (isLowerPower){
+            log.info("卡号: {}低电报警", cardNo);
             //Alarm.addAlarm("卡号为"+cardNo+"的RFID低电", 1, "低电报警", cardNo, null);
             Alarm alarm = new Alarm();
             alarm.setContent("卡号为"+cardNo+"的RFID低电");
@@ -362,7 +379,9 @@ public class RFIDSend {
             alarm.setAlarmEmail(0);
             alarm.setIsSend(0);
             alarmService.add(alarm);
+
+            businUtil.sendMail("低电报警", "卡号为"+cardNo+"的RFID低电");
         }
-    }
+    }*/
 
 }

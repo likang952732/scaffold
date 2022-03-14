@@ -16,34 +16,41 @@ import java.util.concurrent.Future;
 import cn.hutool.core.collection.CollUtil;
 import com.wwinfo.model.*;
 import com.wwinfo.service.*;
-import com.wwinfo.service.impl.*;
-
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /*
  * RFID设备数据读取
  */
 @Slf4j
+@Component
 public class RFIDReaderUtil {
 	public static final int DIRECTORY_IN = 0;
 	public static final int DIRECTORY_OUT = 1;
-	private static int portListen = 10000;
+	private static int portListen = 19902;
 	private static List<HashMap> readerList = new ArrayList<HashMap>();
 	private static int rfidSameTime = 3;	//同一卡号视为一次的间隔时间
 	private static int rfidSplit = 60;		//RFID进出空闲时间，即这段时间内没有再读取到后进行进出分析
 	private static int rfidmanmatchtime = 30;	//资产进出与人员匹配间隔
 
-	private static RfidrecordService rfidrecordService = new RfidrecordServiceImpl();
-	private static RfidreaderService rfidreaderService = new RfidreaderServiceImpl();
-	private static AssetrecordService assetrecordService = new AssetrecordServiceImpl();
-	private static AlarmService alarmService = new AlarmServiceImpl();
-	private static AssetService assetService = new AssetServiceImpl();
-	private static EntryposService entryposService = new EntryposServiceImpl();
+	@Autowired
+	private TConfigService configService;
+
+	@Autowired
+	private RfidrecordService rfidrecordService;
+
+	@Autowired
+	private RfidreaderService rfidreaderService;
+
+	@Autowired
+	private AlarmService alarmService;
+
+	@Autowired
+	private BusinUtil businUtil;
 
 
-	public static void init(){
-		TConfigService configService = new TConfigServiceImpl();
+	public void init(){
 		TConfig config = configService.getConfig("rfidsametime");
 		if(config != null){
 			rfidSameTime = Integer.valueOf(config.getValue());
@@ -73,16 +80,16 @@ public class RFIDReaderUtil {
 		//创建监听线程
 		(new RFIDReaderUtil()).start();
 	}
-	
+
 	public void start(){
 		ListenRun listen = new ListenRun();
 		new Thread(listen,"RFIDListen").start();
 	}
-	
+
 	/*
 	 * 组建向RFID设备发送的字节内容
 	 */
-	private byte[] buildSendData(int interfaceType,Byte addr){
+	public byte[] buildSendData(int interfaceType,Byte addr){
 		if (interfaceType == 1){		//原708设备
 			byte[] sendData={0x0A,0x01,0x02,(byte)0x9A,0x00};
 			if (null != addr)
@@ -120,6 +127,7 @@ public class RFIDReaderUtil {
 					interfaceType = Integer.valueOf(temp.toString());
 				}catch(Exception e){
 					e.printStackTrace();
+					log.error("ReadHandler中interfaceType转化异常: {}", e);
 				}
 			}
         }
@@ -127,10 +135,11 @@ public class RFIDReaderUtil {
         @Override
         public void completed(Integer result, AsynchronousSocketChannel attachment) {
             try {
+				log.info("RFIDReaderUtil completed()中的result: {}", result);
                 if (result < 0) {	// 客户端关闭了连接
                 	attachment.close();
                 	readerInfo.put("socketChannel",null);
-        			log.error("client closed. ip="+attachment.getRemoteAddress().toString());
+        			log.error("client closed. ip={}", attachment.getRemoteAddress().toString());
         			return;
                 } else if (result == 0) {	// 空数据
                 } else {
@@ -141,7 +150,7 @@ public class RFIDReaderUtil {
 	                		readData0(attachment);
 	                	}
                     } catch (Exception e) {
-                        e.printStackTrace();
+						log.error("RFIDReaderUtil completed()异常: {}", e);
                 	}
                 }
                 attachment.read(buffer, attachment, this);
@@ -156,17 +165,16 @@ public class RFIDReaderUtil {
             try{
             	attachment.close();
             	readerInfo.put("socketChannel",null);
-    			log.error("client failed. ip="+attachment.getRemoteAddress().toString());
+    			log.error("client failed. ip=: {}", attachment.getRemoteAddress().toString());
             }catch(Exception e){
-            	e.printStackTrace();
+				log.error("RFIDReaderUtil failed()异常: {}", e);
             }
         }
 
         /*
          * 处理ML-M5000五字节协议返回的内容
          */
-        private void readData0(AsynchronousSocketChannel attachment)
-        	throws Exception{
+        private void readData0(AsynchronousSocketChannel attachment) throws Exception{
         	if (buffer.position()<6){
         		//还没有6个字符，等待下次
         		return;
@@ -177,7 +185,7 @@ public class RFIDReaderUtil {
             byte[] head=new byte[4];
             buffer.get(head);
     		if (0xFF != (head[0]&0xFF) || 0xFF != (head[1]&0xFF)){
-    			log.error("read first two bytes data are not 0xFF from RFID,ip="+attachment.getRemoteAddress().toString());
+    			log.error("read first two bytes data are not 0xFF from RFID,ip={}", attachment.getRemoteAddress().toString());
     			attachment.shutdownInput();
     			attachment.shutdownOutput();
     			return;
@@ -214,7 +222,7 @@ public class RFIDReaderUtil {
     		}
     		if (cardDataLen%5 != 0){
     			//卡号字节数不是5的倍数
-    			log.error("card data len is not multiple of 5,ip="+attachment.getRemoteAddress().toString());
+    			log.error("card data len is not multiple of 5,ip={}", attachment.getRemoteAddress().toString());
     			return;
     		}
     		int number = cardDataLen / 5;
@@ -237,7 +245,7 @@ public class RFIDReaderUtil {
     					btTemp[j]=cardData[i*5+1+j];
     				cardNo = Long.toString(ByteBuffer.wrap(btTemp).getInt()&0x0FFFFFFFFL);
     			}
-    			log.debug("read card no " +cardNo+ " from "+attachment.getRemoteAddress().toString());
+    			log.debug("read card no: {},  from: {}", cardNo, attachment.getRemoteAddress().toString());
     			settleReadCard(cardNo,isLowerPower,readerInfo);
     		}
         }
@@ -257,13 +265,13 @@ public class RFIDReaderUtil {
             byte[] head=new byte[3];
             buffer.get(head);
     		if (0x0B != head[0]){
-    			log.error("read first byte data is not 0x0B from RFID,ip="+attachment.getRemoteAddress().toString());
+    			log.error("read first byte data is not 0x0B from RFID,ip={}", attachment.getRemoteAddress().toString());
     			attachment.shutdownInput();
     			attachment.shutdownOutput();
     			return;
     		}
     		if (head[2] < 3 || ((head[2] - 3) % 8) != 0 ){
-    			log.error("data length is wrong from RFID,ip="+attachment.getRemoteAddress().toString());
+    			log.error("data length is wrong from RFID,ip={}", attachment.getRemoteAddress().toString());
     			attachment.shutdownInput();
     			attachment.shutdownOutput();
     			return;
@@ -299,7 +307,7 @@ public class RFIDReaderUtil {
      * 	reader: 设备信息
      * 	antennaNum: 天线个数
      */
-	private static void asyncReadPassive(HashMap reader,int antennaNum){
+	private void asyncReadPassive(HashMap reader,int antennaNum){
 		ZKYAsynReader asynReader = new ZKYAsynReader();
 		if (!asynReader.init(reader,(String)reader.get("readerIP"),antennaNum)){
 			return;
@@ -313,12 +321,13 @@ public class RFIDReaderUtil {
     /*
      * 从数据库中读取所有RFID探测器
      */
-    public static synchronized void flushReaderList(){
-    	System.out.println("flushReaderList");
+    public synchronized void flushReaderList(){
+		log.info("flushReaderList()执行");
 		//对于中科院无源RFID设备，先关闭正在运行的读取线程
 		stopZKYRead();
 		//读取所有RFID探测器
 		List<HashMap<String,Object>> listTemp = rfidreaderService.getAllReader();
+		log.info("所有RFID探测器listTemp: {}", listTemp.toString());
 		if (null == listTemp)
 			return;
 		synchronized(readerList){
@@ -343,7 +352,7 @@ public class RFIDReaderUtil {
 					iterator.remove();
 				}
 			}
-			
+
 			for(HashMap<String,Object> item: listTemp){
 				String name = (String)item.get("readerName");
 				boolean exists = false;
@@ -365,11 +374,11 @@ public class RFIDReaderUtil {
 		}
 		//对于中科院无源RFID设备，每个设备开启线程读取
 		startZKYRead();
-    	System.out.println("flushReaderList complete");
+		log.info("flushReaderList complete");
 	}
-	
+
 	//对于中科院无源RFID设备，先关闭正在运行的读取线程
-	private static void stopZKYRead(){
+	private void stopZKYRead(){
 		synchronized(readerList){
 			for(HashMap<String,Object> reader: readerList){
 				int interfaceType = -1;
@@ -396,7 +405,7 @@ public class RFIDReaderUtil {
 		}
 	}
 	//对于中科院无源RFID设备，每个设备开启线程读取
-	private static void startZKYRead(){
+	private void startZKYRead(){
 		//为每个设备启动读取线程
 		synchronized(readerList){
 			for(HashMap<String,Object> reader: readerList){
@@ -415,16 +424,17 @@ public class RFIDReaderUtil {
 				}
 				if (interfaceType >= 2 && interfaceType<=5){	//无源1,2,3,4天线
 					//开启异步读取方式，即线程读取
+					log.info("开启异步读取方式，即线程读取");
 					asyncReadPassive(reader,interfaceType - 1);
 				}
 			}
 		}
 	}
-	
+
     /*
      * 根据IP地址匹配对应的RFID探测器
      */
-    private static HashMap matchedReader(String ip){
+    private HashMap matchedReader(String ip){
     	HashMap matchedReader = null;
 		synchronized(readerList){
 			for(HashMap item: readerList){
@@ -436,13 +446,15 @@ public class RFIDReaderUtil {
 		}
     	return matchedReader;
     }
-    
+
 	private class ListenRun implements Runnable {
 		@Override
 		public void run(){
+			log.info("ListenRun run ");
 			try{
 				AsynchronousServerSocketChannel serverChannel = AsynchronousServerSocketChannel.open().bind(new InetSocketAddress(portListen));
 				while (true){
+					log.info("ListenRun while ");
 		            Future<AsynchronousSocketChannel> future = serverChannel.accept();
 		            AsynchronousSocketChannel client = null;
 		            try {
@@ -452,7 +464,8 @@ public class RFIDReaderUtil {
 		            	String clientIP = addr.getAddress().toString();
 		            	if (clientIP.startsWith("/"))
 		            		clientIP = clientIP.substring(1);
-		            	log.debug("RFID地址：" + clientIP);
+		            	log.debug("RFID地址：{}", clientIP);
+		            	log.info("RFID地址：{}", clientIP);
 		            	if (clientIP.isEmpty())
 		            		continue;
 		            	//tcp各项参数
@@ -460,7 +473,7 @@ public class RFIDReaderUtil {
 		                client.setOption(StandardSocketOptions.SO_KEEPALIVE, true);
 		                client.setOption(StandardSocketOptions.SO_SNDBUF, 64);
 		                client.setOption(StandardSocketOptions.SO_RCVBUF, 512);
-		 
+
 		                if (client.isOpen()) {
 		                	//根据IP地址匹配对应的RFID探测器
 		                	HashMap matchedReader = matchedReader(clientIP);
@@ -470,7 +483,7 @@ public class RFIDReaderUtil {
 		                	//	matchedReader = matchedReader(clientIP);
 		                	//}
 		                	if (null == matchedReader){
-				            	log.debug("未匹配到RFID设备，客户端IP地址：" + clientIP);
+				            	log.debug("未匹配到RFID设备，客户端IP地址：{}", clientIP);
 				            	try{
 				            		client.close();
 				            	}catch(Exception e){
@@ -478,13 +491,15 @@ public class RFIDReaderUtil {
 				            	}
 				            	continue;
 		                	}
-		                	
+
 		                	matchedReader.put("socketChannel", client);
-		                	
+
 		                    ByteBuffer buffer = ByteBuffer.allocate(512);
 		                    buffer.clear();
 		                    client.read(buffer, client, new ReadHandler(matchedReader,buffer));
-		                }
+		                } else {
+							log.info("client.isOpen: {}", client.isOpen());
+						}
 		            }catch (Exception e){
 		                e.printStackTrace();
 		            }
@@ -494,14 +509,14 @@ public class RFIDReaderUtil {
 			}
 		}
 	}
-	
+
     /*
      * 处理读到的卡号内容
      * @param:
      * 		cardInfo: 读取到的8字节信息
      * 		readerInfo: 对应的RFID探测器信息
      */
-    public static void settleReadCard(String cardNo, boolean isLowerPower,HashMap readerInfo){
+    public void settleReadCard(String cardNo, boolean isLowerPower,HashMap readerInfo){
     	if (null == cardNo || cardNo.isEmpty())
     		return;
     	//检查是否连续读到同一卡号
@@ -526,6 +541,7 @@ public class RFIDReaderUtil {
     	if (isAlready)
     		return;
        	//保存读到卡号事件到数据库
+		log.info("开始保存读到卡号事件到数据库");
 		Rfidrecord rfidrecord = new Rfidrecord();
         List<Rfidrecord> listTemp = rfidrecordService.getByrFidNo(cardNo);
         if(CollUtil.isNotEmpty(listTemp)){
@@ -538,9 +554,10 @@ public class RFIDReaderUtil {
 		Rfidreader rfidreader = rfidreaderService.getByReaderName(readerInfo.get("readerName").toString());
 		rfidrecord.setReaderID(rfidreader.getID());
 		rfidrecordService.add(rfidrecord);
-    	
+
     	//低电报警
     	if (isLowerPower){
+			log.info("卡号: {}低电报警", cardNo);
     		//Alarm.addAlarm("卡号为"+cardNo+"的RFID低电", 1, "低电报警", cardNo, null);
 			Alarm alarm = new Alarm();
 			alarm.setContent("卡号为"+cardNo+"的RFID低电");
@@ -549,10 +566,12 @@ public class RFIDReaderUtil {
 			alarm.setAlarmEmail(0);
 			alarm.setIsSend(0);
 			alarmService.add(alarm);
+
+			businUtil.sendMail("低电报警", "卡号为"+cardNo+"的RFID低电");
 		}
     }
-	
-	public static List<HashMap> getReaderList(){
+
+	public List<HashMap> getReaderList(){
 		return RFIDReaderUtil.readerList;
 	}
  }

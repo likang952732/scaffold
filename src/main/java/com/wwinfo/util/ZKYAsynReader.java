@@ -9,12 +9,16 @@ import com.uhf.api.cls.Reader.Mtr_Param;
 import com.uhf.api.cls.Reader.READER_ERR;
 import com.uhf.api.cls.Reader.Region_Conf;
 import com.uhf.api.cls.Reader.TAGINFO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /*
  * 中科院无源RFID读取
  */
 @Slf4j
 public class ZKYAsynReader {
+
+	@Autowired
+	private RFIDReaderUtil rfidReaderUtil;
 
 	private HashMap m_readerInfo = null;
 	private String m_ip="";
@@ -50,9 +54,9 @@ public class ZKYAsynReader {
 			m_stopThread = true;
 			if (m_readThread.isAlive()){
 				try{
-					System.out.println("start wait for join");
+					log.info("start wait for join");
 					m_readThread.join();
-					System.out.println("end wait for join");
+					log.info("end wait for join");
 				}catch(Exception e){
 					e.printStackTrace();
 				}
@@ -63,7 +67,7 @@ public class ZKYAsynReader {
 			devReader.CloseReader();
 		}
 	}
-	
+
 	private class ReadRun implements Runnable {
 		@Override
 		public void run(){
@@ -135,9 +139,9 @@ public class ZKYAsynReader {
 							+";读到标签数："+Integer.toString(tagnum[0]));
 					for(int i=0;i<tagnum[0];i++){
 						try{
-							String cardNo = Reader.bytes_Hexstr(tags[i].EpcId); 
+							String cardNo = Reader.bytes_Hexstr(tags[i].EpcId);
 							log.debug(m_ip+"读到标签："+cardNo);
-							RFIDReaderUtil.settleReadCard(cardNo,false,m_readerInfo);
+							rfidReaderUtil.settleReadCard(cardNo,false,m_readerInfo);
 						}catch(Exception e){
 							e.printStackTrace();
 						}

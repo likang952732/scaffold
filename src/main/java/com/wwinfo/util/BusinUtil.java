@@ -1,6 +1,9 @@
 package com.wwinfo.util;
 
+import cn.hutool.extra.mail.MailAccount;
+import cn.hutool.extra.mail.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +19,21 @@ import java.util.Map;
 @Component
 public class BusinUtil {
 
+    @Value("${mail.host}")
+    private String host;
+
+    @Value("${mail.port}")
+    private String port;
+
+    @Value("${mail.from}")
+    private String from;
+
+    @Value("${mail.tos}")
+    private String tos;
+
+    @Value("${mail.pass}")
+    private String pass;
+
     @Autowired
     private CheckSecritUtil checkSecritUtil;
 
@@ -29,4 +47,12 @@ public class BusinUtil {
         return checkMessage;
     }
 
+    public String sendMail(String subject, String content) {
+        MailAccount mailAccount = new MailAccount();
+        mailAccount.setHost(host);
+        mailAccount.setPort(Integer.valueOf(port));
+        mailAccount.setFrom(from);
+        mailAccount.setPass(pass);
+        return MailUtil.send(mailAccount, tos, subject, content.toString(), false);
+    }
 }

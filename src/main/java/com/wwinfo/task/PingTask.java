@@ -2,11 +2,13 @@ package com.wwinfo.task;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.wwinfo.model.Alarm;
 import com.wwinfo.model.Rfidreader;
 import com.wwinfo.service.AlarmService;
 import com.wwinfo.service.RfidreaderService;
+import com.wwinfo.util.BusinUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +36,9 @@ public class PingTask {
     @Autowired
     private AlarmService alarmService;
 
+    @Autowired
+    private BusinUtil businUtil;
+
     @Value("${mail.tos}")
     private String mailtos;
 
@@ -50,51 +55,55 @@ public class PingTask {
    // @Scheduled(cron="#{@getCronValue(ping)}")  //5分钟
     @Scheduled(cron="${task.ping}")
     public void ping() {
-        List<Rfidreader> readerList = rfidreaderService.list(null);
-        if (CollUtil.isNotEmpty(readerList)) {
-            for (Rfidreader rf : readerList) {
-                String ip = rf.getReaderIP();
-                if (StrUtil.isNotBlank(ip)) {
-                    boolean pingResult = ping(ip);
-                    if (!pingResult) {
-                        for (int i = 0; i < 3; i++) {
-                            try {
-                                Thread.sleep(3000);
-                            } catch (Exception e) {
-                                e.printStackTrace();
+        try {
+            List<Rfidreader> readerList = rfidreaderService.list(null);
+            if (CollUtil.isNotEmpty(readerList)) {
+                for (Rfidreader rf : readerList) {
+                    String ip = rf.getReaderIP();
+                    if (StrUtil.isNotBlank(ip)) {
+                        boolean pingResult = ping(ip);
+                        if (!pingResult) {
+                            for (int i = 0; i < 3; i++) {
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                pingResult = ping(ip);
+                                if (pingResult)
+                                    break;
                             }
-                            pingResult = ping(ip);
-                            if (pingResult)
-                                break;
                         }
-                    }
-                    int lastStatus = rf.getLastStatus();
-                    rf.setCheckTime(new Date());
-                    rf.setLastStatus(pingResult ? 0 : 1);
-                    rfidreaderService.update(rf);
+                        int lastStatus = rf.getLastStatus();
+                        rf.setCheckTime(new Date());
+                        rf.setLastStatus(pingResult ? 0 : 1);
+                        rfidreaderService.update(rf);
 
-                    if (!pingResult && lastStatus == 0 && rf.getIsAlarm() == 1) {
-                        Alarm alarm = new Alarm();
-                        //断线报警
-                        StringBuilder content = new StringBuilder();
-                        content.append("RFID探测器: ");
-                        content.append(rf.getReaderName());
-                        content.append("(IP地址为: ");
-                        content.append(ip);
-                        content.append(")在线检测断开");
-                        alarm.setContent(content.toString());
-                        alarm.setAlarmLevel(0);
-                        alarm.setAlarmType(0);
-                        alarm.setAlarmEmail(1);
-                        alarm.setIsSend(1);
-                        alarm.setEmail(mailtos);
-                        alarmService.add(alarm);
+                        if (!pingResult && lastStatus == 0 && rf.getIsAlarm() == 1) {
+                            Alarm alarm = new Alarm();
+                            //断线报警
+                            StringBuilder content = new StringBuilder();
+                            content.append("RFID探测器: ");
+                            content.append(rf.getReaderName());
+                            content.append("(IP地址为: ");
+                            content.append(ip);
+                            content.append(")在线检测断开");
+                            alarm.setContent(content.toString());
+                            alarm.setAlarmLevel(0);
+                            alarm.setAlarmType(0);
+                            alarm.setAlarmEmail(1);
+                            alarm.setIsSend(1);
+                            alarm.setEmail(mailtos);
+                            alarmService.add(alarm);
 
-                        //发送邮件
-                        MailUtil.send(mailtos, "RFID探测器断线报警", content.toString(), false);
+                            log.info("开始发送报警邮件");
+                            businUtil.sendMail("RFID探测器断线报警", content.toString());
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+           log.error("阅读器在线检测异常: {}", e);
         }
     }
 
