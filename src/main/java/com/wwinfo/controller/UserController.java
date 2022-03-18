@@ -138,9 +138,10 @@ public class UserController {
         User user = userService.getUserByUserName(principal.getName());
         Long id = user.getId();
         Map<String, Object> data = new HashMap<>();
-        data.put("username", user.getUserName());
+       /* data.put("username", user.getUserName());
         data.put("userType", user.getUserType());
-        data.put("nikeName", user.getNickname());
+        data.put("nikeName", user.getNickname());*/
+        data.put("user", user);
         data.put("roles", roleService.getRoleByUserId(id));
         data.put("menus", menuService.getMenuByUserId(id));
         return CommonResult.success(data);
