@@ -144,7 +144,7 @@ public class User implements Serializable {
     /**
      * 性别
      */
-    @ApiModelProperty(value = "性别")
+    @ApiModelProperty(value = "性别(0->男;1->女)")
     private String sex;
 
     /**

@@ -32,7 +32,7 @@ import java.util.List;
  * DateTime: 2022-03-08 14:59
  */
 @Slf4j
-@Component
+//@Component
 public class RFIDSend implements ApplicationRunner {
 
     private static int rfidSameTime = 3;	//同一卡号视为一次的间隔时间

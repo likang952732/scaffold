@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -69,13 +70,16 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
     }
 
     @Override
-    public List<MenuNode> treeList() {
-            List<TMenu> menuList =  menuMapper.selectList(new QueryWrapper<TMenu>());
-        List<MenuNode> result = menuList.stream()
+    public List<MenuNode> treeList(String name, Integer status, Integer type) {
+        QueryWrapper<TMenu> query = new QueryWrapper<>();
+        query.like(StrUtil.isNotBlank(name), "name", name);
+        query.eq(status != null, "status", status);
+        query.eq(type != null, "type", type);
+        List<TMenu> menuList =  menuMapper.selectList(query);
+        return menuList.stream()
                 .filter(menu -> menu.getParentId() == 0)
                 .map(menu ->covertMenuNode(menu, menuList))
                 .collect(Collectors.toList());
-        return result;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -114,8 +118,19 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
     }
 
     @Override
-    public List<TMenu> getMenuByUserId(Long userId) {
-        return menuMapper.getMenuByUserId(userId);
+    public List<MenuNode> getMenuTreeByUserId(Long userId) {
+        List<TMenu> menuList = menuMapper.getMenuByUserId(userId);
+        return menuList.stream()
+                .filter(menu -> menu.getParentId() == 0)
+                .map(menu ->covertMenuNode(menu, menuList))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TMenu> getParentMenu() {
+        QueryWrapper<TMenu> query = new QueryWrapper<>();
+        query.eq("parent_id", 0L);
+        return menuMapper.selectList(query);
     }
 
     private MenuNode covertMenuNode(TMenu menu, List<TMenu> menuList) {

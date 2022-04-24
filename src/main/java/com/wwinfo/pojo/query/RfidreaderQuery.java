@@ -16,8 +16,14 @@ public class RfidreaderQuery {
     @ApiModelProperty(value = "阅读器名称")
     private String readerName;
 
-    @ApiModelProperty(value = "接口分类")
-    private Integer interfaceType;
+    @ApiModelProperty(value = "IP地址")
+    private String readerIP;
+
+    @ApiModelProperty(value = "在线状态(0在线；1不在线)")
+    private Integer lastStatus;
+
+    @ApiModelProperty(value = "所在位置")
+    private String address;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

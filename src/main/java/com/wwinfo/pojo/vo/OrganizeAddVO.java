@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.vo;
 
+import com.wwinfo.annotation.Phone;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -69,6 +70,7 @@ public class OrganizeAddVO {
      * 负责人手机号
      */
     @ApiModelProperty(value = "负责人手机号(最大长度64)")
+    @Phone
     private String mobile;
 
 }

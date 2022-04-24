@@ -18,8 +18,10 @@ import com.wwinfo.constant.SysConstant;
 import com.wwinfo.constant.ValidateTypeConstant;
 import com.wwinfo.mapper.AssetoutregMapper;
 import com.wwinfo.mapper.RfidAssetMapper;
+import com.wwinfo.mapper.RfidMappingMapper;
 import com.wwinfo.model.*;
 import com.wwinfo.mapper.AssetMapper;
+import com.wwinfo.pojo.bo.AssetImport;
 import com.wwinfo.pojo.bo.AssetStatusExcel;
 import com.wwinfo.pojo.dto.AssetDestoryParam;
 import com.wwinfo.pojo.dto.AssetQueryParam;
@@ -81,6 +83,9 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
     @Resource
     private InvetorytaskService invetorytaskService;
+
+    @Resource
+    private RfidMappingMapper rfidMappingMapper;
 
     @Override
     public IPage listPage(AssetQuery assetQuery) {
@@ -223,8 +228,15 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         if(SysConstant.BLACK_TYPE_SET == setType && StrUtil.isBlank(blackReason)){
             throw new BusinessException("设置黑名单时,原因不能为空");
         }
-
         List<Long> idList = Arrays.asList(blackListVParam.getIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+        List<Asset> assets = assetMapper.selectBatchIds(idList);
+        if(CollUtil.isNotEmpty(assets)){
+            for(Asset asset: assets){
+                if(asset.getDelStatus() == 1){
+                    throw new BusinessException("编号为: " + asset.getAssetNo() + "的资产已被销毁");
+                }
+            }
+        }
         Map<String, Object> map = new HashMap<>();
         map.put("isBlack", SysConstant.IS_NOT_BLACK);
         if(SysConstant.BLACK_TYPE_SET == setType){
@@ -313,25 +325,103 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int bindRFID(BindRFIDVO bindRFIDVO) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("rfidPrintNo", bindRFIDVO.getRfidPrintNo());
-        RfidMapping existRfMp = rfidMappingService.getByMap(map);
-        if(existRfMp == null){
-            throw new BusinessException("该打印编号没有匹配到实际编号");
+        Long assetID = bindRFIDVO.getAssetID();
+        List<String> rfidPrintNoList = Arrays.asList(bindRFIDVO.getRfidPrintNo().split(","));
+
+        //校验打印编号不能重复
+        Set printSet = new HashSet<>(rfidPrintNoList);
+        if (rfidPrintNoList.size() != printSet.size()) {
+            throw new BusinessException("打印编号不能重复");
         }
-        if(existRfMp.getStatus() == 1){
-            throw new BusinessException("该RFID标签已经被使用");
+
+        List<RfidMapping> mappList = rfidMappingMapper.getByPrintNos(rfidPrintNoList);
+        if(CollUtil.isEmpty(mappList)){
+            throw new BusinessException("打印编号全部没有匹配到实际编号");
+        }
+
+        for(RfidMapping mapp: mappList){
+            if(mapp.getStatus() == 1){
+                throw new BusinessException("打印编号: " + mapp.getRfidPrintNo()   +  "对应的RFID标签已经被使用");
+            }
+        }
+
+        List<RfidAsset> list = new ArrayList<>();
+        RfidAsset rfidAsset = null;
+        List<String> existPrintList = mappList.stream().map(e -> e.getRfidPrintNo()).collect(Collectors.toList());
+        Map<String, String> mappingMap = mappList.stream().collect(Collectors.toMap(RfidMapping::getRfidPrintNo, RfidMapping::getRfidRealNo));
+        for(String printNo: rfidPrintNoList){
+            if(!existPrintList.contains(printNo)){
+                throw new BusinessException("打印编号: " + printNo + "没有匹配到实际编号");
+            }
+            rfidAsset = new RfidAsset();
+            rfidAsset.setAssetID(assetID);
+            rfidAsset.setRfidPrintNo(printNo);
+            rfidAsset.setRfidRealNo(mappingMap.get(printNo));
+            list.add(rfidAsset);
         }
 
         //保存绑定
-        RfidAsset rfidAsset = BeanUtil.copyProperties(bindRFIDVO, RfidAsset.class);
-        rfidAsset.setRfidRealNo(existRfMp.getRfidRealNo());
-        return rfidAssetMapper.insert(rfidAsset);
+        rfidAssetMapper.addBatch(list);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("assetID", assetID);
+        map.put("isBand", 1);
+        assetMapper.updateByParam(map);
+
+        //更新RFID状态
+        rfidMappingMapper.updateBatch(rfidPrintNoList, 1);
+        return 1;
     }
 
     @Override
     public List<HashMap<String, Object>> getAllRFIDRecord() {
         return assetMapper.getAllRFIDRecord();
+    }
+
+    @Override
+    public void getTemplate(HttpServletResponse response) {
+        List<AssetImport> list = new ArrayList<>();
+        String fileName = "资产导入模板";
+        try {
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-disposition", "attachment;filename=" + new String(fileName.getBytes("gb2312"), "ISO8859-1" ) + ".xlsx");
+            ServletOutputStream out = response.getOutputStream();
+            ExcelWriter writer = new ExcelWriter(out, ExcelTypeEnum.XLSX,true);
+            Sheet sheet = new Sheet(1,0, AssetImport.class);
+            //设置自适应宽度
+            sheet.setAutoWidth(Boolean.TRUE);
+            sheet.setSheetName("资产导入");
+            writer.write(list,sheet);
+            writer.finish();
+            out.flush();
+            response.getOutputStream().close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<AssetRes> listAll(AssetQuery assetQuery) {
+        return assetMapper.listAll(assetQuery);
+    }
+
+    @Override
+    public int excelBind(MultipartFile file) {
+        //业务校验
+        BusinValidatorContext validatorContext = BusinValidatorContext.getCurrentContext();
+        validatorContext.setRequestDto(file);
+        validateProcessor.validate(ValidateTypeConstant.ASSET_BATCH);
+        return 1;
+    }
+
+    @Override
+    public IPage bindPage(AssetQuery assetQuery) {
+        User user = UserUtil.getCurrentUser();
+        Optional.ofNullable(user).ifPresent(e -> assetQuery.setOrgID(user.getOrgID()));
+        Page<AssetRes> page = new Page<>(assetQuery.getPageNum(), assetQuery.getPageSize());
+        return assetMapper.bindPage(page, assetQuery);
     }
 
 }

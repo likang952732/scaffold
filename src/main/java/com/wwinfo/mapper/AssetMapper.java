@@ -32,6 +32,8 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     List<Asset> checkRepeat(@Param("assetList") List<Asset> assetList);
 
+    List<Asset> checkAssetNoRepeat(@Param("list") List<String> list);
+
     void addBatch(@Param("assetList")List<Asset> assetList);
 
     List<AssetApiRes> getAssetListByOrgs(@Param("orgs") List<Long> orgs);
@@ -46,5 +48,13 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     List<Asset> getAssetByMap(@Param("map") Map<String, Object> map);
 
-    void updateByParam(Map<String, Object> hmData);
+    void updateByParam(@Param("map")Map<String, Object> map);
+
+    List<AssetRes> listAll(@Param("assetQuery") AssetQuery assetQuery);
+
+    IPage pageByParam(Page<AssetRes> page, @Param("assetQuery")AssetQuery assetQuery);
+
+    void updateStatusBatchIds(@Param("assetIds")List<Long> assetIds, Integer curStatus);
+
+    IPage bindPage(Page<AssetRes> page, @Param("assetQuery")AssetQuery assetQuery);
 }

@@ -18,4 +18,15 @@
         </where>
     </select>
 
+    <select id="getConfigByfieldName" resultType="com.wwinfo.model.TConfig" parameterType="java.lang.String">
+        SELECT
+            id,
+            name,
+            fieldName,
+            value,
+            remark,
+            timeAdd
+        FROM t_config where fieldName = #{fieldName}
+    </select>
+
 </mapper>

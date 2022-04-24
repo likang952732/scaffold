@@ -51,12 +51,35 @@
     </sql>
 
     <select id="page" parameterType="com.wwinfo.pojo.query.AssetQuery" resultType="com.wwinfo.pojo.res.AssetRes">
+        select
+             ast.*,T.orgName
+        FROM
+        (
         SELECT
-           <include refid="baseSql" />,
-           org.orgName
-        FROM asset ast
-        LEFT JOIN organize org ON ast.orgID = org.orgID
-        <where>
+        au.orgID,au.orgName
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        organize
+        WHERE
+        upOrgID IS NOT NULL
+        ) au,
+        (SELECT @pid := #{assetQuery.orgID}) pd
+        WHERE
+        FIND_IN_SET(upOrgID, @pid) > 0
+        AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+        orgID, orgName
+        FROM
+        organize
+        WHERE
+        orgID = #{assetQuery.orgID}
+        ) T
+        JOIN asset ast ON T.orgID = ast.orgID
+        where 1 = 1
             <if test="assetQuery.name != null and assetQuery.name != ''">
                 AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
             </if>
@@ -81,7 +104,13 @@
             <if test="assetQuery.orgID != null">
                 AND ast.orgID = #{assetQuery.orgID}
             </if>
-        </where>
+            <if test="assetQuery.startDate != null and assetQuery.startDate != ''">
+                <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') >= #{assetQuery.startDate,jdbcType=VARCHAR} ]]>
+            </if>
+            <if test="assetQuery.endDate != null and assetQuery.endDate != ''">
+                <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') <= #{assetQuery.endDate,jdbcType=VARCHAR} ]]>
+            </if>
+        order by ast.timeAdd desc
     </select>
 
 
@@ -187,6 +216,154 @@
         </where>
 
     </select>
+    <select id="listAll" resultType="com.wwinfo.pojo.res.AssetRes"
+            parameterType="com.wwinfo.pojo.query.AssetQuery">
+        SELECT
+            <include refid="baseSql" />,
+            org.orgName
+        FROM asset ast
+        LEFT JOIN organize org ON ast.orgID = org.orgID
+        <where>
+            <if test="assetQuery.name != null and assetQuery.name != ''">
+                AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="assetQuery.assetNo != null and assetQuery.assetNo != ''">
+                AND ast.assetNo = #{assetQuery.assetNo}
+            </if>
+            <if test="assetQuery.curStatus != null">
+                AND ast.curStatus = #{assetQuery.curStatus}
+            </if>
+            <if test="assetQuery.isAbnormal != null">
+                AND ast.isAbnormal = #{assetQuery.isAbnormal}
+            </if>
+            <if test="assetQuery.lendStatus != null">
+                AND ast.lendStatus = #{assetQuery.lendStatus}
+            </if>
+            <if test="assetQuery.delStatus != null">
+                AND ast.delStatus = #{assetQuery.delStatus}
+            </if>
+            <if test="assetQuery.isBlack != null">
+                AND ast.isBlack = #{assetQuery.isBlack}
+            </if>
+            <if test="assetQuery.isBand != null">
+                AND ast.is_band = #{assetQuery.isBand}
+            </if>
+            <if test="assetQuery.orgID != null">
+                AND ast.orgID = #{assetQuery.orgID}
+            </if>
+        </where>
+        order by ast.timeAdd desc
+    </select>
+
+    <select id="pageByParam" resultType="com.wwinfo.pojo.res.AssetRes">
+        SELECT
+            ast.*
+        FROM
+            (
+                SELECT
+                    au.orgID
+                FROM
+                    (
+                        SELECT
+                            *
+                        FROM
+                            organize
+                        WHERE
+                            upOrgID IS NOT NULL
+                    ) au,
+                    (SELECT @pid := #{assetQuery.orgID}) pd
+                WHERE
+                    FIND_IN_SET(upOrgID, @pid) > 0
+                  AND @pid := concat(@pid, ',', orgID)
+                UNION
+                SELECT
+                    orgID
+                FROM
+                    organize
+                WHERE
+                    orgID = #{assetQuery.orgID}
+            ) T
+            JOIN asset ast ON T.orgID = ast.orgID
+        where 1 = 1
+            <if test="assetQuery.name != null and assetQuery.name != ''">
+                AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="assetQuery.assetNo != null and assetQuery.assetNo != ''">
+                AND ast.assetNo = #{assetQuery.assetNo}
+            </if>
+
+            <if test="assetQuery.isBand != null">
+                AND ast.is_band = #{assetQuery.isBand}
+            </if>
+            <if test="assetQuery.orgID != null">
+                AND ast.orgID = #{assetQuery.orgID}
+            </if>
+        order by ast.timeAdd desc
+    </select>
+
+    <select id="checkAssetNoRepeat" resultType="com.wwinfo.model.Asset" parameterType="list">
+        select
+            ID, assetNo
+        from asset
+        WHERE assetNo in
+        <foreach collection="assetList" item="item" open="(" close=")" separator=",">
+            (
+            assetNo = #{item.assetNo,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </select>
+
+    <select id="bindPage" resultType="com.wwinfo.pojo.res.AssetRes">
+        select
+            ast.*,T.orgName, ra.rfid_print_no
+        FROM
+        (
+        SELECT
+        au.orgID,au.orgName
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        organize
+        WHERE
+        upOrgID IS NOT NULL
+        ) au,
+        (SELECT @pid := #{assetQuery.orgID}) pd
+        WHERE
+        FIND_IN_SET(upOrgID, @pid) > 0
+        AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+        orgID, orgName
+        FROM
+        organize
+        WHERE
+        orgID = #{assetQuery.orgID}
+        ) T
+        JOIN asset ast ON T.orgID = ast.orgID
+        join rfid_asset ra on ast.ID = ra.assetID
+        where 1 = 1
+        <if test="assetQuery.name != null and assetQuery.name != ''">
+            AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="assetQuery.assetNo != null and assetQuery.assetNo != ''">
+            AND ast.assetNo = #{assetQuery.assetNo}
+        </if>
+        <if test="assetQuery.isBand != null">
+            AND ast.is_band = #{assetQuery.isBand}
+        </if>
+        <if test="assetQuery.orgID != null">
+            AND ast.orgID = #{assetQuery.orgID}
+        </if>
+        <if test="assetQuery.startDate != null and assetQuery.startDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') >= #{assetQuery.startDate,jdbcType=VARCHAR} ]]>
+        </if>
+        <if test="assetQuery.endDate != null and assetQuery.endDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') <= #{assetQuery.endDate,jdbcType=VARCHAR} ]]>
+        </if>
+        order by ra.create_time desc
+    </select>
 
     <update id="updateBatchByParam">
         UPDATE asset
@@ -233,14 +410,25 @@
     <update id="updateByParam" parameterType="map">
         update asset
         <set>
-            <if test="map.isAbnormal!= null">
+            <if test="map.isAbnormal != null">
                 isAbnormal = #{map.isAbnormal},
             </if>
             <if test="map.reasonType!= null">
                 reasonType = #{map.reasonType},
             </if>
+            <if test="map.isBand!= null">
+                is_band = #{map.isBand},
+            </if>
         </set>
-        where assetID = #{map.assetID}
+        where ID = #{map.assetID}
+    </update>
+
+    <update id="updateStatusBatchIds">
+        update asset set curStatus = #{curStatus} where
+        ID in
+        <foreach collection="assetIds" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
     </update>
 
     <insert id="addBatch" parameterType="list">
@@ -266,7 +454,7 @@
             curStatus,
             timeStatus
         ) VALUES
-        <foreach collection ="list" item="item" index= "index" separator =",">
+        <foreach collection ="assetList" item="item" index= "index" separator =",">
             (
             #{item.orgID, jdbcType=BIGINT},
             #{item.name, jdbcType=VARCHAR},

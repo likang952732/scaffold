@@ -4,7 +4,9 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,28 +20,41 @@ public class AssetImport extends BaseRowModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ExcelProperty(value = "所属部门名称", index = 0)
-    private String orgName;
-
-    @ExcelProperty(value = "资产名称", index = 1)
-    private String name;
-
-    @ExcelProperty(value = "资产编号", index = 2)
+    @NotBlank(message = "资产编号不能为空")
+    @ExcelProperty(value = "资产编号", index = 0)
     private String assetNo;
 
-    @ExcelProperty(value = "RFID编号", index = 3)
-    private String rfidNo;
+    @ExcelProperty(value = "所属部门id", index = 1)
+    private String orgID;
 
-    @ExcelProperty(value = "使用部门", index = 4)
-    private String useOrg;
+    @ExcelProperty(value = "资产名称", index = 2)
+    private String name;
 
-    @ExcelProperty(value = "品牌", index = 5)
-    private String brand;
+    @ExcelProperty(value = "说明", index = 3)
+    private String description;
 
-    @ExcelProperty(value = "型号", index = 6)
+    @ExcelProperty(value = "责任人", index = 4)
+    private String staff;
+
+    @ExcelProperty(value = "设备大类", index = 5)
+    private String largeClass;
+
+    @ExcelProperty(value = "设备小类", index = 6)
+    private String littleClass;
+
+    @ExcelProperty(value = "型号", index = 7)
     private String model;
 
-    @ExcelProperty(value = "序列号", index = 7)
+    @ExcelProperty(value = "计量有效期", index = 8)
+    private String period;
+
+    @ExcelProperty(value = "价格(元)", index = 9)
+    private BigDecimal price;
+
+    @ExcelProperty(value = "设备密级", index = 10)
+    private String secLevel;
+
+    @ExcelProperty(value = "序列号", index = 11)
     private String serialNo;
 
 }

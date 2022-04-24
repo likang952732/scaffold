@@ -17,4 +17,13 @@
     <delete id="deleteByUserId" parameterType="list">
         DELETE FROM t_user_role WHERE user_id = #{userId}
     </delete>
+
+    <select id="getRoleByUserId" resultType="com.wwinfo.model.TRole" parameterType="java.lang.Long">
+       select
+          r.id,
+          r.name
+       from t_user_role tur
+       join t_role r on tur.role_id = r.id
+       where tur.user_id = #{userId}
+    </select>
 </mapper>

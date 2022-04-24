@@ -9,6 +9,7 @@ import com.wwinfo.pojo.res.InvetorylackRes;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -20,8 +21,10 @@ import java.util.List;
  */
 public interface InvetorylackMapper extends BaseMapper<Invetorylack> {
 
-    IPage page(Page<InvetorylackRes> page, @Param("invetorylackQuery") InvetorylackQuery invetorylackQuery);
+    IPage page(Page<InvetorylackRes> page, @Param("query") InvetorylackQuery query);
 
     int addBatch(@Param("lackList") List<Invetorylack> lackList);
+
+    List<Map<String, Object>> getInvetoryInfoByTaskId(@Param("taskID") Long taskID);
 
 }

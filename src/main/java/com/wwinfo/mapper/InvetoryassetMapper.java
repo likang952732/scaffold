@@ -29,4 +29,5 @@ public interface InvetoryassetMapper extends BaseMapper<Invetoryasset> {
 
     List<Map<String, Object>> getByTaskIdAndAssetIDs(@Param("taskID")Long taskID, @Param("assetIDList") List<Long> assetIDList);
 
+    List<Map<String, Object>> getOverflowByTaskId(@Param("taskID")Long taskID);
 }

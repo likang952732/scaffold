@@ -5,6 +5,8 @@ import com.wwinfo.model.Invetorylack;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.InvetorylackQuery;
 
+import java.util.Map;
+
 /**
  * <p>
  * 资产盘点缺少表 服务类
@@ -21,5 +23,12 @@ public interface InvetorylackService extends IService<Invetorylack> {
      * @return
      */
     IPage listPage(InvetorylackQuery invetorylackQuery);
+
+    /**
+     * 通过任务id获取判断结果
+     * @param taskID
+     * @return
+     */
+    Map<String, Object> getResultByTaskId(Long taskID);
 
 }

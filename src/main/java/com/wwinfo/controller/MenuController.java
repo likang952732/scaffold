@@ -39,11 +39,11 @@ public class MenuController {
     @Autowired
     private TMenuService menuService;
 
-    /*@ApiOperation("获取所有菜单")
-    @GetMapping("/listAll")
-    public CommonResult<List<TMenu>> listAll() {
-        return CommonResult.success(menuService.list());
-    }*/
+    @ApiOperation("获取所有一级菜单")
+    @GetMapping("/getParentMenu")
+    public CommonResult<List<TMenu>> getParentMenu() {
+        return CommonResult.success(menuService.getParentMenu());
+    }
 
    /* @ApiOperation("根据级数获取菜单")
     @PostMapping("/listLevel")
@@ -56,7 +56,7 @@ public class MenuController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取菜单")
-    @PostMapping("/list/{parentId}")
+    @PostMapping("/list")
     public CommonResult<CommonPage<TMenu>> list(MenuParam menuParam,
                                                 @RequestParam(value = "pageSize", defaultValue = "5")Integer pageSize,
                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -64,11 +64,18 @@ public class MenuController {
         return CommonResult.success(CommonPage.restPage(page));
     }
 
+    /**
+     *
+     * @param name
+     * @param status
+     * @param type
+     * @return
+     */
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("树形结构返回所有菜单列表")
     @PostMapping("/treeList")
-    public CommonResult<List<MenuNode>> treeList() {
-        List<MenuNode> menuNodes = menuService.treeList();
+    public CommonResult<List<MenuNode>> treeList(String name, Integer status, Integer type) {
+        List<MenuNode> menuNodes = menuService.treeList(name, status, type);
         return CommonResult.success(menuNodes);
     }
 

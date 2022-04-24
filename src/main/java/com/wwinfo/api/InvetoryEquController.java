@@ -76,11 +76,6 @@ public class InvetoryEquController {
         return ApiCommonResult.success(new JSONObject(), new JSONArray());
     }
 
-
-    public static void main(String[] args) {
-        System.out.println(new Date().getTime());
-    }
-
     private String checkRequest(HttpServletRequest request) throws Exception{
         Map<String, Object> requestParam = RequestUtil.analysisRequestParam(request);
         log.info("InvetoryEquController中{}接收到的参数: {}", request.getServletPath(), requestParam.toString());

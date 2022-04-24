@@ -44,6 +44,20 @@ public class EntryposController {
         return CommonResult.success(CommonPage.restPage(page));
     }
 
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation(value = "获取RFID进出口设置列表")
+    @PostMapping("/list")
+    public CommonResult<List<EntryposRes>> list(EntryposQuery entryposQuery) {
+        return CommonResult.success(entryposService.list(entryposQuery));
+    }
+
+  /*  @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation(value = "获取详情")
+    @PostMapping("/detail/{id}")
+    public CommonResult detail(@ApiParam(name="id",value="RFID进出口设置id",required=true)@PathVariable("id") Long id) {
+        return CommonResult.success(entryposService.getDetail(id));
+    }*/
+
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加RFID进出口设置")

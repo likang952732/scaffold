@@ -225,5 +225,6 @@ public class Asset implements Serializable {
     @TableField("blackTime")
     private Date blackTime;
 
+    private Integer isBand;
 
 }

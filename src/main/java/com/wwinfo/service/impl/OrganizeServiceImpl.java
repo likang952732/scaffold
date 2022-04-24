@@ -2,6 +2,7 @@ package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -55,17 +56,14 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
 
 
     @Override
-    public IPage listPage(OrganizeQuery organizeQuery) {
-        Page<Organize> page = new Page<>(organizeQuery.getPageNum(), organizeQuery.getPageSize());
+    public List<Organize> list(OrganizeQuery query){
         QueryWrapper<Organize> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("orgLevel", 0);
-        return organizeMapper.selectPage(page, wrapper);
-    }
-
-    @Override
-    public List<Organize> list(Integer orgLevel){
-        QueryWrapper<Organize> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("orgLevel", orgLevel);
+        if(query.getOrgLevel() == null){
+            wrapper.eq("orgLevel", 0);
+        } else {
+            wrapper.eq("orgLevel", query.getOrgLevel());
+        }
+        wrapper.like("orgName", query.getOrgName());
         return organizeMapper.selectList(wrapper);
     }
 
@@ -78,8 +76,10 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     }
 
     @Override
-    public List<OrganizeNode> treeList() {
-        List<Organize> organizeList = organizeMapper.selectList(null);
+    public List<OrganizeNode> treeList(String orgName) {
+        QueryWrapper<Organize> wrapper = new QueryWrapper<>();
+        wrapper.like(StrUtil.isNotBlank(orgName), "orgName", orgName);
+        List<Organize> organizeList = organizeMapper.selectList(wrapper);
         List<OrganizeNode> result = organizeList.stream()
                 .filter(org -> org.getOrgLevel() == 0)
                 .map(org ->covertOrganizeNode(org, organizeList))
@@ -96,6 +96,12 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
             throw new BusinessException("部门名称不能重复");
         }
         Organize organize = BeanUtil.copyProperties(organizeAddVO, Organize.class);
+        organize.setOrgLevel(0);
+        Long upOrgID = organize.getUpOrgID();
+        if(upOrgID != null){
+            Organize upOrg = organizeMapper.selectById(upOrgID);
+            organize.setOrgLevel(upOrg.getOrgLevel()+1);
+        }
         return organizeMapper.insert(organize);
     }
 
@@ -123,6 +129,11 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     public int delete(Long orgID) {
         if(orgID == null)
             throw new BusinessException("orgID不能为空");
+        List<Organize> childList = organizeMapper.getChildByOrgID(orgID);
+        if(CollUtil.isNotEmpty(childList)){
+            throw new BusinessException("请先删除子部门");
+        }
+
         QueryWrapper<User> wrapper = new ExcludeEmptyQueryWrapper<>();
         wrapper.eq("orgID", orgID);
         List<User> userList = userMapper.selectList(wrapper);
@@ -144,6 +155,20 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
             throw new BusinessException("该部门下存在盘点任务，不能删除");
         }
         return organizeMapper.deleteById(orgID);
+    }
+
+    @Override
+    public List<OrganizeNode> getUpTreeByChild(Long orgID) {
+        List<Organize> organizeList = organizeMapper.getUpTreeByChild(orgID);
+        List<OrganizeNode> result = organizeList.stream()
+                .filter(org -> org.getOrgLevel() == 0)
+                .map(org ->covertOrganizeNode(org, organizeList))
+                .collect(Collectors.toList());
+        if(result.size() == 1 && CollUtil.isEmpty(result.get(0).getChildren())){
+            return result;
+        }
+        List<OrganizeNode> filterResult = result.stream().filter(e -> CollUtil.isNotEmpty(e.getChildren())).collect(Collectors.toList());
+        return filterResult;
     }
 
     private OrganizeNode covertOrganizeNode(Organize organize, List<Organize> organizeList) {

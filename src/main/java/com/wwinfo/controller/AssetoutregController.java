@@ -47,27 +47,27 @@ public class AssetoutregController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "资产出库登记")
     @PostMapping("/add")
-    public CommonResult add(@Validated AssetoutregAddVO assetoutregAddVO, BindingResult result) {
+    public CommonResult add(@Validated AssetoutregAddVO addVO, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        int count = assetoutregService.add(assetoutregAddVO);
+        int count = assetoutregService.addBatch(addVO);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
-    @ApiOperation(value = "状态修改")
-    @PostMapping("/chgStatus")
-    @MyLog(operate = "修改", objectType = "资产出库状态修改", objectName = "资产出库状态修改", descript = "资产出库状态修改: #{#chgStatusParam.id}")
+    @ApiOperation(value = "修改")
+    @PostMapping("/update")
+    @MyLog(operate = "修改", objectType = "资产出库修改", objectName = "资产出库修改", descript = "资产出库修改: #{#chgStatusParam.id}")
     public CommonResult chgStatus(@Validated ChgStatusParam chgStatusParam, BindingResult result) {
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
-        int count = assetoutregService.chgStatus(chgStatusParam);
+        int count = assetoutregService.chg(chgStatusParam);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();

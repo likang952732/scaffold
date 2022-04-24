@@ -16,7 +16,7 @@ public class InvetoryassetQuery {
     @ApiModelProperty(value = "任务id")
     private Long taskID;
 
-    @ApiModelProperty(value = "盘点结果类型(0->吻合;1->此资产应该在另一个库房;2->此资产应该在外面)")
+    @ApiModelProperty(value = "盘点结果类型(0->吻合;1->此资产应该在另一个库房;2->此资产应该在外面);3->未盘点")
     private Integer checkResult;
 
     @ApiModelProperty(value = "盘点结果确认(0->未确认;1->确认)")

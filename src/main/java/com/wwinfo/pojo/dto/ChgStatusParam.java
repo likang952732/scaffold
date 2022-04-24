@@ -19,8 +19,16 @@ public class ChgStatusParam {
     @NotNull(message = "id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "当前状态", required = true)
-    @NotNull(message = "当前状态(0->还未出库;1->已出库;2->已归还)")
-    private Integer status;
+    @ApiModelProperty(value = "借用部门")
+    private String borrowOrg;
+
+    @ApiModelProperty(value = "借用人")
+    private String borrowMan;
+
+    @ApiModelProperty(value = "用途")
+    private String usages;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
 }

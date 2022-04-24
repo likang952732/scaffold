@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,9 +15,9 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UserChgpwdParam {
 
-    @ApiModelProperty(value = "用户名称(最大长度32)", required = true)
-    @NotBlank(message = "用户名称不能为空")
-    private String userName;
+    @ApiModelProperty(value = "用户id", required = true)
+    @NotNull(message = "用户id不能为空")
+    private Long id;
 
     @ApiModelProperty(value = "原密码", required = true)
     @NotBlank(message = "原密码不能为空")

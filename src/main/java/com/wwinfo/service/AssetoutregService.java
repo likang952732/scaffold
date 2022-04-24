@@ -7,6 +7,8 @@ import com.wwinfo.pojo.dto.ChgStatusParam;
 import com.wwinfo.pojo.query.AssetoutregQuery;
 import com.wwinfo.pojo.vo.AssetoutregAddVO;
 
+import java.util.List;
+
 /**
  * <p>
  * 资产出库登记表 服务类
@@ -26,17 +28,17 @@ public interface AssetoutregService extends IService<Assetoutreg> {
 
     /**
      * 资产出库登记
-     * @param assetoutregAddVO
+     * @param
      * @return
      */
-    int add(AssetoutregAddVO assetoutregAddVO);
+    int addBatch(AssetoutregAddVO addVO);
 
     /**
      * 状态修改
      * @param chgStatusParam
      * @return
      */
-    int chgStatus(ChgStatusParam chgStatusParam);
+    int chg(ChgStatusParam chgStatusParam);
 
     /**
      * 资产出库登记删除

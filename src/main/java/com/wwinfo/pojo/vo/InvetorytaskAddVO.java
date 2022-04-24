@@ -3,6 +3,7 @@ package com.wwinfo.pojo.vo;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -16,8 +17,8 @@ import javax.validation.constraints.NotNull;
 public class InvetorytaskAddVO {
 
     @ApiModelProperty(value = "所属部门ID", required = true)
-    @NotNull(message = "orgID不能为空")
-    private Long orgID;
+    @NotBlank(message = "orgIDs不能为空")
+    private String orgIDs;
 
     @ApiModelProperty(value = "计划开始日期(yyyy-MM-dd)", required = true)
     @NotNull(message = "startDate不能为空")
@@ -27,7 +28,7 @@ public class InvetorytaskAddVO {
     @NotNull(message = "endDate不能为空")
     private String endDate;
 
-    @ApiModelProperty(value = "计划结束日期(最大长度90)")
+    @ApiModelProperty(value = "盘点任务说明(最大长度90)")
     private String description;
 
 }

@@ -17,7 +17,7 @@ public class UserLoginParam {
     private String userName;
 
     @ApiModelProperty(value = "密码", required = true)
-    @NotBlank(message = "密码不能为空用户名")
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     @ApiModelProperty(value = "验证码(通过验证码接口获取base64验证码)", required = true)

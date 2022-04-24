@@ -56,4 +56,7 @@ public class AssetrecordRes {
     @ApiModelProperty(value = "报警类型(1->异常外出;2->进出状态不匹配;4->黑名单;5->销毁资产)")
     private Integer alarmType;
 
+    @ApiModelProperty(value = "部门名称")
+    private String orgName;
+
 }

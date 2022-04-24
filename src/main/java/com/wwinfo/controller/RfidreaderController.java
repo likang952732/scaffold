@@ -44,6 +44,13 @@ public class RfidreaderController {
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation(value = "获取RFID阅读器列表")
+    @PostMapping("/list")
+    public CommonResult<List<Rfidreader>> list(Integer isUsed){
+        return CommonResult.success(rfidreaderService.listAll(isUsed));
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加RFID阅读器")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "添加RFID阅读器", objectName = "添加RFID阅读器", descript = "添加RFID阅读器: #{#rfidreaderAddVO.readerName}")

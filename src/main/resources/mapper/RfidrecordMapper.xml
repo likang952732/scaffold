@@ -2,6 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwinfo.mapper.RfidrecordMapper">
 
+    <select id="getPage" resultType="com.wwinfo.pojo.res.RfidrecordRes">
+        select
+           rec.ID,
+           rec.rfidNo,
+           rec.readerID,
+           rec.timeAdd,
+           rec.status,
+           rec.isAsset,
+           rec.assetID,
+           rec.isOther,
+           ast.ID AS "assetID",
+           ast.name AS "assetName",
+           ast.assetNo,
+           org.orgName
+        from rfidRecord rec
+        left join asset ast ON rec.assetID = ast.ID
+        left join organize org ON ast.orgID = org.orgID
+        where 1 = 1
+            <if test="query.status != null">
+                AND rec.status = #{query.status}
+            </if>
+            <if test="query.isOther != null">
+                AND rec.status = #{query.isOther}
+            </if>
+        order by rec.timeAdd desc
+    </select>
+
     <update id="updateByMap" parameterType="map">
         update rfidRecord
         <set>

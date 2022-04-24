@@ -48,6 +48,22 @@ public class AssetController {
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxx')", required = true) })
+    @ApiOperation(value = "获取所有资产")
+    @PostMapping("/list")
+    public CommonResult<List<AssetRes>> listAll(AssetQuery assetQuery) {
+        return CommonResult.success(assetService.listAll(assetQuery));
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxx')", required = true) })
+    @ApiOperation(value = "分页获取资产绑定")
+    @PostMapping("/bind/page")
+    public CommonResult<CommonPage<AssetRes>> bindPage(AssetQuery assetQuery) {
+        IPage page = assetService.bindPage(assetQuery);
+        return CommonResult.success(CommonPage.restPage(page));
+    }
+
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxx')", required = true) })
     @ApiOperation(value = "添加资产")
     @PostMapping("/add")
     @MyLog(operate = "添加", objectType = "资产管理", objectName = "资产管理", descript = "添加资产: #{#assetAddVO.name}")
@@ -72,6 +88,12 @@ public class AssetController {
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "下载资产导入模板")
+    @GetMapping("/getTemplate")
+    public void getTemplate(HttpServletResponse response){
+        assetService.getTemplate(response);
     }
 
 
@@ -181,6 +203,15 @@ public class AssetController {
             return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
         }
         int count = assetService.bindRFID(bindRFIDVO);
+        if(count > 0)
+            return CommonResult.success(count);
+        return CommonResult.failed();
+    }
+
+    @ApiOperation(value = "资产RFID批量绑定(excel上传)")
+    @PostMapping("/excelBind")
+    public CommonResult excelBind(@RequestParam("file") MultipartFile file){
+        int count = assetService.excelBind(file);
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();

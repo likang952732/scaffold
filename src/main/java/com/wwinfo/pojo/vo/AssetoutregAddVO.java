@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,8 +18,8 @@ import javax.validation.constraints.NotNull;
 public class AssetoutregAddVO {
 
     @ApiModelProperty(value = "资产id", required = true)
-    @NotNull(message = "assetID不能为空")
-    private Long assetID;
+    @NotNull(message = "assetIDs不能为空")
+    private String assetIDs;
 
     @ApiModelProperty(value = "出库类型(0->使用出库;1->借用出库)", required = true)
     @NotNull(message = "outType不能为空")
@@ -50,5 +51,9 @@ public class AssetoutregAddVO {
 
     @ApiModelProperty(value = "备注(最大长度90)")
     private String remark;
+
+    private Date regTime;
+
+    private Long assetID;
 
 }

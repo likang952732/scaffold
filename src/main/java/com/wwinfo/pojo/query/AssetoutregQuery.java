@@ -23,6 +23,9 @@ public class AssetoutregQuery {
     @JsonIgnore
     private Long orgID;
 
+    @ApiModelProperty(value = "资产id")
+    private Long assetID;
+
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;
 

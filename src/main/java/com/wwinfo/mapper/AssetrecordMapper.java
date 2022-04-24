@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public interface AssetrecordMapper extends BaseMapper<Assetrecord> {
 
-    IPage page(Page<AssetrecordRes> page, @Param("assetrecordQuery") AssetrecordQuery assetrecordQuery);
+    IPage page(Page<AssetrecordRes> page, @Param("query") AssetrecordQuery query);
 
     IPage getByAssetIDAndSortType(Page<AssetrecordRes> page, @Param("assetID")Long assetID, @Param("sortType")Integer sortType);
 

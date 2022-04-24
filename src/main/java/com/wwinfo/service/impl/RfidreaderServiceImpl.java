@@ -2,6 +2,7 @@ package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -43,9 +45,11 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
     @Override
     public IPage listPage(RfidreaderQuery rfidreaderQuery) {
         Page<Rfidreader>  page = new Page<>(rfidreaderQuery.getPageNum(), rfidreaderQuery.getPageSize());
-        QueryWrapper<Rfidreader> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.like("readerName", rfidreaderQuery.getReaderName());
-        wrapper.eq("interfaceType", rfidreaderQuery.getInterfaceType());
+        QueryWrapper<Rfidreader> wrapper = new QueryWrapper<>();
+        wrapper.like(StrUtil.isNotBlank(rfidreaderQuery.getReaderName()), "readerName", rfidreaderQuery.getReaderName());
+        wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getReaderIP()), "readerIP", rfidreaderQuery.getReaderIP());
+        wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getAddress()), "address", rfidreaderQuery.getAddress());
+        wrapper.eq(rfidreaderQuery.getLastStatus() != null, "lastStatus", rfidreaderQuery.getLastStatus());
         return rfidreaderMapper.selectPage(page, wrapper);
     }
 
@@ -57,6 +61,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
             throw new BusinessException("阅读器名称或阅读器IP地址不能重复");
         Rfidreader rfidreader = BeanUtil.copyProperties(rfidreaderAddVO, Rfidreader.class);
         rfidreader.setLastStatus(0);
+        rfidreader.setIsUsed(0);
         return rfidreaderMapper.insert(rfidreader);
     }
 
@@ -68,6 +73,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
             throw new BusinessException("阅读器名称或阅读器IP地址不能重复");
         Rfidreader rfidreader = BeanUtil.copyProperties(rfidreaderChgParam, Rfidreader.class);
         rfidreader.setID(rfidreaderChgParam.getId());
+        rfidreader.setIsUsed(0);
         return rfidreaderMapper.updateById(rfidreader);
     }
 
@@ -104,6 +110,15 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
     @Override
     public List<HashMap<String,Object>> getAllReader() {
         return rfidreaderMapper.getAllReader();
+    }
+
+    @Override
+    public List<Rfidreader> listAll(Integer isUsed) {
+        QueryWrapper<Rfidreader> wrapper = new ExcludeEmptyQueryWrapper<>();
+        if(isUsed != null){
+            wrapper.eq("is_used", isUsed);
+        }
+        return rfidreaderMapper.selectList(wrapper);
     }
 
 

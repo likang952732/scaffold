@@ -9,6 +9,7 @@ import com.wwinfo.pojo.vo.MenuAddVO;
 import com.wwinfo.pojo.vo.MenuChgVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ public interface TMenuService extends IService<TMenu> {
 
     Page listLevel(MenuParam menuParam,Integer pageSize, Integer pageNum);
 
-    List<MenuNode> treeList();
+    List<MenuNode> treeList(String name, Integer status, Integer type);
 
     /**
      *
@@ -52,6 +53,8 @@ public interface TMenuService extends IService<TMenu> {
      * @param userId
      * @return
      */
-    List<TMenu> getMenuByUserId(Long userId);
+    List<MenuNode> getMenuTreeByUserId(Long userId);
+
+    List<TMenu> getParentMenu();
 
 }

@@ -24,9 +24,7 @@ public class ConfigChgVO {
     @NotBlank(message = "name不能为空")
     private String name;
 
-  /*  @ApiModelProperty(value = "参数键名(最大长度32)", required = true)
-    @NotBlank(message = "fieldName不能为空")
-    private String fieldName;*/
+    private String fieldName;
 
     @ApiModelProperty(value = "参数键值(最大长度64)", required = true)
     @NotBlank(message = "value不能为空")

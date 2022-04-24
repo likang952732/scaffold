@@ -1,6 +1,7 @@
 package com.wwinfo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.model.TRole;
 import com.wwinfo.model.TUserRole;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +18,7 @@ public interface TUserRoleMapper extends BaseMapper<TUserRole> {
 
     int addBatch(@Param("userRoleList") List<TUserRole> userRoleList);
 
-    int deleteByUserId(Long userId);
+    int deleteByUserId(@Param("userId")Long userId);
 
+    List<TRole> getRoleByUserId(@Param("userId") Long userId);
 }

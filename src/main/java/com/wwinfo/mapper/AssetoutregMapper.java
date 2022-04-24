@@ -6,7 +6,10 @@ import com.wwinfo.model.Assetoutreg;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wwinfo.pojo.query.AssetoutregQuery;
 import com.wwinfo.pojo.res.AssetoutregRes;
+import com.wwinfo.pojo.vo.AssetoutregAddVO;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -18,8 +21,11 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface AssetoutregMapper extends BaseMapper<Assetoutreg> {
 
-    IPage page(Page<AssetoutregRes> page, @Param("assetoutregQuery") AssetoutregQuery assetoutregQuery);
+    IPage page(Page<AssetoutregRes> page, @Param("query") AssetoutregQuery query);
 
     Assetoutreg getByAssetID(Long assetID);
 
+    int addBatch(@Param("addVOList") List<AssetoutregAddVO> addVOList);
+
+    IPage page2(Page<AssetoutregRes> page, @Param("query") AssetoutregQuery query);
 }

@@ -17,7 +17,7 @@ import java.util.Random;
 /*
  @Description 验证码
  *@author kang.li
- *@date 2021/2/22 11:22   
+ *@date 2021/2/22 11:22
  */
 @Slf4j
 @Component
@@ -113,7 +113,8 @@ public class ValidateCodeUtil {
 
     //生成随机图片的base64编码字符串
     public String getRandomCodeBase64(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
@@ -132,8 +133,8 @@ public class ValidateCodeUtil {
         }
         System.out.println("随机字符："+randomStr);
         g.dispose();
-        session.removeAttribute(sessionKey);
-        session.setAttribute(sessionKey, randomStr);
+        context.removeAttribute(sessionKey);
+        context.setAttribute(sessionKey,randomStr);
         String base64String = "";
         try {
             //  直接返回图片

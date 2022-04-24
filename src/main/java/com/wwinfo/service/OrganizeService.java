@@ -21,17 +21,10 @@ import java.util.List;
 public interface OrganizeService extends IService<Organize> {
 
     /**
-     * 分页获取父级部门
-     * @param organizeQuery
-     * @return
-     */
-    IPage listPage(OrganizeQuery organizeQuery);
-
-    /**
      * 获取父级部门列表
      * @return
      */
-    List<Organize> list(Integer orgLevel);
+    List<Organize> list(OrganizeQuery query);
 
     /**
      * 获取指定部门的下级部门列表
@@ -46,7 +39,7 @@ public interface OrganizeService extends IService<Organize> {
      * 树形结构返回所有部门列表
      * @return
      */
-    List<OrganizeNode> treeList();
+    List<OrganizeNode> treeList(String orgName);
 
     /**
      * 添加部门
@@ -69,4 +62,10 @@ public interface OrganizeService extends IService<Organize> {
      */
     int delete(Long orgID);
 
+    /**
+     * 获取指定子部门上级部门结构
+     * @param orgID
+     * @return
+     */
+    List<OrganizeNode> getUpTreeByChild(Long orgID);
 }

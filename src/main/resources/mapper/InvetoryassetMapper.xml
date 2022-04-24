@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwinfo.mapper.InvetoryassetMapper">
 
-    <select id="page" parameterType="com.wwinfo.pojo.query.InvetoryassetQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+    <select id="page" parameterType="com.wwinfo.pojo.query.InvetoryassetQuery" resultType="com.wwinfo.pojo.res.InvetoryassetRes">
        select
           ist.taskID,
           ist.assetID,
@@ -15,7 +15,7 @@
           org.orgName,
           rm.roomName
        FROM invetoryAsset ist
-       LEFT JOIN asset ast ON ist.assetID = ast.ID
+       JOIN asset ast ON ist.assetID = ast.ID
        LEFT JOIN room rm ON ist.roomID = rm.ID
        LEFT JOIN organize org ON ast.orgID = org.orgID
        <where>
@@ -42,6 +42,23 @@
         <foreach collection="assetIDList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+
+    <select id="getOverflowByTaskId" resultType="java.util.Map" parameterType="java.lang.Long">
+        select
+            ita.taskID,
+            ita.assetID,
+            ita.resultCheck,
+            ita.roomID,
+            ast.name AS "assetName",
+            ast.assetNo,
+            rm.roomName,
+            org.orgName
+        from invetoryAsset ita
+        left join asset ast ON ita.assetID = ast.ID
+        left join room rm ON ita.roomID = rm.ID
+        left join organize org ON ast.orgID = org.orgID
+        where ita.taskID = #{taskID} and ita.checkResult in (0, 1, 2)
     </select>
 
     <update id="updateByTaskID" parameterType="map">

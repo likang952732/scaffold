@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wwinfo.mapper.RfidreaderMapper">
 
-
     <select id="getAllReader" resultType="java.util.HashMap">
         select
             ID,
@@ -20,5 +19,13 @@
             isAlarm
         from rfidReader
     </select>
+
+    <update id="updateBatchUsed">
+       update rfidReader set is_used = #{isUsed} where
+        ID in
+        <foreach collection="idList" index="index" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
 
 </mapper>

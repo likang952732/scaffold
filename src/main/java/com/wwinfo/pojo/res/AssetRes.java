@@ -126,6 +126,12 @@ public class AssetRes {
     @ApiModelProperty(value = "任务id")
     private Long taskID;
 
+    @ApiModelProperty(value = "是否已绑定RFID(0->否; 1->是)")
+    private Integer isBand;
+
+    @ApiModelProperty(value = "RFID打印编号")
+    private String rfidPrintNo;
+
     private Integer taskStatus;
 
 }

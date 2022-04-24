@@ -54,4 +54,6 @@ public interface RfidreaderService extends IService<Rfidreader> {
 
     List<HashMap<String,Object>> getAllReader();
 
+    List<Rfidreader> listAll(Integer isUsed);
+
 }

@@ -16,17 +16,14 @@ public class OrganizeQuery {
     @ApiModelProperty(value = "部门名称")
     private String orgName;
 
-    @ApiModelProperty(value = "部门负责人")
+  /*  @ApiModelProperty(value = "部门负责人")
     private String manager;
 
     @ApiModelProperty(value = "负责人手机号")
-    private String mobile;
+    private String mobile;*/
 
-    @ApiModelProperty(value = "每页显示条数(默认为10条)")
-    private Integer pageSize = 10;
-
-    @ApiModelProperty(value = "页码")
-    private Integer pageNum = 1;
+    @ApiModelProperty(value = "部门级别")
+    private Integer orgLevel;
 
 }
 

@@ -19,7 +19,7 @@ public interface RfidAssetMapper extends BaseMapper<RfidAsset> {
 
     List<RfidAsset> getByAssetID(@Param("assetID")Long assetID);
 
-    int addBatch(@Param("mapList")List<Map<String, Object>> mapList);
+    int addBatch(@Param("list")List<RfidAsset> list);
 
     int updateBatchStatus(List<Long> idList, Map<String, Object> map);
 

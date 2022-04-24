@@ -2,6 +2,7 @@ package com.wwinfo.component;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.metadata.Sheet;
 import com.wwinfo.annotation.BusinValidator;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +59,7 @@ public class AssetImportValidator  extends BusinValidatorTemplate {
         }
 
         try {
-            ExcelReader excelReader = new ExcelReader(multipartFile.getInputStream(), null, excelListener);
+            ExcelReader excelReader = new ExcelReader(new BufferedInputStream(multipartFile.getInputStream()), null, excelListener);
             //读取信息
             excelReader.read(new Sheet(1, 1, AssetImport.class));
             //获取数据
@@ -76,14 +79,20 @@ public class AssetImportValidator  extends BusinValidatorTemplate {
             for (int i = 0; i < list.size(); i++) {
                 assetImport = (AssetImport)list.get(i);
                 asset = BeanUtil.copyProperties(assetImport, Asset.class);
+                checkParam(asset);
+                asset.setCurStatus(0);
+                asset.setTimeStatus(new Date());
+                asset.setIsAbnormal(0);
+                asset.setLendStatus(0);
+                asset.setDelStatus(0);
+                asset.setIsBlack(0);
                 assetList.add(asset);
             }
 
             List<Asset> existList = assetMapper.checkRepeat(assetList);
             if(CollUtil.isNotEmpty(existList)){
-                throw new BusinValidateException("资产名称,资产编号,RFID编号不能重复");
+                throw new BusinValidateException("资产名称,资产编号不能重复");
             }
-
             assetService.batchImport(assetList, 100);
         } catch (IOException e) {
             log.error("AssetImportValidator校验异常: {}", e);
@@ -91,6 +100,20 @@ public class AssetImportValidator  extends BusinValidatorTemplate {
             excelListener.getDatas().clear();
         }
     }
+
+    private void checkParam(Asset asset) {
+        if(asset.getOrgID() == null){
+            throw new BusinValidateException("所属部门ID不能为空");
+        }
+        if(StrUtil.isBlank(asset.getName())){
+            throw new BusinValidateException("资产名称不能为空");
+        }
+        if(StrUtil.isBlank(asset.getAssetNo())){
+            throw new BusinValidateException("资产编号不能为空");
+        }
+
+    }
+
 }
 
 

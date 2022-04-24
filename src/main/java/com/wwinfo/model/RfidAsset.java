@@ -29,6 +29,8 @@ public class RfidAsset implements Serializable {
 
     private String rfidRealNo;
 
+    private String rfidPrintNo;
+
     @TableField(value = "assetID")
     private Long assetID;
 

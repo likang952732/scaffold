@@ -5,8 +5,10 @@ import com.wwinfo.model.Entrypos;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.ConfigQuery;
 import com.wwinfo.pojo.query.EntryposQuery;
+import com.wwinfo.pojo.res.EntryposRes;
 import com.wwinfo.pojo.vo.EntryposAddVO;
 import com.wwinfo.pojo.vo.EntryposChgVO;
+import com.wwinfo.pojo.vo.EntryposDetail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,5 +50,9 @@ public interface EntryposService extends IService<Entrypos> {
     int update(EntryposChgVO entryposChgVO);
 
     int delete(Long id);
+
+    List<EntryposRes> list(EntryposQuery entryposQuery);
+
+    EntryposDetail getDetail(Long id);
 
 }

@@ -2,15 +2,16 @@ package com.wwinfo.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wwinfo.model.Organize;
+import com.wwinfo.model.TRole;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
-import com.wwinfo.pojo.vo.UserRoleVO;
+import com.wwinfo.pojo.vo.UserResetVO;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.List;
 
 /**
@@ -78,10 +79,10 @@ public interface UserService extends IService<User> {
 
     /**
      * 重置密码
-     * @param id
+     * @param vo
      * @return
      */
-    int resetPass(Long id);
+    int resetPass(UserResetVO vo);
 
     /**
      * 用户登录
@@ -96,5 +97,9 @@ public interface UserService extends IService<User> {
      * @return
      */
     int updateRole(Long userId, List<Long> roleIds);
+
+    List<TRole> getRoleByUserId(Long userId);
+
+    List<Organize> getOrgByUserId();
 
 }

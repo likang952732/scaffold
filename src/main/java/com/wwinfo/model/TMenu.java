@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -60,6 +61,9 @@ public class TMenu {
      */
     @NotNull(message = "状态不能为空")
     private Integer status;
+
+    @ApiModelProperty("菜单类型：0->部门；1->系统")
+    private Integer type;
     /**
      * 前端名称
      */

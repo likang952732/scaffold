@@ -13,8 +13,10 @@ import lombok.Data;
 @Data
 public class InvetorytaskQuery {
 
-    @ApiModelProperty(value = "盘点状态")
+    @ApiModelProperty(value = "盘点状态（0盘点中;1盘点结束;2盘点取消")
     private Integer status;
+
+    private Long orgID;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

@@ -28,7 +28,6 @@ import java.util.Optional;
 * @UpdateRemark:   修改内容
 * @Version:        1.0
 */
-
 @Aspect
 @Component
 @Slf4j
@@ -59,9 +58,7 @@ public class SysLogAspect {
         MyLog myLog = method.getAnnotation(MyLog.class);
         if (myLog != null) {
             // 操作动作
-            String value = myLog.operate();
-            //保存获取的操作
-            syslog.setOperate(value);
+            syslog.setOperate(myLog.operate());
 
             // 对象类型
             syslog.setObjectType(myLog.objectType());
@@ -100,7 +97,6 @@ public class SysLogAspect {
         sysLog.setIp(IPUtils.getIpAddr(request));*/
 
         log.info("用户{} 进行了{} 操作", syslog.getUserName(), syslog.getDescription());
-        //调用service保存SysLog实体类到数据库
        // syslog.set(new Date());
         sysLogService.add(syslog);
     }
@@ -116,7 +112,6 @@ public class SysLogAspect {
             context.setVariable(params[len], args[len]);
         }
         return parser.parseExpression(descript, new TemplateParserContext()).getValue(context, String.class);
-
-
     }
+
 }

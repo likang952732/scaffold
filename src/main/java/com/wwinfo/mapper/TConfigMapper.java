@@ -18,4 +18,5 @@ public interface TConfigMapper extends BaseMapper<TConfig> {
 
     TConfig getConfigByMap(@Param("map") Map<String, Object> map);
 
+    TConfig getConfigByfieldName(@Param("fieldName") String fieldName);
 }

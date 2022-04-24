@@ -8,20 +8,20 @@ import com.wwinfo.annotation.MyLog;
 import com.wwinfo.common.CommonPage;
 import com.wwinfo.common.CommonResult;
 import com.wwinfo.common.ResultCode;
-import com.wwinfo.model.TAdmin;
-import com.wwinfo.model.TConfig;
-import com.wwinfo.model.User;
+import com.wwinfo.model.*;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
+import com.wwinfo.pojo.vo.UserResetVO;
 import com.wwinfo.pojo.vo.UserRoleVO;
 import com.wwinfo.service.TConfigService;
 import com.wwinfo.service.TMenuService;
 import com.wwinfo.service.TRoleService;
 import com.wwinfo.service.UserService;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
@@ -29,6 +29,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.Role;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ import java.util.Map;
  * @author lk
  * @since 2021-02-24
  */
+@Slf4j
 @Api(value = "用户管理接口", tags = "用户管理接口")
 @RestController
 @RequestMapping("/user")
@@ -116,15 +118,6 @@ public class UserController {
         Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("token", token);
         tokenMap.put("tokenHead", tokenHead);
-
-        User user = userService.getUserByUserName(userLoginParam.getUserName());
-        Integer firstFlag = user.getFirstFlag();
-        TConfig config = configService.getConfig("forceChgPwd");
-        String forceChgPwd = "0";   //默认强制修改密码
-        if(config != null){
-            forceChgPwd = config.getValue();
-        }
-        tokenMap.put("forceChgPwd", forceChgPwd);
         return CommonResult.success(tokenMap);
     }
 
@@ -136,14 +129,18 @@ public class UserController {
         if (principal == null)
             return CommonResult.unauthorized(null);
         User user = userService.getUserByUserName(principal.getName());
+        Integer firstFlag = user.getFirstFlag();
+        TConfig config = configService.getConfig("forceChgPwd");
+        int forceChgPwd = 1;
+        if(firstFlag == 0 && config != null && "0".equals(config.getValue())){
+            forceChgPwd = 0;
+        }
         Long id = user.getId();
         Map<String, Object> data = new HashMap<>();
-       /* data.put("username", user.getUserName());
-        data.put("userType", user.getUserType());
-        data.put("nikeName", user.getNickname());*/
+        data.put("forceChgPwd", forceChgPwd);
         data.put("user", user);
         data.put("roles", roleService.getRoleByUserId(id));
-        data.put("menus", menuService.getMenuByUserId(id));
+        data.put("menus", menuService.getMenuTreeByUserId(id));
         return CommonResult.success(data);
     }
 
@@ -213,10 +210,14 @@ public class UserController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("管理员重置密码")
-    @PostMapping("/resetpwd/{id}")
+    @PostMapping("/resetpwd")
     @MyLog(operate = "修改", objectType = "系统权限管理", objectName = "用户管理", descript = "管理员重置密码: #{#userName}")
-    public CommonResult resetPass(@ApiParam(name="id",value="用户id",required=true)@PathVariable("id") Long id) {
-        int count = userService.resetPass(id);
+    public CommonResult resetPass(@Validated UserResetVO vo, BindingResult result) {
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        if(!fieldErrors.isEmpty()){
+            return CommonResult.failed(fieldErrors.get(0).getDefaultMessage());
+        }
+        int count = userService.resetPass(vo);
         if(count > 0)
             return CommonResult.success("重制密码成功，密码为 Passwd!23，请稍后自行修改密码");
         return CommonResult.failed();
@@ -232,6 +233,20 @@ public class UserController {
         if(count > 0)
             return CommonResult.success(null);
         return CommonResult.failed();
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation("获取用户的角色")
+    @PostMapping("/getRole/{userId}")
+    public CommonResult<List<TRole>> getRoleByUserId(@ApiParam(name="userId",value="用户id",required=true)@PathVariable("userId") Long userId) {
+        return CommonResult.success(userService.getRoleByUserId(userId));
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation("获取用户的部门及子部门")
+    @PostMapping("/getOrg")
+    public CommonResult<List<Organize>> getOrgByUserId() {
+        return CommonResult.success(userService.getOrgByUserId());
     }
 
 }

@@ -25,4 +25,8 @@ public interface EntryposMapper extends BaseMapper<Entrypos> {
     List<HashMap<String, Object>> getByParam(@Param("map") Map<String, Object> map);
 
     IPage Page(Page<EntryposRes> page, @Param("entryposQuery") EntryposQuery entryposQuery);
+
+    List<EntryposRes> getList(@Param("entryposQuery")EntryposQuery entryposQuery);
+
+    int chgById(@Param("entrypos")Entrypos entrypos);
 }

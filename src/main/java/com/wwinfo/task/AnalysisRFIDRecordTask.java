@@ -25,7 +25,7 @@ import java.util.Map;
  * DateTime: 2022-03-09 9:30
  */
 @Slf4j
-@Component
+//@Component
 public class AnalysisRFIDRecordTask {
 
     @Autowired

@@ -14,6 +14,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * <p>
  * 资产盘点缺少
@@ -36,6 +38,13 @@ public class InvetorylackController {
     public CommonResult<CommonPage<InvetorylackRes>> page(InvetorylackQuery invetorylackQuery) {
         IPage page = invetorylackService.listPage(invetorylackQuery);
         return CommonResult.success(CommonPage.restPage(page));
+    }
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation(value = "通过任务id获取盘点结果")
+    @PostMapping("/getResultByTaskId/{taskID}")
+    public CommonResult<Map<String, Object>> getResultByTaskId(@PathVariable("taskID")Long taskID){
+        return CommonResult.success(invetorylackService.getResultByTaskId(taskID));
     }
 
 }

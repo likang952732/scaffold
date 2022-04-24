@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public interface InvetorytaskMapper extends BaseMapper<Invetorytask> {
 
-    IPage page(Page<InvetorytaskRes> page, @Param("invetorytaskQuery") InvetorytaskQuery invetorytaskQuery);
+    IPage page(Page<InvetorytaskRes> page, @Param("query") InvetorytaskQuery query);
 
     List<InvetorytaskRes> getTaskByParam(@Param("map")Map<String, Object> map);
 
@@ -32,7 +32,7 @@ public interface InvetorytaskMapper extends BaseMapper<Invetorytask> {
 
     List<InvetorytaskRes> getByTaskIDAndAssetIDs(Long id, List<Long> assetIDList);
 
-    List<Invetorytask> getTaskByOrgIds(List<Long> orgIDList);
+    List<Invetorytask> getTaskByOrgIds(@Param("orgIDList") List<Long> orgIDList);
 
     List<Invetorytask> getTaskByAssetID(@Param("assetID") Long assetID);
 

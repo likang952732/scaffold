@@ -19,7 +19,7 @@ public class BindRFIDVO {
     @NotNull(message = "资产ID不能为空")
     private Long assetID;
 
-    @ApiModelProperty(value = "RFID打印编号", required = true)
+    @ApiModelProperty(value = "RFID打印编号(多个逗号分隔)", required = true)
     @NotNull(message = "rfidPrintNo不能为空")
     private String rfidPrintNo;
 

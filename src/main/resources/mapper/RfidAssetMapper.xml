@@ -4,12 +4,13 @@
 
     <insert id="addBatch" parameterType="list">
       INSERT INTO RFID_ASSET(
-          rfid_real_no,       assetID
+          rfid_real_no,       rfid_print_no,            assetID
       ) VALUES
-      <foreach collection ="mapList" item="item" index= "index" separator =",">
+      <foreach collection ="list" item="item" index= "index" separator =",">
       (
           #{item.rfidRealNo,jdbcType=VARCHAR},
-          #{item.assetID, jdbcType=BIGINT},
+          #{item.rfidPrintNo,jdbcType=VARCHAR},
+          #{item.assetID, jdbcType=BIGINT}
       )
       </foreach >
     </insert>

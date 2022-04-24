@@ -7,6 +7,7 @@ import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.model.Rfidrecord;
 import com.wwinfo.mapper.RfidrecordMapper;
 import com.wwinfo.pojo.query.RfidrecordQuery;
+import com.wwinfo.pojo.res.RfidrecordRes;
 import com.wwinfo.service.RfidrecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,8 @@ public class RfidrecordServiceImpl extends ServiceImpl<RfidrecordMapper, Rfidrec
     @Override
     public IPage
     listPage(RfidrecordQuery rfidrecordQuery) {
-        Page<Rfidrecord> page = new Page<>(rfidrecordQuery.getPageNum(), rfidrecordQuery.getPageSize());
-        QueryWrapper<Rfidrecord> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("status", rfidrecordQuery.getStatus());
-        wrapper.eq("isOther", rfidrecordQuery.getIsOther());
-        return rfidrecordMapper.selectPage(page, wrapper);
+        Page<RfidrecordRes> page = new Page<>(rfidrecordQuery.getPageNum(), rfidrecordQuery.getPageSize());
+        return rfidrecordMapper.getPage(page, rfidrecordQuery);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.wwinfo.pojo.dto.AssetQueryParam;
 import com.wwinfo.pojo.dto.AssetReturnVParam;
 import com.wwinfo.pojo.dto.BlackListVParam;
 import com.wwinfo.pojo.query.AssetQuery;
+import com.wwinfo.pojo.res.AssetRes;
 import com.wwinfo.pojo.vo.AssetAddVO;
 import com.wwinfo.pojo.vo.AssetChgVO;
 import com.wwinfo.pojo.vo.BindRFIDVO;
@@ -116,4 +117,11 @@ public interface AssetService extends IService<Asset> {
      */
     List<HashMap<String, Object>> getAllRFIDRecord();
 
+    void getTemplate(HttpServletResponse response);
+
+    List<AssetRes> listAll(AssetQuery assetQuery);
+
+    int excelBind(MultipartFile file);
+
+    IPage bindPage(AssetQuery assetQuery);
 }

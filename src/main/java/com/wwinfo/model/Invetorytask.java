@@ -31,7 +31,10 @@ public class Invetorytask implements Serializable {
      * 所属部门ID
      */
     @TableField("orgID")
-    private Long orgID;
+    private String orgID;
+
+    @TableField("userOrgID")
+    private Long userOrgID;
 
     /**
      * 计划开始日期

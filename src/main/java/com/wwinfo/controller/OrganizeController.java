@@ -40,22 +40,21 @@ public class OrganizeController {
 
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
-    @ApiOperation(value = "分页获取父级部门")
-    @PostMapping("/page")
-    public CommonResult<CommonPage<Organize>> page(OrganizeQuery organizeQuery) {
-        IPage page = organizeService.listPage(organizeQuery);
-        return CommonResult.success(CommonPage.restPage(page));
+    @ApiOperation(value = "获取父级部门列表")
+    @PostMapping("/list")
+    public CommonResult<List<Organize>> getOrgList(OrganizeQuery query) {
+        return CommonResult.success(organizeService.list(query));
     }
 
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+   /* @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "获取部门列表")
     @PostMapping("/list")
     public CommonResult<List<Organize>> list(@ApiParam(name="orgLevel",value="级别")Integer orgLevel) {
         return CommonResult.success(organizeService.list(orgLevel));
-    }
+    }*/
 
 
-    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization",
+  /*  @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization",
             value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "获取指定部门的下级部门列表")
     @PostMapping("/nextLevel/{orgID}")
@@ -67,15 +66,26 @@ public class OrganizeController {
 
         IPage page = organizeService.nextLevel(orgID, pageSize, pageNum);
         return CommonResult.success(CommonPage.restPage(page));
-    }
+    }*/
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("树形结构返回所有部门列表")
     @PostMapping("/treeList")
-    public CommonResult<List<OrganizeNode>> treeList() {
-        List<OrganizeNode> organizeNodes = organizeService.treeList();
+    public CommonResult<List<OrganizeNode>> treeList(String orgName) {
+        List<OrganizeNode> organizeNodes = organizeService.treeList(orgName);
         return CommonResult.success(organizeNodes);
     }
+
+
+    @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+    @ApiOperation("获取指定部门的上级部门结构")
+    @PostMapping("/getUpTreeByOrgID/{orgID}")
+    public CommonResult<List<OrganizeNode>> getUpTreeByOrgID(@ApiParam(name="orgID",value="部门ID",required=true)@PathVariable("orgID") Long orgID) {
+        List<OrganizeNode> organizeNodes = organizeService.getUpTreeByChild(orgID);
+        return CommonResult.success(organizeNodes);
+    }
+
+
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "添加部门")

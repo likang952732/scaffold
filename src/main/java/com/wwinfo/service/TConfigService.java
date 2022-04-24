@@ -7,6 +7,8 @@ import com.wwinfo.pojo.query.ConfigQuery;
 import com.wwinfo.pojo.vo.ConfigAddVO;
 import com.wwinfo.pojo.vo.ConfigChgVO;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统配置表 服务类
@@ -22,7 +24,7 @@ public interface TConfigService extends IService<TConfig> {
      * @param configQuery
      * @return
      */
-    IPage listPage(ConfigQuery configQuery);
+    List<TConfig> listAll(ConfigQuery configQuery);
 
     TConfig getConfig(String fieldName);
 

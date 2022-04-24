@@ -10,23 +10,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.constant.SysConstant;
+import com.wwinfo.mapper.OrganizeMapper;
 import com.wwinfo.mapper.TConfigMapper;
 import com.wwinfo.mapper.TUserRoleMapper;
 import com.wwinfo.mapper.UserMapper;
-import com.wwinfo.model.TConfig;
-import com.wwinfo.model.TRole;
-import com.wwinfo.model.TUserRole;
-import com.wwinfo.model.User;
+import com.wwinfo.model.*;
 import com.wwinfo.pojo.bo.AdminUserDetails;
 import com.wwinfo.pojo.dto.UserChgParam;
 import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.dto.UserLoginParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
-import com.wwinfo.pojo.vo.UserRoleVO;
+import com.wwinfo.pojo.vo.UserResetVO;
 import com.wwinfo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wwinfo.util.JwtTokenUtil;
+import com.wwinfo.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,20 +61,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Resource
     private TConfigMapper configMapper;
 
+    @Resource
+    private OrganizeMapper organizeMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @Value("${user.defaultpassword}")
-    private String defaultpassword;
+    @Value("${checkpwdrule}")
+    private String checkpwdrule;
+
 
     @Override
     public IPage getUserPage(UserQuery userQuery) {
         Page<User> page = new Page<>(userQuery.getPageNum(), userQuery.getPageSize());
-        QueryWrapper<User> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.like("userName", userQuery.getUserName());
+        if(userQuery.getUserType() == null){
+            userQuery.setUserType(2);
+        }
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.like(StrUtil.isNotBlank(userQuery.getUserName()), "userName", userQuery.getUserName());
+        wrapper.eq("userType", userQuery.getUserType());
         return userMapper.selectPage(page, wrapper);
     }
 
@@ -105,19 +112,42 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int updatePass(UserChgpwdParam userChgpwdParam) {
-        if(!userChgpwdParam.getNewPassword().equals(userChgpwdParam.getConfirmPassword()))
+        String newPassword = userChgpwdParam.getNewPassword();
+        String confirmPassword = userChgpwdParam.getConfirmPassword();
+        if(!newPassword.equals(confirmPassword))
             throw new BusinessException("新密码和确认密码不一致");
-        UserDetails userDetails = loadUserByUserName(userChgpwdParam.getUserName());
-        if(userDetails == null)
+        User user = userMapper.selectById(userChgpwdParam.getId());
+        if(user == null)
             throw new UsernameNotFoundException("用户名错误");
-        if(!passwordEncoder.matches(userChgpwdParam.getOldPassword(), userDetails.getPassword())){
-            throw new BusinessException("密码不正确");
+        if(!passwordEncoder.matches(userChgpwdParam.getOldPassword(), user.getPassword())){
+            throw new BusinessException("原密码不正确");
         }
-        User user = BeanUtil.copyProperties(userChgpwdParam, User.class);
+        Map<String, Object> map = new HashMap<>();
+        User currentUser = UserUtil.getCurrentUser();
+        Integer firstFlag = currentUser.getFirstFlag();
+        if("0".equals(firstFlag)){  //首次登陆
+            Map<String, Object> param = new HashMap<>();
+            param.put("fieldName", "forceChgPwd");
+            TConfig config = configMapper.getConfigByMap(param);
+            if(config != null && "0".equals(config.getValue())){
+                checkpwd(newPassword, confirmPassword);
+            }
+        } else {
+            checkpwd(newPassword, confirmPassword);
+        }
         user.setPassword(passwordEncoder.encode(userChgpwdParam.getNewPassword()));
         user.setTimeModify(new Date());
         user.setFirstFlag(1);
         return userMapper.updateById(user);
+    }
+
+    private void checkpwd(String newPassword, String confirmPassword) {
+        if(!newPassword.matches(checkpwdrule)){
+            throw new BusinessException("密码长度至少8位，至少有大小写字母+数字组成");
+        }
+        if(!confirmPassword.matches(checkpwdrule)){
+            throw new BusinessException("密码长度至少8位，至少有大小写字母+数字组成");
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -134,6 +164,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User existUser = getUserByUserName(userAddVO.getUserName());
         if(existUser != null)
             throw new BusinessException("用户名称不能重复");
+        if(!userAddVO.getPassword().equals(userAddVO.getConfirmPwd())){
+            throw new BusinessException("密码和确认密码不一致");
+        }
         User user = BeanUtil.copyProperties(userAddVO, User.class);
         user.setPassword(passwordEncoder.encode(userAddVO.getPassword()));
         return userMapper.insert(user);
@@ -148,9 +181,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int resetPass(Long id) {
-        User user = userMapper.selectById(id);
-        user.setPassword(passwordEncoder.encode(defaultpassword));
+    public int resetPass(UserResetVO vo) {
+        if(!vo.getDefaultPwd().equals(vo.getConfirmPwd())){
+            throw new BusinessException("密码和确认密码不一致");
+        }
+        User user = userMapper.selectById(vo.getId());
+        user.setPassword(passwordEncoder.encode(vo.getDefaultPwd()));
         user.setErrorTimes(0);
         user.setTimeLocked(null);
         user.setFirstFlag(0);
@@ -172,15 +208,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if (user.getTimeLocked() != null) {
             int lockminutes = getTimeDifference(DateUtil.format(user.getTimeLocked(), "yyyy-MM-dd hh:mm:ss"), DateUtil.format(new Date(),"yyyy-MM-dd hh:mm"));
 
-            map.put("fieldName", "lockTime");
-            TConfig config = configMapper.getConfigByMap(map);
             int lockminutesValue = 5;   //默认锁住时长5分钟
-            if(config != null){
-                lockminutesValue = Integer.valueOf(config.getValue());
+            TConfig lockTime = configMapper.getConfigByfieldName("lockTime");
+            if(lockTime != null){
+                lockminutesValue = Integer.valueOf(lockTime.getValue());
             }
 
             if (SysConstant.LOCKUP.equals(user.getIsLocked().toString()) && lockminutes < lockminutesValue) {
-                throw new UsernameNotFoundException("多次密码错误锁住,请稍后再试！");
+                throw new BusinessException("多次密码错误锁住,请稍后再试！");
             }
         }
 
@@ -189,10 +224,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setErrorTimes(user.getErrorTimes()+1);
             String flag = "";
             int lockCount = 3;   //默认3次锁住
-            map.put("fieldName", "lockCount");
-            TConfig config = configMapper.getConfigByMap(map);
-            if(config != null){
-                lockCount = Integer.valueOf(config.getValue());
+            TConfig lockCountconfig = configMapper.getConfigByfieldName("lockCount");
+            if(lockCountconfig != null){
+                lockCount = Integer.valueOf(lockCountconfig.getValue());
             }
 
             if(user.getErrorTimes() >= lockCount){
@@ -242,6 +276,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         return userRoleMapper.addBatch(userRoleList);
+    }
+
+    @Override
+    public List<TRole> getRoleByUserId(Long userId) {
+        return userRoleMapper.getRoleByUserId(userId);
+    }
+
+    @Override
+    public List<Organize> getOrgByUserId() {
+        Long orgID = UserUtil.getCurrentUser().getOrgID();
+        return organizeMapper.getOrgByUserId(orgID);
     }
 
     /**

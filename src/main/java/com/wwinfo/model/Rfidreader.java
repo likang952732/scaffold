@@ -111,5 +111,9 @@ public class Rfidreader implements Serializable {
     @ApiModelProperty(value = "备注")
     private String remark;
 
+    /**
+     * 是否使用(0->未使用，已使用)
+     */
+    private Integer isUsed;
 
 }

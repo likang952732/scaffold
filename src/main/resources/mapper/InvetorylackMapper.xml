@@ -20,22 +20,62 @@
 
     </insert>
 
-    <select id="page" parameterType="com.wwinfo.pojo.query.InvetorylackQuery" resultType="com.baomidou.mybatisplus.core.metadata.IPage">
+    <select id="page" parameterType="com.wwinfo.pojo.query.InvetorylackQuery" resultType="com.wwinfo.pojo.res.InvetorylackRes">
+        select
+            lack.taskID,
+            lack.assetID,
+            lack.shouldRoomID,
+            lack.resultCheck,
+            org.orgName,
+            ast.name AS "assetName"
+        FROM
+        (
         SELECT
-           lack.taskID,
-           lack.assetID,
-           lack.shouldRoomID,
-           lack.resultCheck,
-           org.orgName,
-           ast.name AS "assetName"
-        FROM invetoryLack lack
-        LEFT JOIN asset ast ON lack.assetID = ast.ID
-        LEFT JOIN organize org ON ast.orgID = org.orgID
-        <where>
-            <if test="invetorylackQuery.resultCheck != null">
-                AND lack.resultCheck = #{invetorylackQuery.resultCheck}
+        au.orgID,au.orgName
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        organize
+        WHERE
+        upOrgID IS NOT NULL
+        ) au,
+        (SELECT @pid := #{query.orgID}) pd
+        WHERE
+        FIND_IN_SET(upOrgID, @pid) > 0
+        AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+        orgID, orgName
+        FROM
+        organize
+        WHERE
+        orgID = #{query.orgID}
+        ) T
+        JOIN asset ast ON lack.assetID = ast.ID
+        JOIN invetoryLack lack asset ast ON lack.assetID = ast.ID
+        where 1 = 1
+            <if test="query.resultCheck != null">
+                AND lack.resultCheck = #{query.resultCheck}
             </if>
-        </where>
+    </select>
+
+    <select id="getInvetoryInfoByTaskId" resultType="java.util.Map" parameterType="java.lang.Long">
+       select
+           ilk.taskID,
+           ilk.assetID,
+           ilk.resultCheck,
+           ilk.shouldRoomID AS "roomID",
+           ast.name AS "assetName",
+           ast.assetNo,
+           rm.roomName,
+           org.orgName
+       from invetoryLack ilk
+       left join asset ast ON ilk.assetID = ast.ID
+       left join room rm ON ilk.shouldRoomID = rm.ID
+       left join organize org ON ast.orgID = org.orgID
+       where ilk.taskID = #{taskID}
     </select>
 
 </mapper>

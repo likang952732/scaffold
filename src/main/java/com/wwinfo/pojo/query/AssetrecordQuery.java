@@ -28,6 +28,23 @@ public class AssetrecordQuery {
     @ApiModelProperty(value = "报警类型(1->异常外出;2->进出状态不匹配;4->黑名单;5->销毁资产)")
     private Integer alarmType;
 
+    @ApiModelProperty(value = "资产编号")
+    private String assetNo;
+
+    @ApiModelProperty(value = "资产id")
+    private Long assetID;
+
+    @ApiModelProperty(value = "资产名称")
+    private String assetName;
+
+    @ApiModelProperty(value = "rdid编号")
+    private String rfidNo;
+
+    @ApiModelProperty(value = "责任人")
+    private String staff;
+
+    private Long orgID;
+
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;
 

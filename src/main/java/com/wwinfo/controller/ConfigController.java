@@ -37,10 +37,9 @@ public class ConfigController {
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "分页获取参数配置")
-    @PostMapping("/page")
-    public CommonResult<CommonPage<TConfig>> page(ConfigQuery configQuery) {
-        IPage page = configService.listPage(configQuery);
-        return CommonResult.success(CommonPage.restPage(page));
+    @PostMapping("/list")
+    public CommonResult<List<TConfig>> list(ConfigQuery configQuery) {
+        return CommonResult.success(configService.listAll(configQuery));
     }
 
 
@@ -73,7 +72,7 @@ public class ConfigController {
         return CommonResult.failed();
     }
 
-    @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
+   /* @ApiImplicitParams({@ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation("删除参数配置")
     @PostMapping("/delete/{id}")
     public CommonResult delete(@ApiParam(name="id",value="参数配置id",required=true)@PathVariable("id") Long id) {
@@ -81,6 +80,6 @@ public class ConfigController {
         if(count > 0)
             return CommonResult.success(count);
         return CommonResult.failed();
-    }
+    }*/
 
 }

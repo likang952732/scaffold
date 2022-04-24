@@ -20,6 +20,9 @@ public class AssetQuery {
     @ApiModelProperty(value = "资产编号")
     private String assetNo;
 
+    @ApiModelProperty(value = "RFID打印编号")
+    private String rfidPrintNo;
+
     @ApiModelProperty(value = "当前状态(0->内部；1->外部)")
     private Integer curStatus;
 
@@ -35,8 +38,19 @@ public class AssetQuery {
     @ApiModelProperty(value = "是否黑名单(0->否;1->是)")
     private Integer isBlack;
 
+    @ApiModelProperty(value = "是否绑定了RFID(0->否;1->是)")
+    private Integer isBand;
+
     @JsonIgnore
     private Long orgID;
+
+    @ApiModelProperty(value = "开始日期")
+    private String startDate;
+
+    @ApiModelProperty(value = "结束日期")
+    private String endDate;
+
+
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

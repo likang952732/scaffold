@@ -53,9 +53,8 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
     public Page listPage(String keyword, Integer pageSize, Integer pageNum) {
         Page<TRole> page = new Page<>(pageNum, pageSize);
         QueryWrapper wrapper = new QueryWrapper();
-        if(StrUtil.isNotBlank(keyword)) {
-            wrapper.like("name", keyword);
-        }
+        wrapper.like(StrUtil.isNotBlank(keyword), "name", keyword);
+        wrapper.eq("type", 0);
         return roleMapper.selectPage(page, wrapper);
 
     }
@@ -138,6 +137,7 @@ public class TRoleServiceImpl extends ServiceImpl<TRoleMapper, TRole> implements
     public List<TRole> listAll() {
         QueryWrapper<TRole> wrapper = new QueryWrapper<>();
         wrapper.eq("status", 0);
+        wrapper.eq("type", 0);
         return roleMapper.selectList(wrapper);
     }
 
