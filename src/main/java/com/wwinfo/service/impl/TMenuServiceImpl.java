@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -89,9 +90,8 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
         if(exist != null){
             throw new BusinessException("菜单名称不能重复");
         }
-        if(menuAddVO.getParentId() == null) {
+        if(menuAddVO.getParentId() == null)
             menuAddVO.setParentId(0L);
-        }
         TMenu menu = BeanUtil.copyProperties(menuAddVO, TMenu.class);
         return menuMapper.insert(menu);
     }
@@ -118,12 +118,13 @@ public class TMenuServiceImpl extends ServiceImpl<TMenuMapper, TMenu> implements
     }
 
     @Override
-    public List<MenuNode> getMenuTreeByUserId(Long userId) {
+    public List<TMenu> getMenuTreeByUserId(Long userId) {
         List<TMenu> menuList = menuMapper.getMenuByUserId(userId);
-        return menuList.stream()
+      /*  return menuList.stream()
                 .filter(menu -> menu.getParentId() == 0)
                 .map(menu ->covertMenuNode(menu, menuList))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
+        return menuList;
     }
 
     @Override

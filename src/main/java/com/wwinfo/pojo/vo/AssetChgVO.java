@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.vo;
 
+import com.wwinfo.annotation.NumCheck;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -28,6 +29,10 @@ public class AssetChgVO {
     @NotBlank(message = "资产名称不能为空")
     private String name;
 
+    @ApiModelProperty(value = "资产编号(最大长度为32)")
+    @NotBlank(message = "资产编号不能为空")
+    private String assetNo;
+
     @ApiModelProperty(value = "使用部门(最大长度为30)")
     private String useOrg;
 
@@ -53,7 +58,7 @@ public class AssetChgVO {
     private String desc;
 
     @ApiModelProperty(value = "价格(元为单位)")
-    private Integer price;
+    private String price;
 
     @ApiModelProperty(value = "编制日期(yyyy-MM-dd)")
     private String setDate;
@@ -62,6 +67,7 @@ public class AssetChgVO {
     private String staff;
 
     @ApiModelProperty(value = "计量有效期(最大长度为15)")
+    @NumCheck
     private String period;
 
     @ApiModelProperty(value = "备注(最大长度为300)")

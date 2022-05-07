@@ -70,12 +70,31 @@
            ast.name AS "assetName",
            ast.assetNo,
            rm.roomName,
-           org.orgName
+           org.orgName,
+           '0' AS "resultType"
        from invetoryLack ilk
        left join asset ast ON ilk.assetID = ast.ID
        left join room rm ON ilk.shouldRoomID = rm.ID
        left join organize org ON ast.orgID = org.orgID
        where ilk.taskID = #{taskID}
+
+       union
+
+       select
+           ita.taskID,
+           ita.assetID,
+           ita.resultCheck,
+           ita.roomID,
+           ast.name AS "assetName",
+           ast.assetNo,
+           rm.roomName,
+           org.orgName,
+           '1' AS "resultType"
+       from invetoryAsset ita
+                left join asset ast ON ita.assetID = ast.ID
+                left join room rm ON ita.roomID = rm.ID
+                left join organize org ON ast.orgID = org.orgID
+       where ita.taskID = #{taskID} and ita.checkResult in (0, 1, 2)
     </select>
 
 </mapper>

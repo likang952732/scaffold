@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -74,6 +75,21 @@ public class TConfigServiceImpl extends ServiceImpl<TConfigMapper, TConfig> impl
                 throw new BusinessException("该参数值只能是不为0的整数");
             }
         }
+
+        String fieldNameStr = configChgVO.getFieldName();
+        if("mailPost".equals(fieldNameStr)){
+            if(!configChgVO.getValue().matches("[1-9]*")){
+                throw new BusinessException("该参数值只能是不为0的整数");
+            }
+        }
+
+        String checkmail = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+        if("mailFrom".equals(fieldNameStr) || "mailTos".equals(fieldNameStr)){
+            if(!configChgVO.getValue().matches(checkmail)){
+                throw new BusinessException("邮箱格式不正确");
+            }
+        }
+
         TConfig config = BeanUtil.copyProperties(configChgVO, TConfig.class);
         return configMapper.updateById(config);
     }

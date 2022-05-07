@@ -27,8 +27,8 @@ public class AssetStatusExcel extends BaseRowModel implements Serializable {
     @ExcelProperty(value = "资产编号", index = 2)
     private String assetNo;
 
-    @ExcelProperty(value = "RFID编号", index = 3)
-    private String rfidNo;
+    @ExcelProperty(value = "当前状态", index = 3)
+    private String curStatus;
 
     @ExcelProperty(value = "使用部门", index = 4)
     private String useOrg;

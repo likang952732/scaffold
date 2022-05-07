@@ -5,6 +5,7 @@ import com.wwinfo.model.Invetorylack;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.InvetorylackQuery;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +30,6 @@ public interface InvetorylackService extends IService<Invetorylack> {
      * @param taskID
      * @return
      */
-    Map<String, Object> getResultByTaskId(Long taskID);
+    List<Map<String, Object>> getResultByTaskId(Long taskID);
 
 }

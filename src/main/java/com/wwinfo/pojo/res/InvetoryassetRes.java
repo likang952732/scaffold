@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.res;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -27,19 +28,28 @@ public class InvetoryassetRes {
     @ApiModelProperty(value = "资产名称")
     private String assetName;
 
-    @ApiModelProperty(value = "库房ID")
-    private Long roomID;
+    @ApiModelProperty(value = "资产编号")
+    private String assetNo;
+
+    @ApiModelProperty(value = "实际所在库房ID")
+    private Long actualRoomID;
 
     @ApiModelProperty(value = "盘点器ID")
     private String machineID;
 
-    @ApiModelProperty(value = "库房名称")
+    @ApiModelProperty(value = "实际所在库房名称")
+    private String actualRoomName;
+
+    @ApiModelProperty(value = "所在库房名称")
     private String roomName;
+
+    @ApiModelProperty(value = "责任人")
+    private String staff;
 
     @ApiModelProperty(value = "盘点时间")
     private Date checkTime;
 
-    @ApiModelProperty(value = "盘点结果类型(0->吻合;1->此资产应该在另一个库房;2->此资产应该在外面")
+    @ApiModelProperty(value = "盘点结果类型(0->吻合;1->此资产应该在另一个库房;2->此资产应该在外面;3->未盘点")
     private Integer checkResult;
 
     @ApiModelProperty(value = "应该在的库房ID")
@@ -50,5 +60,8 @@ public class InvetoryassetRes {
 
     @ApiModelProperty(value = "盘点结果确认(0->未确认;1->确认)")
     private Integer resultCheck;
+
+    @JsonIgnore
+    private Integer curStatus;
 
 }

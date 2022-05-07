@@ -2,7 +2,9 @@ package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
@@ -39,6 +41,7 @@ import com.wwinfo.service.RfidMappingService;
 import com.wwinfo.service.RfidrecordService;
 import com.wwinfo.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +51,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -90,17 +94,38 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public IPage listPage(AssetQuery assetQuery) {
         User user = UserUtil.getCurrentUser();
-        Optional.ofNullable(user).ifPresent(e -> assetQuery.setOrgID(user.getOrgID()));
+        Optional.ofNullable(user).ifPresent(e -> assetQuery.setCanorgID(user.getOrgID()));
         Page<AssetRes> page = new Page<>(assetQuery.getPageNum(), assetQuery.getPageSize());
-        return assetMapper.page(page, assetQuery);
+        //DateUtil.formatBetween();
+        IPage pageResult = assetMapper.page(page, assetQuery);
+        List<AssetRes> records = pageResult.getRecords();
+        if(CollUtil.isNotEmpty(records)){
+            for(AssetRes res: records){
+                if(res.getLendStart() != null){
+                    Date endDate = res.getLendEnd() == null ? DateUtil.date() : res.getLendEnd();
+                    String outDuration = DateUtil.formatBetween(res.getLendStart(), endDate, BetweenFormater.Level.HOUR);
+                    res.setOutDuration(outDuration);
+                }
+            }
+        }
+        return pageResult;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(AssetAddVO assetAddVO) {
-        Asset existAsset = getAssetByParam(assetAddVO.getName(), assetAddVO.getAssetNo());
+        String price = assetAddVO.getPrice();
+        if(StrUtil.isNotBlank(price) && !price.matches("[0-9]+(.[0-9]+)?")){
+            throw new BusinessException("价格参数值不合法");
+        }
+
+        if(assetAddVO.getCurStatus() == 0 && assetAddVO.getRoomID() == null){
+            throw new BusinessException("当前状态为内部，所在楼宇不能为空");
+        }
+
+        Asset existAsset = getAssetByParam(assetAddVO.getAssetNo());
         if(existAsset != null){
-            throw new BusinessException("资产名称,资产编号不能重复");
+            throw new BusinessException("资产编号不能重复");
         }
         Asset asset = BeanUtil.copyProperties(assetAddVO, Asset.class);
         asset.setDelStatus(SysConstant.DELSTATUS_NOT);
@@ -111,22 +136,30 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int update(AssetChgVO assetChgVO) {
+        String price = assetChgVO.getPrice();
+        if(StrUtil.isNotBlank(price) && !price.matches("[0-9]+(.[0-9]+)?")){
+            throw new BusinessException("价格参数值不合法");
+        }
+
+        if(assetChgVO.getCurStatus() == 0 && assetChgVO.getRoomID() == null){
+            throw new BusinessException("当前状态为内部，所在楼宇不能为空");
+        }
+
         QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("name", assetChgVO.getName());
+        wrapper.eq("assetNo", assetChgVO.getAssetNo());
         Asset existAsset = assetMapper.selectOne(wrapper);
         if(existAsset != null && assetChgVO.getId() != existAsset.getID()){
-            throw new BusinessException("资产名称,RFID编号不能重复");
+            throw new BusinessException("资产编号不能重复");
         }
         Asset asset = BeanUtil.copyProperties(assetChgVO, Asset.class);
         asset.setID(assetChgVO.getId());
+        asset.setTimeModify(new Date());
         return assetMapper.updateById(asset);
     }
 
-    private Asset getAssetByParam(String name, String assetNo){
+    private Asset getAssetByParam(String assetNo){
         QueryWrapper<Asset> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("name", name)
-                .or()
-                .eq("assetNo", assetNo);
+        wrapper.eq("assetNo", assetNo);
         return assetMapper.selectOne(wrapper);
     }
 
@@ -191,6 +224,7 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         Map<String, Object> map = new HashMap<>();
         map.put("delStatus", SysConstant.DELSTATUS_ED);
         map.put("delReason", assetDestoryParam.getDelReason());
+        map.put("delTime", DateUtil.date());
         assetMapper.updateBatchByParam(idList, map);
 
         //更新RFID资源绑定的状态
@@ -249,11 +283,26 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public void exportExcel(HttpServletResponse response, AssetQueryParam assetQueryParam) {
         Map<String, Object> map = new HashMap<>();
+        User user = UserUtil.getCurrentUser();
         map.put("name", assetQueryParam.getName());
         map.put("assetNo", assetQueryParam.getAssetNo());
         map.put("startDate", assetQueryParam.getStartDate());
         map.put("endDate", assetQueryParam.getEndDate());
+        map.put("orgID", assetQueryParam.getOrgID());
+        Optional.ofNullable(user).ifPresent(e ->  map.put("canorgID", UserUtil.getCurrentUser().getOrgID()));
+        Optional.ofNullable(assetQueryParam.getCurStatus()).ifPresent(e ->  map.put("curStatus", assetQueryParam.getCurStatus()));
+        Optional.ofNullable(assetQueryParam.getIsAbnormal()).ifPresent(e ->  map.put("isAbnormal", assetQueryParam.getIsAbnormal()));
+        Optional.ofNullable(assetQueryParam.getLendStatus()).ifPresent(e ->  map.put("lendStatus", assetQueryParam.getLendStatus()));
+        Optional.ofNullable(assetQueryParam.getDelStatus()).ifPresent(e ->  map.put("delStatus", assetQueryParam.getDelStatus()));
+        Optional.ofNullable(assetQueryParam.getIsBlack()).ifPresent(e ->  map.put("isBlack", assetQueryParam.getIsBlack()));
         List<AssetStatusExcel> list = assetMapper.getExportListByParam(map);
+        list.stream().forEach(e -> {
+            if("0".equals(e.getCurStatus())){
+                e.setCurStatus("内部");
+            } else if("1".equals(e.getCurStatus())){
+                e.setCurStatus("外部");
+            }
+        });
 
         String fileName = "资产实时状态报告";
         try {
@@ -361,6 +410,9 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         }
 
         //保存绑定
+        QueryWrapper<RfidAsset> wrapper = new QueryWrapper<>();
+        wrapper.eq("assetID", assetID);
+        rfidAssetMapper.delete(wrapper);
         rfidAssetMapper.addBatch(list);
 
         Map<String, Object> map = new HashMap<>();
@@ -418,10 +470,19 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
     @Override
     public IPage bindPage(AssetQuery assetQuery) {
+        //Optional.ofNullable(assetQuery.getOrgID()).ifPresent(e -> assetQuery.setCanorgID(assetQuery.getOrgID()));
         User user = UserUtil.getCurrentUser();
-        Optional.ofNullable(user).ifPresent(e -> assetQuery.setOrgID(user.getOrgID()));
+        Optional.ofNullable(user).ifPresent(e -> assetQuery.setCanorgID(user.getOrgID()));
         Page<AssetRes> page = new Page<>(assetQuery.getPageNum(), assetQuery.getPageSize());
         return assetMapper.bindPage(page, assetQuery);
+    }
+
+    public static void main(String[] args) {
+        String reg = "[0-9]+(.[0-9]+)?";
+        String str = "0.2";
+        if(str.matches(reg)){
+            System.out.println("000000000000000");
+        }
     }
 
 }

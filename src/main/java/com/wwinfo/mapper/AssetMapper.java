@@ -26,6 +26,8 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     IPage page(Page<AssetRes> page, @Param("assetQuery") AssetQuery assetQuery);
 
+    List<Asset> getListByOrg(@Param("parentOrgID") Long parentOrgID);
+
     int updateBatchByParam(@Param("idList") List<Long> idList, @Param("map")Map<String, Object> map);
 
     List<AssetStatusExcel> getExportListByParam(@Param("map")Map<String, Object> map);

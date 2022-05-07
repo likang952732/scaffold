@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,9 +42,9 @@ public class InvetorylackController {
     }
 
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
-    @ApiOperation(value = "通过任务id获取盘点结果")
+    @ApiOperation(value = "通过任务id获取损益列表")
     @PostMapping("/getResultByTaskId/{taskID}")
-    public CommonResult<Map<String, Object>> getResultByTaskId(@PathVariable("taskID")Long taskID){
+    public CommonResult<List<Map<String, Object>>> getResultByTaskId(@PathVariable("taskID")Long taskID){
         return CommonResult.success(invetorylackService.getResultByTaskId(taskID));
     }
 

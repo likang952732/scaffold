@@ -35,6 +35,9 @@
             <if test="entrypos.isAlarm != null" >
                 isAlarm = #{entrypos.isAlarm},
             </if>
+            <if test="entrypos.timeModify != null" >
+                timeModify = #{entrypos.timeModify},
+            </if>
             remark = #{entrypos.remark},
         </set>
         where ID = #{entrypos.ID}
@@ -56,6 +59,7 @@
                 AND ep.directory = #{entryposQuery.directory}
             </if>
         </where>
+        order by ep.timeAdd desc
     </select>
 
     <select id="getByParam" resultType="java.util.HashMap" parameterType="map">

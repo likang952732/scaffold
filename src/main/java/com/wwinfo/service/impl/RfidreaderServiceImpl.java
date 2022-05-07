@@ -50,6 +50,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getReaderIP()), "readerIP", rfidreaderQuery.getReaderIP());
         wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getAddress()), "address", rfidreaderQuery.getAddress());
         wrapper.eq(rfidreaderQuery.getLastStatus() != null, "lastStatus", rfidreaderQuery.getLastStatus());
+        wrapper.orderByDesc("timeAdd");
         return rfidreaderMapper.selectPage(page, wrapper);
     }
 

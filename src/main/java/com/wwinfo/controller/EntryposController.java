@@ -39,7 +39,6 @@ public class EntryposController {
     @ApiOperation(value = "分页获取RFID进出口设置")
     @PostMapping("/page")
     public CommonResult<CommonPage<EntryposRes>> page(EntryposQuery entryposQuery) {
-
         IPage page = entryposService.listPage(entryposQuery);
         return CommonResult.success(CommonPage.restPage(page));
     }

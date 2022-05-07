@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.vo;
 
+import com.wwinfo.annotation.TelCheck;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -32,6 +33,7 @@ public class RoomAddVO {
     private String responsible;
 
     @ApiModelProperty(value = "联系电话(最大长度30)")
+    @TelCheck
     private String phone;
 
     @ApiModelProperty(value = "备注(最大长度90)")

@@ -24,12 +24,16 @@ public class MenuAddVO {
     private Long parentId;
 
     @ApiModelProperty(value = "排序", required = true)
-    @NotNull(message = "sort不能为空")
+    //@NotNull(message = "sort不能为空")
     private Integer sort;
 
     @ApiModelProperty(value = "状态：0->显示；1->不显示", required = true)
     @NotNull(message = "状态不能为空")
     private Integer status;
+
+    @ApiModelProperty(value = "菜单类型：0->部门；1->系统", required = true)
+    @NotNull(message = "菜单类型不能为空")
+    private Integer type;
 
     @ApiModelProperty(value = "前端名称")
     private String frontName;

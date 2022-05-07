@@ -62,7 +62,7 @@ public class TMenu {
     @NotNull(message = "状态不能为空")
     private Integer status;
 
-    @ApiModelProperty("菜单类型：0->部门；1->系统")
+    @ApiModelProperty("菜单类型：0->部门；1->系统;2->日志")
     private Integer type;
     /**
      * 前端名称

@@ -6,27 +6,40 @@
        select
           ist.taskID,
           ist.assetID,
-          ist.roomID,
+          ist.roomID as actualRoomID,
           ist.machineID,
           ist.checkTime,
           ist.checkResult,
           ist.shouldRoomID,
           ist.resultCheck,
           org.orgName,
-          rm.roomName
-       FROM invetoryAsset ist
+          rm.roomName as actualRoomName,
+          ast.assetNo,
+          ast.staff,
+          ast.staff as assetName,
+          ast.curStatus,
+          rm2.roomName
+       FROM invetoryTask task
+       JOIN invetoryAsset ist ON task.ID = ist.taskID
        JOIN asset ast ON ist.assetID = ast.ID
        LEFT JOIN room rm ON ist.roomID = rm.ID
+       LEFT JOIN room rm2 ON ast.roomID = rm2.ID
        LEFT JOIN organize org ON ast.orgID = org.orgID
        <where>
+           <if test="invetoryassetQuery.orgID != null">
+               AND task.userOrgID = #{invetoryassetQuery.orgID}
+           </if>
            <if test="invetoryassetQuery.taskID != null">
                AND ist.taskID = #{invetoryassetQuery.taskID}
            </if>
-           <if test="invetoryassetQuery.checkResult != null">
+          <!-- <if test="invetoryassetQuery.checkResult != null">
                AND ist.checkResult = #{invetoryassetQuery.checkResult}
-           </if>
+           </if>-->
            <if test="invetoryassetQuery.resultCheck != null">
                AND ist.resultCheck = #{invetoryassetQuery.resultCheck}
+           </if>
+           <if test="invetoryassetQuery.type == 1">
+               AND ist.checkResult IN (${invetoryassetQuery.checkResults})
            </if>
        </where>
     </select>
@@ -69,6 +82,16 @@
             </if>
         </set>
         WHERE taskID = #{map.taskID}
+    </update>
+
+    <update id="updateBatch" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="begin" close=";end;" separator=";">
+            update invetoryAsset
+            set
+            checkResult = #{item.checkResult},
+            shouldRoomID = #{item.shouldRoomID}
+            where taskID = #{item.taskID}
+        </foreach>
     </update>
 
     <insert id="addBatch" parameterType="list">

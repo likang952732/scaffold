@@ -49,15 +49,11 @@ public class InvetorylackServiceImpl extends ServiceImpl<InvetorylackMapper, Inv
     }
 
     @Override
-    public Map<String, Object> getResultByTaskId(Long taskID) {
+    public List<Map<String, Object>> getResultByTaskId(Long taskID) {
         JSONObject result = new JSONObject();
-        //盘点缺少
         List<Map<String, Object>> lackMap = invetorylackMapper.getInvetoryInfoByTaskId(taskID);
-        //盘点溢出
-        List<Map<String, Object>> overflowMap = invetoryassetMapper.getOverflowByTaskId(taskID);
-        result.put("lackMap", lackMap);
-        result.put("overflowMap", overflowMap);
-        return result;
+        //List<Map<String, Object>> overflowMap = invetoryassetMapper.getOverflowByTaskId(taskID);
+        return lackMap;
     }
 
 }

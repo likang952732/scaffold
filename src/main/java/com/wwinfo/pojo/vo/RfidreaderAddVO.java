@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.vo;
 
+import com.wwinfo.annotation.IpCheck;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class RfidreaderAddVO {
 
     @ApiModelProperty(value = "阅读器IP地址(最大长度30)", required = true)
     @NotBlank(message = "readerIP不能为空")
+    @IpCheck
     private String readerIP;
 
     @ApiModelProperty(value = "所在位置(最大长度300)")

@@ -134,4 +134,7 @@ public class AssetRes {
 
     private Integer taskStatus;
 
+    @ApiModelProperty(value = "外出时长")
+    private String outDuration;
+
 }

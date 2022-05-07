@@ -52,7 +52,7 @@
 
     <select id="page" parameterType="com.wwinfo.pojo.query.AssetQuery" resultType="com.wwinfo.pojo.res.AssetRes">
         select
-             ast.*,T.orgName
+             ast.*,T.orgName, rm.roomName
         FROM
         (
         SELECT
@@ -66,7 +66,7 @@
         WHERE
         upOrgID IS NOT NULL
         ) au,
-        (SELECT @pid := #{assetQuery.orgID}) pd
+        (SELECT @pid := #{assetQuery.canorgID}) pd
         WHERE
         FIND_IN_SET(upOrgID, @pid) > 0
         AND @pid := concat(@pid, ',', orgID)
@@ -76,9 +76,10 @@
         FROM
         organize
         WHERE
-        orgID = #{assetQuery.orgID}
+        orgID = #{assetQuery.canorgID}
         ) T
         JOIN asset ast ON T.orgID = ast.orgID
+        left join room rm on ast.roomID = rm.ID
         where 1 = 1
             <if test="assetQuery.name != null and assetQuery.name != ''">
                 AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
@@ -137,7 +138,7 @@
     </select>
 
     <select id="getExportListByParam" resultType="com.wwinfo.pojo.bo.AssetStatusExcel" parameterType="map">
-        SELECT
+      <!--  SELECT
             <include refid="baseSql" />,
             org.orgName
         FROM asset ast
@@ -156,6 +157,70 @@
                 <![CDATA[ AND DATE(ast.timeAdd) <= #{map.endDate} ]]>
             </if>
         </where>
+        order by ast.timeAdd desc-->
+
+
+        select
+            ast.*,T.orgName, rm.roomName
+        FROM
+        (
+        SELECT
+        au.orgID,au.orgName
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        organize
+        WHERE
+        upOrgID IS NOT NULL
+        ) au,
+        (SELECT @pid := #{map.canorgID}) pd
+        WHERE
+        FIND_IN_SET(upOrgID, @pid) > 0
+        AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+        orgID, orgName
+        FROM
+        organize
+        WHERE
+        orgID = #{map.canorgID}
+        ) T
+        JOIN asset ast ON T.orgID = ast.orgID
+        left join room rm on ast.roomID = rm.ID
+        where 1 = 1
+        <if test="map.name != null and map.name != ''">
+            AND ast.name LIKE CONCAT( #{map.name ,jdbcType=VARCHAR}, '%')
+        </if>
+        <if test="map.assetNo != null and map.assetNo != ''">
+            AND ast.assetNo = #{map.assetNo}
+        </if>
+        <if test="map.curStatus != null">
+            AND ast.curStatus = #{map.curStatus}
+        </if>
+        <if test="map.isAbnormal != null">
+            AND ast.isAbnormal = #{map.isAbnormal}
+        </if>
+        <if test="map.lendStatus != null">
+            AND ast.lendStatus = #{map.lendStatus}
+        </if>
+        <if test="map.delStatus != null">
+            AND ast.delStatus = #{map.delStatus}
+        </if>
+        <if test="map.isBlack != null">
+            AND ast.isBlack = #{map.isBlack}
+        </if>
+        <if test="map.orgID != null">
+            AND ast.orgID = #{map.orgID}
+        </if>
+        <if test="map.startDate != null and map.startDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') >= #{map.startDate,jdbcType=VARCHAR} ]]>
+        </if>
+        <if test="map.endDate != null and map.endDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') <= #{map.endDate,jdbcType=VARCHAR} ]]>
+        </if>
+        order by ast.timeAdd desc
     </select>
 
     <select id="checkRepeat" parameterType="list" resultType="com.wwinfo.model.Asset">
@@ -329,7 +394,7 @@
         WHERE
         upOrgID IS NOT NULL
         ) au,
-        (SELECT @pid := #{assetQuery.orgID}) pd
+        (SELECT @pid := #{assetQuery.canorgID}) pd
         WHERE
         FIND_IN_SET(upOrgID, @pid) > 0
         AND @pid := concat(@pid, ',', orgID)
@@ -339,10 +404,10 @@
         FROM
         organize
         WHERE
-        orgID = #{assetQuery.orgID}
+        orgID = #{assetQuery.canorgID}
         ) T
         JOIN asset ast ON T.orgID = ast.orgID
-        join rfid_asset ra on ast.ID = ra.assetID
+        left join rfid_asset ra on ast.ID = ra.assetID
         where 1 = 1
         <if test="assetQuery.name != null and assetQuery.name != ''">
             AND ast.name LIKE CONCAT( #{assetQuery.name ,jdbcType=VARCHAR}, '%')
@@ -362,7 +427,44 @@
         <if test="assetQuery.endDate != null and assetQuery.endDate != ''">
             <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') <= #{assetQuery.endDate,jdbcType=VARCHAR} ]]>
         </if>
+        <if test="assetQuery.rfidPrintNo != null and assetQuery.rfidPrintNo != ''">
+            AND ra.rfid_print_no = #{assetQuery.rfidPrintNo}
+        </if>
+        <if test="assetQuery.staff != null and assetQuery.staff != ''">
+            AND ast.staff LIKE CONCAT( #{assetQuery.staff ,jdbcType=VARCHAR}, '%')
+        </if>
         order by ra.create_time desc
+    </select>
+
+    <select id="getListByOrg" resultType="com.wwinfo.model.Asset" parameterType="java.lang.Long">
+        select
+            ast.*,T.orgName
+        FROM
+            (
+                SELECT
+                    au.orgID,au.orgName
+                FROM
+                    (
+                        SELECT
+                            *
+                        FROM
+                            organize
+                        WHERE
+                            upOrgID IS NOT NULL
+                    ) au,
+                    (SELECT @pid := #{parentOrgID}) pd
+                WHERE
+                    FIND_IN_SET(upOrgID, @pid) > 0
+                  AND @pid := concat(@pid, ',', orgID)
+                UNION
+                SELECT
+                    orgID, orgName
+                FROM
+                    organize
+                WHERE
+                    orgID = #{parentOrgID}
+            ) T
+            JOIN asset ast ON T.orgID = ast.orgID
     </select>
 
     <update id="updateBatchByParam">
@@ -385,6 +487,9 @@
             </if>
             <if test="map.blackTime!= null  ">
                 blackTime = #{map.blackTime},
+            </if>
+            <if test="map.delTime!= null  ">
+                delTime = #{map.delTime},
             </if>
         </set>
         WHERE ID IN

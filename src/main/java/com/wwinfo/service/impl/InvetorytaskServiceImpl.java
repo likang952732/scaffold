@@ -10,11 +10,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
 import com.wwinfo.constant.SysConstant;
-import com.wwinfo.model.Asset;
-import com.wwinfo.model.Invetorytask;
+import com.wwinfo.mapper.AssetMapper;
+import com.wwinfo.mapper.InvetoryassetMapper;
+import com.wwinfo.mapper.InvetorylackMapper;
+import com.wwinfo.model.*;
 import com.wwinfo.mapper.InvetorytaskMapper;
-import com.wwinfo.model.Room;
-import com.wwinfo.model.User;
 import com.wwinfo.pojo.dto.InvTaskCancelParam;
 import com.wwinfo.pojo.query.InvetorytaskQuery;
 import com.wwinfo.pojo.res.InvetorytaskRes;
@@ -43,6 +43,15 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
 
     @Resource
     private InvetorytaskMapper invetorytaskMapper;
+
+    @Resource
+    private InvetoryassetMapper invetoryassetMapper;
+
+    @Resource
+    private AssetMapper assetMapper;
+
+    @Resource
+    private InvetorylackMapper invetorylackMapper;
 
     @Override
     public IPage listPage(InvetorytaskQuery invetorytaskQuery) {
@@ -86,6 +95,7 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
         }
         Invetorytask invetorytask = BeanUtil.copyProperties(addVO, Invetorytask.class);
         invetorytask.setOrgID(addVO.getOrgIDs());
+        invetorytask.setUserOrgID(curOrgID);
         return invetorytaskMapper.insert(invetorytask);
     }
 
@@ -102,11 +112,59 @@ public class InvetorytaskServiceImpl extends ServiceImpl<InvetorytaskMapper, Inv
     @Override
     public int cancel(InvTaskCancelParam invTaskCancelParam) {
         Invetorytask invetorytask = invetorytaskMapper.selectById(invTaskCancelParam.getId());
-        invetorytask.setStatus(1);
-        if(invTaskCancelParam.getType() == 2){
+        Integer type = invTaskCancelParam.getType();
+        Integer status = invetorytask.getStatus();
+        if(type == 1 && status == 1){
+            throw new BusinessException("任务已经是结束状态");
+        } else if(type == 2 && status == 2) {
+            throw new BusinessException("任务已经是取消状态");
+        }
+
+        if(type == 1) {
+            invetorytask.setStatus(1);
+            //比对该任务的清单和所属部门的资产
+            handle(invetorytask);
+        } else if(invTaskCancelParam.getType() == 2){
             invetorytask.setStatus(2);
         }
         invetorytask.setCancelReason(invetorytask.getCancelReason());
         return invetorytaskMapper.updateById(invetorytask);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    private void handle(Invetorytask task){
+        QueryWrapper<Invetoryasset> wrapper = new QueryWrapper<>();
+        wrapper.eq("taskID", task.getID());
+        List<Invetoryasset> inassList = invetoryassetMapper.selectList(wrapper);
+
+        List<Asset> assetList = assetMapper.getListByOrg(task.getUserOrgID());
+        Invetorylack lack = null;
+        List<Invetorylack> lackList = new ArrayList<>();
+        for(Asset as:assetList){
+            boolean flag = false;
+            for(Invetoryasset ina: inassList){
+                 if(as.getID() == ina.getAssetID()){
+                     if(as.getRoomID() == ina.getRoomID()){
+                         ina.setCheckResult(0);
+                     } else if(as.getRoomID() != ina.getRoomID() && ina.getRoomID() != null){
+                         ina.setCheckResult(1);
+                         ina.setShouldRoomID(ina.getRoomID());
+                     } else if(as.getCurStatus() == 1){
+                         ina.setCheckResult(2);
+                     }
+                     flag = true;
+                 }
+            }
+            if(!flag){
+                lack = new Invetorylack();
+                lack.setTaskID(task.getID());
+                lack.setAssetID(as.getID());
+                lack.setShouldRoomID(as.getRoomID());
+                lack.setResultCheck(0);
+                lackList.add(lack);
+            }
+        }
+        invetorylackMapper.addBatch(lackList);
+        invetoryassetMapper.updateBatch(inassList);
     }
 }

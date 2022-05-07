@@ -91,6 +91,7 @@ public class EntryposServiceImpl extends ServiceImpl<EntryposMapper, Entrypos> i
 
         Entrypos entrypos = BeanUtil.copyProperties(entryposChgVO, Entrypos.class);
         entrypos.setID(entryposChgVO.getId());
+        entrypos.setTimeModify(new Date());
         return entryposMapper.chgById(entrypos);
 
         //更新阅读器is_used

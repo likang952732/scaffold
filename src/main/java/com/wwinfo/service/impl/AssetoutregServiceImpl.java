@@ -65,7 +65,7 @@ public class AssetoutregServiceImpl extends ServiceImpl<AssetoutregMapper, Asset
         List<Long> idList = Arrays.asList(addVO.getAssetIDs().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
         if(addVO.getOutType() == 1 && (StrUtil.isBlank(addVO.getUsages()) || StrUtil.isBlank(addVO.getBorrowOrg())
                 || StrUtil.isBlank(addVO.getBorrowMan()))){
-            throw new BusinessException("借用出库时,usage,borrowMan,borrowOrg不能为空");
+            throw new BusinessException("借用出库时,用途,借用人,借用部门不能为空");
         }
         List<Asset> assets = assetMapper.selectBatchIds(idList);
         for(Asset asset: assets){
@@ -82,6 +82,9 @@ public class AssetoutregServiceImpl extends ServiceImpl<AssetoutregMapper, Asset
             AssetoutregAddVO vo = BeanUtil.copyProperties(addVO, AssetoutregAddVO.class);
             vo.setAssetID(assetId);
             vo.setRegTime(new Date());
+            if(StrUtil.isBlank(vo.getEstimateTime())){
+                vo.setEstimateTime(null);
+            }
             list.add(vo);
         }
         assetoutregMapper.addBatch(list);
@@ -94,6 +97,7 @@ public class AssetoutregServiceImpl extends ServiceImpl<AssetoutregMapper, Asset
     @Override
     public int chg(ChgStatusParam chgStatusParam) {
         Assetoutreg assetoutreg = BeanUtil.copyProperties(chgStatusParam, Assetoutreg.class);
+        assetoutreg.setID(chgStatusParam.getId());
         return assetoutregMapper.updateById(assetoutreg);
     }
 

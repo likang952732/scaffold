@@ -35,6 +35,10 @@ public class MenuChgVO {
     @NotNull(message = "状态不能为空")
     private Integer status;
 
+    @ApiModelProperty(value = "菜单类型：0->部门；1->系统", required = true)
+    @NotNull(message = "菜单类型不能为空")
+    private Integer type;
+
     @ApiModelProperty(value = "前端名称")
     private String frontName;
 

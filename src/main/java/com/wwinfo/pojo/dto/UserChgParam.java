@@ -1,5 +1,6 @@
 package com.wwinfo.pojo.dto;
 
+import com.wwinfo.annotation.TelCheck;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -14,6 +15,10 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class UserChgParam {
+
+    @ApiModelProperty(value = "id", required = true)
+    @NotNull(message = "id不能为空")
+    private Long id;
 
     @ApiModelProperty(value = "用户名称(最大长度32)", required = true)
     @NotBlank(message = "用户名称不能为空")
@@ -33,6 +38,7 @@ public class UserChgParam {
     private String realName;
 
     @ApiModelProperty(value = "电话(最大长度64)")
+    @TelCheck
     private String phone;
 
     @ApiModelProperty(value = "地址(最大长度512)")

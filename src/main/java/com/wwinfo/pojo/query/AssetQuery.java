@@ -41,8 +41,10 @@ public class AssetQuery {
     @ApiModelProperty(value = "是否绑定了RFID(0->否;1->是)")
     private Integer isBand;
 
-    @JsonIgnore
     private Long orgID;
+
+    @JsonIgnore
+    private Long canorgID;
 
     @ApiModelProperty(value = "开始日期")
     private String startDate;
@@ -50,7 +52,8 @@ public class AssetQuery {
     @ApiModelProperty(value = "结束日期")
     private String endDate;
 
-
+    @ApiModelProperty(value = "负责人)")
+    private String staff;
 
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;

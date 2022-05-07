@@ -51,6 +51,7 @@ public class EntryposRes {
     private Date timeAdd;
 
     @ApiModelProperty(value = "更新时间")
+
     private Date timeModify;
 
 }

@@ -83,6 +83,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.like(StrUtil.isNotBlank(userQuery.getUserName()), "userName", userQuery.getUserName());
         wrapper.eq("userType", userQuery.getUserType());
+        wrapper.orderByDesc("timeAdd");
         return userMapper.selectPage(page, wrapper);
     }
 
@@ -176,6 +177,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int update(UserChgParam userChgParam) {
         User user = BeanUtil.copyProperties(userChgParam, User.class);
+        user.setTimeModify(new Date());
         return userMapper.updateById(user);
     }
 

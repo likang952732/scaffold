@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /*
  @Description
  *@author kang.li
- *@date 2021/7/7 14:44   
+ *@date 2021/7/7 14:44
  */
 @Documented
 @Target({ElementType.FIELD})
@@ -17,7 +17,7 @@ public @interface Phone {
     /**
      * 校验不通过的message
      */
-    String message() default "Please enter the correct phone number";
+    String message() default "请输入正确的手机号";
 
     /**
      * 分组校验

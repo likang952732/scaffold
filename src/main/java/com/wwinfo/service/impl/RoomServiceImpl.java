@@ -38,7 +38,7 @@ import java.util.Map;
  */
 @Service
 public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements RoomService {
-    
+
     @Resource
     private RoomMapper roomMapper;
 
@@ -53,6 +53,7 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
         Page<Room> page = new Page<>(roomQuery.getPageNum(), roomQuery.getPageSize());
         QueryWrapper<Room> wrapper = new ExcludeEmptyQueryWrapper<>();
         wrapper.like("roomName", roomQuery.getRoomName());
+        wrapper.orderByDesc("timeAdd");
         return roomMapper.selectPage(page, wrapper);
     }
 
@@ -105,7 +106,7 @@ public class RoomServiceImpl extends ServiceImpl<RoomMapper, Room> implements Ro
         }
 
         QueryWrapper<Entrypos> enWrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("roomID", id);
+        enWrapper.eq("roomID", id);
         List<Entrypos> entryposList = entryposMapper.selectList(enWrapper);
         if(CollUtil.isNotEmpty(entryposList)){
             throw new BusinessException("该库房已在出入口设置中被关联，不能删除");

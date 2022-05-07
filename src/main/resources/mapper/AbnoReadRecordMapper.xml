@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.AbnoReadRecordMapper">
+
+    <select id="listPage" resultType="com.wwinfo.pojo.res.AbnoReadRecordRes">
+        select
+            ast.*,T.orgName, arr.assetID, arr.readerName, arr.description as "ab_description", arr.create_time
+        FROM
+        (
+        SELECT
+        au.orgID,au.orgName
+        FROM
+        (
+        SELECT
+        *
+        FROM
+        organize
+        WHERE
+        upOrgID IS NOT NULL
+        ) au,
+        (SELECT @pid := #{query.canorgID}) pd
+        WHERE
+        FIND_IN_SET(upOrgID, @pid) > 0
+        AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+        orgID, orgName
+        FROM
+        organize
+        WHERE
+        orgID = #{query.canorgID}
+        ) T
+        JOIN asset ast ON T.orgID = ast.orgID
+        JOIN abno_read_record arr ON ast.ID = arr.assetID
+        where 1 = 1
+        <if test="query.assetNo != null and query.assetNo != ''">
+            AND ast.assetNo = #{query.assetNo}
+        </if>
+        <if test="query.assetID != null">
+            AND arr.assetID = #{query.assetID}
+        </if>
+        <if test="query.startDate != null and query.startDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') >= #{query.startDate,jdbcType=VARCHAR} ]]>
+        </if>
+        <if test="query.endDate != null and query.endDate != ''">
+            <![CDATA[ AND DATE_FORMAT(ast.timeAdd, '%Y-%m-%d') <= #{query.endDate,jdbcType=VARCHAR} ]]>
+        </if>
+        order by arr.create_time desc
+    </select>
+</mapper>

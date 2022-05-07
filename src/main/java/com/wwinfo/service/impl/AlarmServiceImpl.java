@@ -37,6 +37,7 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
         wrapper.eq("isSend", alarmQuery.getIsSend());
         wrapper.ge("timeAdd", alarmQuery.getStartTime());
         wrapper.le("timeAdd", alarmQuery.getEndTime());
+        wrapper.orderByDesc("timeAdd");
         return alarmMapper.selectPage(page, wrapper);
     }
 

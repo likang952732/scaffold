@@ -1,6 +1,7 @@
 package com.wwinfo.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.exception.BusinessException;
@@ -14,6 +15,7 @@ import com.wwinfo.pojo.query.InvetoryassetQuery;
 import com.wwinfo.pojo.res.InvetoryassetRes;
 import com.wwinfo.service.InvetoryassetService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wwinfo.util.UserUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,12 +49,35 @@ public class InvetoryassetServiceImpl extends ServiceImpl<InvetoryassetMapper, I
     @Override
     public IPage listPage(InvetoryassetQuery invetoryassetQuery) {
         Page<InvetoryassetRes> page = new Page<>(invetoryassetQuery.getPageNum(), invetoryassetQuery.getPageSize());
-        return invetoryassetMapper.page(page, invetoryassetQuery);
+        invetoryassetQuery.setOrgID(UserUtil.getCurrentUser().getOrgID());
+        Integer type = invetoryassetQuery.getType();
+        IPage result = new Page();
+        if((type!= null && type == 0) || type == null){
+            result = invetoryassetMapper.page(page, invetoryassetQuery);
+        } else if(invetoryassetQuery.getType() != null && invetoryassetQuery.getType() == 1){
+            invetoryassetQuery.setCheckResults("0, 1, 2");
+            result = invetoryassetMapper.page(page, invetoryassetQuery);
+        }
+        List<InvetoryassetRes> records = result.getRecords();
+        for(InvetoryassetRes res: records){
+            if(res.getCurStatus() == 1){
+                res.setRoomName("外部");
+            }
+        }
+        return result;
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int confirm(Long id, String assetIDs) {
+        if(id == null){
+            throw new BusinessException("任务id不能为空");
+        }
+
+        if(StrUtil.isBlank(assetIDs)){
+            throw new BusinessException("assetIDs参数不能为空");
+        }
+
         Invetorytask invetorytask = invetorytaskMapper.selectById(id);
         if(invetorytask.getStatus() != SysConstant.INVETORY_TASK_STATUS_END) {
             throw new BusinessException("只有结束状态的盘点任务才能确认");

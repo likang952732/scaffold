@@ -53,7 +53,7 @@ public interface TMenuService extends IService<TMenu> {
      * @param userId
      * @return
      */
-    List<MenuNode> getMenuTreeByUserId(Long userId);
+    List<TMenu> getMenuTreeByUserId(Long userId);
 
     List<TMenu> getParentMenu();
 

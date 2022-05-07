@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,19 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
     public List<OrganizeNode> treeList(String orgName) {
         QueryWrapper<Organize> wrapper = new QueryWrapper<>();
         wrapper.like(StrUtil.isNotBlank(orgName), "orgName", orgName);
+        wrapper.orderByDesc("timeAdd");
         List<Organize> organizeList = organizeMapper.selectList(wrapper);
+        if(StrUtil.isNotBlank(orgName)){
+            List<OrganizeNode> nodeList = new ArrayList<>();
+            if(CollUtil.isNotEmpty(organizeList)){
+                for (Organize org: organizeList){
+                    OrganizeNode node = BeanUtil.copyProperties(org, OrganizeNode.class);
+                    nodeList.add(node);
+                }
+            }
+            return nodeList;
+        }
+
         List<OrganizeNode> result = organizeList.stream()
                 .filter(org -> org.getOrgLevel() == 0)
                 .map(org ->covertOrganizeNode(org, organizeList))
@@ -114,6 +127,7 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
             throw new BusinessException("部门名称不能重复");
         }
         Organize organize = BeanUtil.copyProperties(organizeChgVO, Organize.class);
+        organize.setTimeModify(new Date());
         return organizeMapper.updateById(organize);
     }
 
