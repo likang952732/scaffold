@@ -54,14 +54,13 @@ public class RFIDSend implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        log.info("run ...........");
         rfidReaderUtil.init();
     }
 
 
     @Scheduled(cron="${task.rfidsend}")
     public void pullInfo() {
-        log.info("task start............");
+        log.info("pullInfo()开始执行");
         //向所有已连接的RFID设备发送读取请求
         byte[] sendData0 = rfidReaderUtil.buildSendData(0,(byte)1);		//ML-M5000五字节通信协议
         byte[] sendData1 = rfidReaderUtil.buildSendData(1,(byte)1);		//原708设备通信协议

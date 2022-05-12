@@ -58,6 +58,7 @@
         select
             <include refid="baseSql" />,
             ast.name AS "assetName",
+            ast.assetNo,
             T.orgName
         FROM
         (
@@ -106,6 +107,7 @@
         select
         <include refid="baseSql" />,
         ast.name AS "assetName",
+        ast.assetNo,
         T.orgName
         FROM
         (

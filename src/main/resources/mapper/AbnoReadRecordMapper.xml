@@ -4,7 +4,7 @@
 
     <select id="listPage" resultType="com.wwinfo.pojo.res.AbnoReadRecordRes">
         select
-            ast.*,T.orgName, arr.assetID, arr.readerName, arr.description as "ab_description", arr.create_time
+            ast.*, ast.name as "assetName" , T.orgName, arr.assetID, arr.readerName, arr.description as "ab_description", arr.create_time
         FROM
         (
         SELECT

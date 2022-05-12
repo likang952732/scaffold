@@ -3,8 +3,6 @@ package com.wwinfo.task;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
 import com.wwinfo.mapper.TConfigMapper;
 import com.wwinfo.model.Alarm;
 import com.wwinfo.model.Rfidreader;
@@ -15,16 +13,12 @@ import com.wwinfo.util.BusinUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -73,7 +67,7 @@ public class PingTask implements SchedulingConfigurer {
         task();
         taskRegistrar.addTriggerTask(
                 //1.添加任务内容(Runnable)
-                () -> log.info("阅读器在线检测开始执行: " + DateUtil.now()),
+                () -> log.info("configureTasks()阅读器在线检测开始执行: " + DateUtil.now()),
                 //2.设置执行周期(Trigger)
                 triggerContext -> {
                     //2.1 从数据库获取执行周期
@@ -169,7 +163,7 @@ public class PingTask implements SchedulingConfigurer {
                 }
             }
         }catch(Exception e){
-            e.printStackTrace();
+            log.error("ping()异常: {}", e);
         }
         return ret;
     }

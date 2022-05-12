@@ -70,7 +70,7 @@ public class PersonnelLibController {
     @ApiImplicitParams({ @ApiImplicitParam(paramType = "header", dataType = "String", name = "Authorization", value = "token标记(传参例子: Authorization:  'Bearer 12372xxxxxx')", required = true) })
     @ApiOperation(value = "扫二维码导入")
     @PostMapping("/scancode")
-    @MyLog(operate = "扫二维码导入", objectType = "添加人员库", objectName = "人员库管理", descript = "扫二维码导入")
+    @MyLog(operate = "扫二维码导入", objectType = "扫二维码导入人员库", objectName = "人员库管理", descript = "扫二维码导入")
     public CommonResult scancode(@Validated @RequestBody List<PersonnelLibAddVO> voList, BindingResult result){
         List<FieldError> fieldErrors = result.getFieldErrors();
         if(!fieldErrors.isEmpty()){

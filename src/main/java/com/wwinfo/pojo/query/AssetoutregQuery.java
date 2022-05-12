@@ -26,6 +26,9 @@ public class AssetoutregQuery {
     @ApiModelProperty(value = "资产id")
     private Long assetID;
 
+    @ApiModelProperty(value = "资产编号")
+    private String assetNo;
+
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;
 

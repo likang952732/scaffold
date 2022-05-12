@@ -22,6 +22,9 @@ public class AssetrecordRes {
     @ApiModelProperty(value = "资产ID")
     private Long assetID;
 
+    @ApiModelProperty(value = "资产编号")
+    private String assetNo;
+
     @ApiModelProperty(value = "资产名称")
     private String assetName;
 

@@ -380,7 +380,7 @@
 
     <select id="bindPage" resultType="com.wwinfo.pojo.res.AssetRes">
         select
-            ast.*,T.orgName, ra.rfid_print_no
+            ast.*,T.orgName, GROUP_CONCAT(ra.rfid_print_no) rfid_print_no
         FROM
         (
         SELECT
@@ -433,7 +433,7 @@
         <if test="assetQuery.staff != null and assetQuery.staff != ''">
             AND ast.staff LIKE CONCAT( #{assetQuery.staff ,jdbcType=VARCHAR}, '%')
         </if>
-        order by ra.create_time desc
+        GROUP BY ast.ID order by ra.create_time desc
     </select>
 
     <select id="getListByOrg" resultType="com.wwinfo.model.Asset" parameterType="java.lang.Long">

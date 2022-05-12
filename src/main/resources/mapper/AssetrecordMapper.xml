@@ -20,6 +20,7 @@
         select
             <include refid="baseSql" />,
             ast.name AS "assetName",
+            ast.assetNo,
             enp.posName,
             T.orgName
         FROM
@@ -58,7 +59,7 @@
                 AND asr.preStatus = #{query.preStatus}
             </if>
             <if test="query.statusMatched != null">
-                AND asr.statusMatched = #{aquery.statusMatched}
+                AND asr.statusMatched = #{query.statusMatched}
             </if>
             <if test="query.isAlarm != null">
                 AND asr.isAlarm = #{query.isAlarm}
@@ -68,6 +69,9 @@
             </if>
             <if test="query.assetID != null">
                 AND ast.ID = #{query.assetID}
+            </if>
+            <if test="query.assetNo != null and query.assetNo !=''">
+                AND ast.assetNo = #{query.assetNo}
             </if>
             <if test="query.assetName != null and query.assetName != ''">
                 AND ast.name like CONCAT('%', #{query.assetName}, '%')

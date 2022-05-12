@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * <p>
@@ -48,7 +47,7 @@ public class RfidreaderServiceImpl extends ServiceImpl<RfidreaderMapper, Rfidrea
         QueryWrapper<Rfidreader> wrapper = new QueryWrapper<>();
         wrapper.like(StrUtil.isNotBlank(rfidreaderQuery.getReaderName()), "readerName", rfidreaderQuery.getReaderName());
         wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getReaderIP()), "readerIP", rfidreaderQuery.getReaderIP());
-        wrapper.eq(StrUtil.isNotBlank(rfidreaderQuery.getAddress()), "address", rfidreaderQuery.getAddress());
+        wrapper.like(StrUtil.isNotBlank(rfidreaderQuery.getAddress()), "address", rfidreaderQuery.getAddress());
         wrapper.eq(rfidreaderQuery.getLastStatus() != null, "lastStatus", rfidreaderQuery.getLastStatus());
         wrapper.orderByDesc("timeAdd");
         return rfidreaderMapper.selectPage(page, wrapper);

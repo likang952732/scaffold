@@ -28,6 +28,9 @@ public class AlarmQuery {
     @ApiModelProperty(value = "结束时间(yyyy-MM-dd HH:mm:ss)")
     private String endTime;
 
+    @ApiModelProperty(value = "资产编号)")
+    private String assetNo;
+
     @ApiModelProperty(value = "每页显示条数(默认为10条)")
     private Integer pageSize = 10;
 

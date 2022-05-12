@@ -1,5 +1,6 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,14 +32,14 @@ public class AlarmServiceImpl extends ServiceImpl<AlarmMapper, Alarm> implements
     @Override
     public IPage listPage(AlarmQuery alarmQuery) {
         Page<Alarm> page = new Page<>(alarmQuery.getPageNum(), alarmQuery.getPageSize());
-        QueryWrapper<Alarm> wrapper = new ExcludeEmptyQueryWrapper<>();
-        wrapper.eq("alarmType", alarmQuery.getAlarmType());
-        wrapper.eq("alarmEmail", alarmQuery.getAlarmEmail());
-        wrapper.eq("isSend", alarmQuery.getIsSend());
-        wrapper.ge("timeAdd", alarmQuery.getStartTime());
-        wrapper.le("timeAdd", alarmQuery.getEndTime());
-        wrapper.orderByDesc("timeAdd");
-        return alarmMapper.selectPage(page, wrapper);
+    /*    QueryWrapper<Alarm> wrapper = new QueryWrapper<>();
+        wrapper.eq(alarmQuery.getAlarmType()!= null , "alarmType", alarmQuery.getAlarmType());
+        wrapper.eq(alarmQuery.getAlarmEmail()!= null, "alarmEmail", alarmQuery.getAlarmEmail());
+        wrapper.eq(alarmQuery.getIsSend()!=null, "isSend", alarmQuery.getIsSend());
+        wrapper.ge(StrUtil.isNotBlank(alarmQuery.getStartTime()), "timeAdd", alarmQuery.getStartTime());
+        wrapper.le(StrUtil.isNotBlank(alarmQuery.getEndTime()),"timeAdd", alarmQuery.getEndTime());
+        wrapper.orderByDesc("timeAdd");*/
+        return alarmMapper.getPage(page, alarmQuery);
     }
 
     @Transactional(rollbackFor = Exception.class)

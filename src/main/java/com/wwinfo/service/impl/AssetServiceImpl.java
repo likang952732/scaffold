@@ -6,9 +6,12 @@ import cn.hutool.core.date.BetweenFormater;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.support.ExcelTypeEnum;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -42,6 +45,8 @@ import com.wwinfo.service.RfidrecordService;
 import com.wwinfo.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -306,7 +311,25 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
 
         String fileName = "资产实时状态报告";
         try {
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            WriteCellStyle headWriteCellStyle = new WriteCellStyle();
+            //设置背景颜色
+            headWriteCellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+            //内容策略
+            WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
+            //设置 水平居中
+            contentWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+            HorizontalCellStyleStrategy horizontalCellStyleStrategy = new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
+
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-disposition", "attachment;filename=" + fileName + ".xlsx");
+            // 这里需要设置不关闭流
+            EasyExcel.write(response.getOutputStream(), AssetStatusExcel.class)
+                    .registerWriteHandler(horizontalCellStyleStrategy).sheet("sheet1")
+                    .doWrite(list);
+
+
+          /*  response.setContentType("application/vnd.ms-excel;charset=utf-8");
             response.setCharacterEncoding("utf-8");
             response.setHeader("Content-disposition", "attachment;filename=" + new String( fileName.getBytes("gb2312"), "ISO8859-1" ) + ".xls");
             ServletOutputStream out = response.getOutputStream();
@@ -319,7 +342,7 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
             writer.finish();
             out.flush();
             response.getOutputStream().close();
-            out.close();
+            out.close();*/
         } catch (IOException e) {
             log.error("exportExcel异常: {}", e);
         }
@@ -375,6 +398,11 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     @Override
     public int bindRFID(BindRFIDVO bindRFIDVO) {
         Long assetID = bindRFIDVO.getAssetID();
+        Asset asset = assetMapper.selectById(assetID);
+        if(asset.getDelStatus() == 1){
+            throw new BusinessException("该资产已被销毁");
+        }
+
         List<String> rfidPrintNoList = Arrays.asList(bindRFIDVO.getRfidPrintNo().split(","));
 
         //校验打印编号不能重复

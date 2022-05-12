@@ -21,6 +21,9 @@ public class AssetoutregRes {
     private Long assetID;
 
     @ApiModelProperty(value = "资产名称")
+    private String assetNo;
+
+    @ApiModelProperty(value = "资产名称")
     private String assetName;
 
     @ApiModelProperty(value = "登记时间")
@@ -41,7 +44,7 @@ public class AssetoutregRes {
     @ApiModelProperty(value = "用途")
     private String usages;
 
-    @ApiModelProperty(value = "用途")
+    @ApiModelProperty(value = "借用人")
     private String borrowMan;
 
     @ApiModelProperty(value = "借用部门")
