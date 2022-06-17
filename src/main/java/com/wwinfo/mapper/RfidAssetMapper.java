@@ -23,4 +23,7 @@ public interface RfidAssetMapper extends BaseMapper<RfidAsset> {
 
     int updateBatchStatus(List<Long> idList, Map<String, Object> map);
 
+    void deleteByAssetId(@Param("assetID") Long assetID);
+
+    List<RfidAsset> getByBatchAssetId(@Param("assetIDList") List<Long> assetIDList);
 }

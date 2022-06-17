@@ -35,9 +35,6 @@
             <if test="map.status != null">
                 status = #{map.status},
             </if>
-            <if test="county != null and county != ''">
-                county = #{county},
-            </if>
         </set>
         where ID = #{map.ID}
     </update>

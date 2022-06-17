@@ -46,7 +46,7 @@ public interface AssetMapper extends BaseMapper<Asset> {
 
     int updateBatchMap(@Param("mapList") List<Map<String, Object>> mapList);
 
-    List<HashMap<String, Object>> getAllRFIDRecord();
+    List<HashMap<String, Object>> getAllRFIDRecord(@Param("map")Map<String, Object> map);
 
     List<Asset> getAssetByMap(@Param("map") Map<String, Object> map);
 

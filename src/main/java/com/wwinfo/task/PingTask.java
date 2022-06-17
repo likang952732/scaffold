@@ -13,12 +13,15 @@ import com.wwinfo.util.BusinUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
 
 import javax.annotation.Resource;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +34,7 @@ import java.util.Optional;
  * DateTime: 2022-03-07 16:03
  */
 @Slf4j
-//@Configuration
+@Configuration
 public class PingTask implements SchedulingConfigurer {
 
     @Autowired
@@ -63,7 +66,7 @@ public class PingTask implements SchedulingConfigurer {
     //@Scheduled(cron="#{@getCronValue(ping)}")
     //@Scheduled(cron="${task.ping}")
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
-        //log.info("阅读器在线检测开始执行执行......" + LocalDateTime.now().toLocalTime());
+        log.info("阅读器在线检测开始执行执行......" + LocalDateTime.now().toLocalTime());
         task();
         taskRegistrar.addTriggerTask(
                 //1.添加任务内容(Runnable)

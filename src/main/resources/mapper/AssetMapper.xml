@@ -261,6 +261,7 @@
         FROM asset ast
         JOIN rfid_asset ra ON ast.ID = ra.assetID
         JOIN rfidRecord rfr ON ra.rfid_real_no = rfr.rfidNo
+        WHERE ast.delStatus = 0 AND rfr.status = #{map.status}
         ORDER BY rfr.timeAdd DESC
     </select>
 
@@ -433,7 +434,7 @@
         <if test="assetQuery.staff != null and assetQuery.staff != ''">
             AND ast.staff LIKE CONCAT( #{assetQuery.staff ,jdbcType=VARCHAR}, '%')
         </if>
-        GROUP BY ast.ID order by ra.create_time desc
+        GROUP BY ast.ID order by ast.timeAdd desc
     </select>
 
     <select id="getListByOrg" resultType="com.wwinfo.model.Asset" parameterType="java.lang.Long">

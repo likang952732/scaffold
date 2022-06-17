@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
@@ -57,17 +58,15 @@ public class InvetoryEquServiceImpl implements InvetoryEquService {
         JSONArray array = new JSONArray();
         QueryWrapper<Room> wrapper = new ExcludeEmptyQueryWrapper<>();
         List<Room> roomList = roomMapper.selectList(wrapper);
-        if(CollUtil.isNotEmpty(roomList)){
-            JSONObject json = null;
-            for(Room m: roomList){
-                json = new JSONObject();
-                json.put("ID", m.getID());
-                json.put("roomName", m.getRoomName());
-                json.put("address", m.getAddress());
-                json.put("desc", m.getDescription());
-                json.put("remark", m.getRemark());
-                array.add(json);
-            }
+        JSONObject json = null;
+        for(Room m: roomList){
+            json = new JSONObject();
+            json.put("ID", m.getID());
+            json.put("roomName", m.getRoomName());
+            json.put("address", m.getAddress());
+            json.put("desc", m.getDescription());
+            json.put("remark", m.getRemark());
+            array.add(json);
         }
         return array;
     }

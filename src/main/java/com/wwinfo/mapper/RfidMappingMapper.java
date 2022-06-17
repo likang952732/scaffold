@@ -17,5 +17,7 @@ public interface RfidMappingMapper extends BaseMapper<RfidMapping> {
 
     List<RfidMapping> getByPrintNos(@Param("list") List<String> rfidPrintNoList);
 
+    List<RfidMapping> getByAssetID(@Param("assetID")Long assetID);
+
     void updateBatch(@Param("list") List<String> list, @Param("status") Integer status);
 }

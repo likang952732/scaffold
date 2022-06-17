@@ -15,8 +15,19 @@
       </foreach >
     </insert>
 
+    <delete id="deleteByAssetId" parameterType="java.lang.Long">
+        delete from rfid_asset WHERE assetID = #{assetID}
+    </delete>
+
     <select id="getByAssetID" resultType="com.wwinfo.model.RfidAsset" parameterType="java.lang.Long">
-        SELECT id, rfid_real_no, assetID FROM rfid_asset WHERE assetID = #{assetID}
+        SELECT id, rfid_real_no, rfid_print_no, assetID FROM rfid_asset WHERE assetID = #{assetID}
+    </select>
+
+    <select id="getByBatchAssetId" resultType="com.wwinfo.model.RfidAsset" parameterType="list">
+       select rfid_print_no from rfid_asset WHERE assetID IN
+        <foreach collection="assetIDList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </select>
 
     <update id="updateBatchStatus">

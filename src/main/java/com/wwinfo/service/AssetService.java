@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -115,7 +116,7 @@ public interface AssetService extends IService<Asset> {
      * 获取所有的资产的RFIDrecord
      * @return
      */
-    List<HashMap<String, Object>> getAllRFIDRecord();
+    List<HashMap<String, Object>> getAllRFIDRecord(Map<String, Object> condition);
 
     void getTemplate(HttpServletResponse response);
 

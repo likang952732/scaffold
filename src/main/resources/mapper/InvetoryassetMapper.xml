@@ -16,7 +16,7 @@
           rm.roomName as actualRoomName,
           ast.assetNo,
           ast.staff,
-          ast.staff as assetName,
+          ast.name as assetName,
           ast.curStatus,
           rm2.roomName
        FROM invetoryTask task

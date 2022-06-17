@@ -10,6 +10,10 @@
         </foreach>
     </select>
 
+    <select id="getByAssetID" resultType="com.wwinfo.model.RfidMapping" parameterType="java.lang.Long">
+        select rfid_print_no, rfid_real_no, status from rfid_mapping where assetID = #{assetID}
+    </select>
+
     <update id="updateBatch">
         update  rfid_mapping set status = #{status}
         where rfid_print_no in

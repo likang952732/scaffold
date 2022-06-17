@@ -10,11 +10,15 @@ import com.uhf.api.cls.Reader.READER_ERR;
 import com.uhf.api.cls.Reader.Region_Conf;
 import com.uhf.api.cls.Reader.TAGINFO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /*
  * 中科院无源RFID读取
  */
 @Slf4j
+@Component
 public class ZKYAsynReader {
 
 	@Autowired
@@ -28,6 +32,13 @@ public class ZKYAsynReader {
 	private int[] m_ants = null;
 	private Thread m_readThread = null;
 	private static boolean m_stopThread = false;
+	private static ZKYAsynReader zkyAsynReader;
+
+	@PostConstruct
+	public void myInit(){
+		zkyAsynReader = this;
+		zkyAsynReader.rfidReaderUtil = this.rfidReaderUtil;
+	}
 
 	public boolean init(HashMap readerInfo,String ip,int antennaNum){
 		m_readerInfo = readerInfo;
@@ -101,7 +112,7 @@ public class ZKYAsynReader {
 			    	apvr.vswrs[0].frequency = 915250;
 			    	err=devReader.ParamGet(Mtr_Param.MTR_PARAM_RF_ANTPORTS_VSWR, apvr);
 			    	//antID1234即对应物理天线口1234，当获取的vswr小于10时即可认为天线口有天线连接
-			    	//System.out.println(" antID = "+i+" vswr= "+apvr.vswrs[0].vswr+" frequency= "+apvr.vswrs[0].frequency);
+			    	System.out.println(" antID = "+i+" vswr= "+apvr.vswrs[0].vswr+" frequency= "+apvr.vswrs[0].frequency);
 					if (err != READER_ERR.MT_OK_ERR){
 			        	log.error("RFID ParamGet for andid="+Integer.toString(i)+" failed：" + err.toString()+"("+m_ip+")");
 					}else if (apvr.vswrs[0].vswr < 10){
@@ -117,6 +128,7 @@ public class ZKYAsynReader {
 		        		e.printStackTrace();
 		        	}
 				}else{
+					log.info("与设置连接成功");
 					break;
 				}
 			}
@@ -124,7 +136,8 @@ public class ZKYAsynReader {
 			for(int i=0;i<m_antCount;i++){
 				m_ants[i] = antsTemp[i];
 			}
-        	log.debug("start RFID read：ip=" + m_ip+";天线数："+Integer.toString(m_antCount));
+        	//log.debug("start RFID read：ip=" + m_ip+";天线数："+Integer.toString(m_antCount));
+        	log.info("start RFID read：ip=" + m_ip+";天线数："+Integer.toString(m_antCount));
 			while(true){
 				TAGINFO[] tags=new TAGINFO[200];
 				int[] tagnum=new int[1];
@@ -135,13 +148,14 @@ public class ZKYAsynReader {
 					break;
 				}
 				if (tagnum[0] > 0){
-					log.debug("RFID ip: "+m_ip+";天线数："+Integer.toString(m_antCount)
+					log.info("RFID ip: "+m_ip+";天线数："+Integer.toString(m_antCount)
 							+";读到标签数："+Integer.toString(tagnum[0]));
 					for(int i=0;i<tagnum[0];i++){
 						try{
 							String cardNo = Reader.bytes_Hexstr(tags[i].EpcId);
-							log.debug(m_ip+"读到标签："+cardNo);
-							rfidReaderUtil.settleReadCard(cardNo,false,m_readerInfo);
+							//log.debug(m_ip+"读到标签："+cardNo);
+							log.info(m_ip+"读到标签："+cardNo);
+							zkyAsynReader.rfidReaderUtil.settleReadCard(cardNo,false,m_readerInfo);
 						}catch(Exception e){
 							e.printStackTrace();
 						}

@@ -25,7 +25,7 @@ import java.util.Map;
  * DateTime: 2022-03-07 21:32
  */
 @Slf4j
-//@Component
+@Component
 public class CheckOutDayTask {
 
     @Autowired

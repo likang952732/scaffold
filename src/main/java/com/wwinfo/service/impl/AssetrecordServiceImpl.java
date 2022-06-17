@@ -1,5 +1,6 @@
 package com.wwinfo.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.model.Assetrecord;
@@ -12,6 +13,7 @@ import com.wwinfo.service.AssetrecordService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wwinfo.util.UserUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Optional;
@@ -47,6 +49,7 @@ public class AssetrecordServiceImpl extends ServiceImpl<AssetrecordMapper, Asset
         return assetrecordMapper.getByAssetIDAndSortType(page,assetID, sortType);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int add(Assetrecord assetrecord) {
         return assetrecordMapper.insert(assetrecord);

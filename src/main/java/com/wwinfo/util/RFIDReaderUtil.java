@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class RFIDReaderUtil {
+
 	public static final int DIRECTORY_IN = 0;
 	public static final int DIRECTORY_OUT = 1;
 	private static int portListen = 19902;
@@ -102,7 +103,7 @@ public class RFIDReaderUtil {
 			sum ++;
 			sendData[4]=sum;
 			return sendData;
-		}else{							//ML-M5000
+		} else{							//ML-M5000
 			byte[] sendData={0x01,0x04,0x01,0x03};
 			if (null != addr)
 				sendData[0]=addr;
@@ -424,7 +425,7 @@ public class RFIDReaderUtil {
 				}
 				if (interfaceType >= 2 && interfaceType<=5){	//无源1,2,3,4天线
 					//开启异步读取方式，即线程读取
-					log.info("开启异步读取方式，即线程读取");
+					log.info("RFIDReaderUtil中开启异步读取方式，即线程读取");
 					asyncReadPassive(reader,interfaceType - 1);
 				}
 			}
@@ -465,7 +466,6 @@ public class RFIDReaderUtil {
 		            	if (clientIP.startsWith("/"))
 		            		clientIP = clientIP.substring(1);
 		            	log.debug("RFID地址：{}", clientIP);
-		            	log.info("RFID地址：{}", clientIP);
 		            	if (clientIP.isEmpty())
 		            		continue;
 		            	//tcp各项参数
@@ -541,7 +541,7 @@ public class RFIDReaderUtil {
     	if (isAlready)
     		return;
        	//保存读到卡号事件到数据库
-		log.info("开始保存读到卡号事件到数据库");
+		log.info("RFIDReaderUtil中的settleReadCard方法开始保存读到卡号事件到数据库");
 		Rfidrecord rfidrecord = new Rfidrecord();
         List<Rfidrecord> listTemp = rfidrecordService.getByrFidNo(cardNo);
         if(CollUtil.isNotEmpty(listTemp)){
@@ -553,6 +553,8 @@ public class RFIDReaderUtil {
 		}
 		Rfidreader rfidreader = rfidreaderService.getByReaderName(readerInfo.get("readerName").toString());
 		rfidrecord.setReaderID(rfidreader.getID());
+		rfidrecord.setRfidNo(cardNo);
+		rfidrecord.setStatus(0);
 		rfidrecordService.add(rfidrecord);
 
     	//低电报警

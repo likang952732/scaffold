@@ -2,9 +2,8 @@ package com.wwinfo.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.date.BetweenFormater;
+import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
@@ -44,7 +43,6 @@ import com.wwinfo.service.RfidMappingService;
 import com.wwinfo.service.RfidrecordService;
 import com.wwinfo.util.UserUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +54,6 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -108,7 +105,7 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
             for(AssetRes res: records){
                 if(res.getLendStart() != null){
                     Date endDate = res.getLendEnd() == null ? DateUtil.date() : res.getLendEnd();
-                    String outDuration = DateUtil.formatBetween(res.getLendStart(), endDate, BetweenFormater.Level.HOUR);
+                    String outDuration = DateUtil.formatBetween(res.getLendStart(), endDate, BetweenFormatter.Level.HOUR);
                     res.setOutDuration(outDuration);
                 }
             }
@@ -235,6 +232,10 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
         //更新RFID资源绑定的状态
         map.put("status", SysConstant.RFID_ASSET_STATUS);
         rfidAssetMapper.updateBatchStatus(idList, map);
+
+        List<RfidAsset> list = rfidAssetMapper.getByBatchAssetId(idList);
+        List<String> printList = list.stream().map(RfidAsset::getRfidPrintNo).collect(Collectors.toList());
+        rfidMappingMapper.updateBatch(printList, 2);
         return 1;
     }
 
@@ -416,20 +417,52 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
             throw new BusinessException("打印编号全部没有匹配到实际编号");
         }
 
-        for(RfidMapping mapp: mappList){
-            if(mapp.getStatus() == 1){
-                throw new BusinessException("打印编号: " + mapp.getRfidPrintNo()   +  "对应的RFID标签已经被使用");
+        //校验是否废弃
+        for(RfidMapping m : mappList) {
+            if(m.getStatus() == 2){
+                throw new BusinessException("打印编号" + m.getRfidPrintNo() + "已被销毁");
             }
+        }
+
+        List<String> queryPrintList = mappList.stream().map(RfidMapping::getRfidPrintNo).collect(Collectors.toList());
+        List<String> diffeCollect = rfidPrintNoList.stream().filter(item -> !queryPrintList.contains(item)).collect(Collectors.toList());
+        if(CollUtil.isNotEmpty(diffeCollect)){
+            String diffStr = diffeCollect.stream().map(String::valueOf).collect(Collectors.joining(","));
+            throw new BusinessException("打印编号" + diffStr + "没有匹配到实际编号");
+        }
+
+        List<RfidAsset> bindPrintList = rfidAssetMapper.getByAssetID(assetID);
+        if(CollUtil.isEmpty(bindPrintList)){
+            for(RfidMapping mapp: mappList){
+                if(mapp.getStatus() == 1){
+                    throw new BusinessException("打印编号: " + mapp.getRfidPrintNo()   +  "对应的RFID标签已经被使用");
+                }
+            }
+        } else {
+            List<String> existPrintList = bindPrintList.stream().map(RfidAsset::getRfidPrintNo).collect(Collectors.toList());
+            if(rfidPrintNoList.size() < existPrintList.size()){  //删除了printNo
+                List<String> diffeList = existPrintList.stream().filter(item -> !rfidPrintNoList.contains(item)).collect(Collectors.toList());
+                rfidMappingMapper.updateBatch(diffeList, 2);   //废弃
+            } else if (rfidPrintNoList.size() > existPrintList.size()){
+                List<String> diffeList = rfidPrintNoList.stream().filter(item -> !existPrintList.contains(item)).collect(Collectors.toList());
+                List<RfidMapping> mappList2 = rfidMappingMapper.getByPrintNos(diffeList);
+                for(RfidMapping mapp: mappList2){
+                    if(mapp.getStatus() == 1){
+                        throw new BusinessException("打印编号: " + mapp.getRfidPrintNo()   +  "对应的RFID标签已经被使用");
+                    }
+                }
+            }
+            rfidAssetMapper.deleteByAssetId(assetID);
         }
 
         List<RfidAsset> list = new ArrayList<>();
         RfidAsset rfidAsset = null;
-        List<String> existPrintList = mappList.stream().map(e -> e.getRfidPrintNo()).collect(Collectors.toList());
+        //List<String> existPrintList = mappList.stream().map(e -> e.getRfidPrintNo()).collect(Collectors.toList());
         Map<String, String> mappingMap = mappList.stream().collect(Collectors.toMap(RfidMapping::getRfidPrintNo, RfidMapping::getRfidRealNo));
         for(String printNo: rfidPrintNoList){
-            if(!existPrintList.contains(printNo)){
+           /* if(!existPrintList.contains(printNo)){
                 throw new BusinessException("打印编号: " + printNo + "没有匹配到实际编号");
-            }
+            }*/
             rfidAsset = new RfidAsset();
             rfidAsset.setAssetID(assetID);
             rfidAsset.setRfidPrintNo(printNo);
@@ -454,8 +487,8 @@ public class AssetServiceImpl extends ServiceImpl<AssetMapper, Asset> implements
     }
 
     @Override
-    public List<HashMap<String, Object>> getAllRFIDRecord() {
-        return assetMapper.getAllRFIDRecord();
+    public List<HashMap<String, Object>> getAllRFIDRecord(Map<String, Object> condition) {
+        return assetMapper.getAllRFIDRecord(condition);
     }
 
     @Override
