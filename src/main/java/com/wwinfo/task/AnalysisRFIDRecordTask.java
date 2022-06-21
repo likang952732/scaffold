@@ -174,6 +174,7 @@ public class AnalysisRFIDRecordTask {
                 asset.setTimeModify(new Date());
                 assetService.updateById(asset);
 
+                //判断资产借出是否在进出时间段范围内
                 Assetoutreg assetoutreg = assetoutregMapper.selectOne(new QueryWrapper<Assetoutreg>().lambda().eq(Assetoutreg::getAssetID, asset.getID()));
                 long curtime = DateUtil.date().getTime();
                 boolean outAlarmFlag = true;

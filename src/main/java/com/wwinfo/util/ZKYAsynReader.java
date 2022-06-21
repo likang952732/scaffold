@@ -254,21 +254,22 @@ public class ZKYAsynReader {
 			err = devReader.ParamGet(Mtr_Param.MTR_PARAM_RF_ANTPORTS_VSWR, apvr);
 			// antID1234即对应物理天线口1234，当获取的vswr小于10时即可认为天线口有天线连接
 
-			System.out.println(
-					" antID = " + i + " vswr= " + apvr.vswrs[0].vswr + " frequency= " + apvr.vswrs[0].frequency);
+			/*System.out.println(
+					" antID = " + i + " vswr= " + apvr.vswrs[0].vswr + " frequency= " + apvr.vswrs[0].frequency);*/
+			log.info("antID = {}, vswr= {}, frequency= {}", i, apvr.vswrs[0].vswr, apvr.vswrs[0].frequency);
 			if (err != READER_ERR.MT_OK_ERR) {
-				System.out.println("RFID ParamGet for andid=" + Integer.toString(i) + " failed：" + err.toString() + "("
-						+ ip + ")");
+				/*System.out.println("RFID ParamGet for andid=" + Integer.toString(i) + " failed：" + err.toString() + "("
+						+ ip + ")");*/
+				log.error("RFID ParamGet for andid= {}, failed：{},ip={}", Integer.toString(i),err.toString(), ip);
 			} else {
 				if(apvr.vswrs[0].vswr <10) {
 					antsTemp[antCount] = i;
 					antCount++;
 				}
-
 			}
 		}
 		if (antCount < 1) {
-			System.out.println("RFID ParamGet antCount is zero!");
+			log.info("RFID ParamGet antCount is zero!");
 			return;
 		}
 		int[] ants = new int[antCount];
@@ -301,13 +302,15 @@ public class ZKYAsynReader {
 				return;
 			}
 			if(tagnum[0] > 0){
-				System.out.println("RFID ip: " + ip + ";天线数：" + Integer.toString(antCount) + ";读到标签数：" + tagnum[0]);
+				//System.out.println("RFID ip: " + ip + ";天线数：" + Integer.toString(antCount) + ";读到标签数：" + tagnum[0]);
+				log.info("RFID ip: {};天线数：{};读到标签数：{}", ip, antCount, tagnum[0]);
 				for (int i = 0; i < tagnum[0]; i++) {
 					try {
 						TAGINFO tagInfo = devReader.new TAGINFO();
 						devReader.GetNextTag(tagInfo);
 						String cardNo = hex(tagInfo.EpcId);
-						System.out.println(ip + "读到无源标签：" + cardNo);
+						//System.out.println(ip + "读到无源标签：" + cardNo);
+						log.info("ip: {}, 读到无源标签：{}", ip, cardNo);
 						zkyAsynReader.rfidReaderUtil.settleReadCard(cardNo,false ,m_readerInfo);
 					} catch (Exception e) {
 						e.printStackTrace();
