@@ -97,7 +97,7 @@ public class ValidateCodeUtil {
         for (int i = 0; i < randomStrNum; i++) {
             randomStr = drawString(g, randomStr, i);
         }
-        log.info("随机字符：{}", randomStr);
+        //log.info("随机字符：{}", randomStr);
         g.dispose();
         context.removeAttribute(sessionKey);
         context.setAttribute(sessionKey,randomStr);
