@@ -8,11 +8,12 @@ import lombok.Data;
 /*
  @Description
  *@author kang.li
- *@date 2021/8/14 13:03   
+ *@date 2021/8/14 13:03
  */
 @Data
 @AllArgsConstructor
 public class ValidatorTemplateProxy extends BusinValidatorTemplate implements Comparable<ValidatorTemplateProxy> {
+
     private BusinValidatorTemplate validatorTemplate;
     private String validateType;
     private int validateOrder;

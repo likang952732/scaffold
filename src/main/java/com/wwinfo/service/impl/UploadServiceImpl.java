@@ -15,11 +15,12 @@ import java.util.List;
 /*
  @Description
  *@author kang.li
- *@date 2021/2/19 10:08   
+ *@date 2021/2/19 10:08
  */
 @Slf4j
 @Service
 public class UploadServiceImpl implements UploadService {
+
     @Value("${pic.suffix}")
     private List<String> suffixList;
 

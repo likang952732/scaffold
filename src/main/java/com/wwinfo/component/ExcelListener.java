@@ -11,11 +11,12 @@ import java.util.List;
 /*
  @Description 表格监听工具类
  *@author kang.li
- *@date 2021/9/19 14:55   
+ *@date 2021/9/19 14:55
  */
 @Slf4j
 @Component
 public class ExcelListener extends AnalysisEventListener {
+
     //可以通过实例获取该值
     private List<Object> datas = new ArrayList<Object>();
 

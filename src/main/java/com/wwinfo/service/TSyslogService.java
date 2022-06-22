@@ -1,7 +1,6 @@
 package com.wwinfo.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.wwinfo.model.TLog;
 import com.wwinfo.model.TSyslog;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wwinfo.pojo.query.SysLogQuery;

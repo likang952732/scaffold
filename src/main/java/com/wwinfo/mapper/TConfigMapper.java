@@ -1,7 +1,7 @@
 package com.wwinfo.mapper;
 
-import com.wwinfo.model.TConfig;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.model.TConfig;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;

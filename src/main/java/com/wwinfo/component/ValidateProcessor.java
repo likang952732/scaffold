@@ -15,11 +15,12 @@ import java.util.*;
 /*
  @Description 执行器
  *@author kang.li
- *@date 2021/8/14 13:06   
+ *@date 2021/8/14 13:06
  */
 @Slf4j
 @Component
 public class ValidateProcessor {
+
     /**
      * 执行业务类型对应的校验器
      *

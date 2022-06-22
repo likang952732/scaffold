@@ -8,16 +8,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.wwinfo.common.ExcludeEmptyQueryWrapper;
 import com.wwinfo.common.exception.BusinessException;
-import com.wwinfo.mapper.AssetMapper;
-import com.wwinfo.mapper.InvetorytaskMapper;
 import com.wwinfo.mapper.UserMapper;
-import com.wwinfo.model.Invetorytask;
 import com.wwinfo.model.Organize;
 import com.wwinfo.mapper.OrganizeMapper;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.bo.OrganizeNode;
 import com.wwinfo.pojo.query.OrganizeQuery;
-import com.wwinfo.pojo.res.AssetApiRes;
 import com.wwinfo.pojo.vo.OrganizeAddVO;
 import com.wwinfo.pojo.vo.OrganizeChgVO;
 import com.wwinfo.service.OrganizeService;
@@ -48,13 +44,6 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
 
     @Resource
     private UserMapper userMapper;
-
-    @Resource
-    private AssetMapper assetMapper;
-
-    @Resource
-    private InvetorytaskMapper invetorytaskMapper;
-
 
     @Override
     public List<Organize> list(OrganizeQuery query){
@@ -153,20 +142,6 @@ public class OrganizeServiceImpl extends ServiceImpl<OrganizeMapper, Organize> i
         List<User> userList = userMapper.selectList(wrapper);
         if(CollUtil.isNotEmpty(userList)) {
             throw new BusinessException("该部门下存在用户，不能删除");
-        }
-
-        //校验是否存在资产
-        List<Long> orgList = new ArrayList<>();
-        orgList.add(orgID);
-        List<AssetApiRes> assetList = assetMapper.getAssetListByOrgs(orgList);
-        if(CollUtil.isNotEmpty(assetList)){
-            throw new BusinessException("该部门下存在资产，不能删除");
-        }
-
-        //校验是否存在任务
-        List<Invetorytask> taskList = invetorytaskMapper.getTaskByOrgIds(orgList);
-        if(CollUtil.isNotEmpty(taskList)){
-            throw new BusinessException("该部门下存在盘点任务，不能删除");
         }
         return organizeMapper.deleteById(orgID);
     }

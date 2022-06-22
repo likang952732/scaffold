@@ -22,6 +22,7 @@ import java.util.Random;
 @Slf4j
 @Component
 public class ValidateCodeUtil {
+
     private static Random random = new Random();
     private int width = 165; //验证码的宽
     private int height = 45; //验证码的高

@@ -3,6 +3,7 @@ package com.wwinfo.pojo.bo;
 import com.wwinfo.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 
 /**

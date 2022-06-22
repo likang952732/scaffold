@@ -15,7 +15,6 @@ import com.wwinfo.pojo.dto.UserChgpwdParam;
 import com.wwinfo.pojo.query.UserQuery;
 import com.wwinfo.pojo.vo.UserAddVO;
 import com.wwinfo.pojo.vo.UserResetVO;
-import com.wwinfo.pojo.vo.UserRoleVO;
 import com.wwinfo.service.TConfigService;
 import com.wwinfo.service.TMenuService;
 import com.wwinfo.service.TRoleService;

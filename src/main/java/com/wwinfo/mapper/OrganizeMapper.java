@@ -1,7 +1,7 @@
 package com.wwinfo.mapper;
 
-import com.wwinfo.model.Organize;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.model.Organize;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

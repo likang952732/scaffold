@@ -1,6 +1,5 @@
 package com.wwinfo.util;
 
-import cn.hutool.core.util.StrUtil;
 import com.wwinfo.model.User;
 import com.wwinfo.pojo.bo.AdminUserDetails;
 import org.springframework.security.core.Authentication;

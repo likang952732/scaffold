@@ -7,14 +7,4 @@ package com.wwinfo.constant;
  */
 public class ValidateTypeConstant {
 
-    /**
-     * 批量导入资产校验
-     */
-    public static final String ASSET_BATCH = "assetBatch";
-
-    /**
-     * 批量绑定
-     */
-    public static final String ASSET_BATCH_BIND = "assetBatchBind";
-
 }

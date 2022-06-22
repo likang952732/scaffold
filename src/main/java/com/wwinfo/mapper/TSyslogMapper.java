@@ -1,7 +1,7 @@
 package com.wwinfo.mapper;
 
-import com.wwinfo.model.TSyslog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wwinfo.model.TSyslog;
 
 /**
  * <p>
