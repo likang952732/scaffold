@@ -25,13 +25,17 @@ import java.util.Map;
  * HMACSHA512(base64UrlEncode(header) + "." +base64UrlEncode(payload),secret)
  */
 public class JwtTokenUtil {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
     private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
+
     @Value("${jwt.secret}")
     private String secret;
+
     @Value("${jwt.expiration}")
     private Long expiration;
+
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 

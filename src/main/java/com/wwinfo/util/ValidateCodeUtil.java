@@ -1,8 +1,10 @@
 package com.wwinfo.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,10 +17,12 @@ import java.util.Random;
 /*
  @Description 验证码
  *@author kang.li
- *@date 2021/2/22 11:22   
+ *@date 2021/2/22 11:22
  */
+@Slf4j
 @Component
 public class ValidateCodeUtil {
+
     private static Random random = new Random();
     private int width = 165; //验证码的宽
     private int height = 45; //验证码的高
@@ -76,8 +80,9 @@ public class ValidateCodeUtil {
 
 
     //生成随机图片
-    public void getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession();
+    public boolean getRandomCodeImage(HttpServletRequest request, HttpServletResponse response){
+        boolean b = false;
+        ServletContext context = request.getServletContext();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
@@ -93,25 +98,24 @@ public class ValidateCodeUtil {
         for (int i = 0; i < randomStrNum; i++) {
             randomStr = drawString(g, randomStr, i);
         }
-        System.out.println("随机字符："+randomStr);
+        //log.info("随机字符：{}", randomStr);
         g.dispose();
-        //移除之前的session中的验证码信息
-        session.removeAttribute(sessionKey);
-        //重新将验证码放入session
-        session.setAttribute(sessionKey, randomStr);
+        context.removeAttribute(sessionKey);
+        context.setAttribute(sessionKey,randomStr);
         try {
             //  将图片以png格式返回,返回的是图片
-            ImageIO.write(image, "PNG", response.getOutputStream());
-
+            b = ImageIO.write(image, "PNG", response.getOutputStream());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("生成验证码图片异常: {]", e);
         }
+        return b;
     }
 
 
     //生成随机图片的base64编码字符串
     public String getRandomCodeBase64(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession();
+        //HttpSession session = request.getSession();
+        ServletContext context = request.getServletContext();
         // BufferedImage类是具有缓冲区的Image类,Image类是用于描述图像信息的类
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_BGR);
         Graphics g = image.getGraphics();
@@ -130,8 +134,8 @@ public class ValidateCodeUtil {
         }
         System.out.println("随机字符："+randomStr);
         g.dispose();
-        session.removeAttribute(sessionKey);
-        session.setAttribute(sessionKey, randomStr);
+        context.removeAttribute(sessionKey);
+        context.setAttribute(sessionKey,randomStr);
         String base64String = "";
         try {
             //  直接返回图片

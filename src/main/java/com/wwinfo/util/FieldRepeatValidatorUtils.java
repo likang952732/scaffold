@@ -120,7 +120,7 @@ public class FieldRepeatValidatorUtils {
                     for (Field f : sefields) {
                         f.setAccessible(true);
                         fName = f.getName();
-                        if ( f.isAnnotationPresent(TableField.class) && !"updateTime".equals(fName)) {
+                        if (f.isAnnotationPresent(TableField.class) && !"timeModify".equals(fName)) {
                             try {
                                 fieldValue = f.get(object);
                                 if(fieldValue != null && !(fieldValue.toString().equals(queryMap.get(fName).toString())) || list.size() > 1){

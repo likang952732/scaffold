@@ -3,7 +3,7 @@ package com.wwinfo.component;
 /*
  @Description swagger配置类
  *@author kang.li
- *@date 2021/2/22 10:08   
+ *@date 2021/2/22 10:08
  */
 
 import lombok.Data;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("swagger")
 @Data
 public class SwaggerProperties {
+
     /**
      * 是否开启swagger，生产环境一般关闭
      */

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.TMenuMapper">
+    <sql id="menuSql">
+        a.id,
+        a.name,
+        a.parent_id,
+        a.level,
+        a.sort,
+        a.create_time,
+        a.update_time,
+        a.status,
+        a.front_name,
+        a.front_img
+    </sql>
+
+    <select id="getUmsMenu" resultType="com.wwinfo.model.TMenu">
+        SELECT <include refid="menuSql"/>
+        from t_menu a
+        join t_role_menu b
+        on a.id=b.menu_id where b.role_id=#{roleId,jdbcType=VARBINARY}
+    </select>
+
+    <select id="selectMenuList" resultType="com.wwinfo.model.TMenu">
+        select id,name,parent_id,level,sort,create_time,update_time,status FROM t_menu WHERE level = 0 LIMIT 0,20
+    </select>
+
+    <select id="getMenuByName" resultType="com.wwinfo.model.TMenu" parameterType="java.lang.String">
+      SELECT <include refid="menuSql" /> FROM t_menu a WHERE a.name = #{name}
+    </select>
+
+    <select id="getMenuByUserId" resultType="com.wwinfo.model.TMenu" parameterType="java.lang.Long">
+        SELECT
+           <include refid="menuSql"/>
+        FROM t_menu a
+        JOIN t_role_menu b
+        ON a.id = b.menu_id
+        WHERE b.role_id IN (select role_id from t_user_role where user_id = #{userId})
+    </select>
+
+</mapper>

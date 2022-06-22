@@ -12,6 +12,7 @@ import javax.validation.ConstraintValidatorContext;
  *@date 2021/2/24 10:10   
  */
 public class FieldRepeatValidatorClass implements ConstraintValidator<FieldRepeatValidator, Object> {
+
     @Autowired
     FieldRepeatValidatorUtils fieldRepeatValidatorUtils;
 

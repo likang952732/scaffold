@@ -1,17 +1,19 @@
 package com.wwinfo.pojo.bo;
 
-import com.wwinfo.model.TAdmin;
+import com.wwinfo.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.util.Collection;
 
 /**
  * SpringSecurity需要的用户详情
  */
 public class AdminUserDetails implements UserDetails {
-    private TAdmin admin;
-    public AdminUserDetails(TAdmin admin) {
-        this.admin = admin;
+
+    private User user;
+    public AdminUserDetails(User user) {
+        this.user = user;
     }
 
     @Override
@@ -25,12 +27,12 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return admin.getPassword();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return admin.getUsername();
+        return user.getUserName();
     }
 
     @Override
@@ -50,10 +52,10 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return admin.getStatus().equals(1);
+        return user.getIsStop().equals(0);
     }
 
-    public TAdmin getAdmin() {
-        return this.admin;
+    public User getUser() {
+        return this.user;
     }
 }

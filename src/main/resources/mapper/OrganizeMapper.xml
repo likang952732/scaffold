@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wwinfo.mapper.OrganizeMapper">
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM organize WHERE orgID = #{orgID} OR upOrgID = #{orgID}
+    </delete>
+
+    <select id="getUpTreeByChild" resultType="com.wwinfo.model.Organize" parameterType="java.lang.Long">
+        SELECT
+            org.*
+        from
+            (SELECT d3.*
+             FROM (
+                      SELECT @r AS orgID,
+                             (SELECT @r := upOrgID FROM organize WHERE orgID = @r) AS upOrgID
+                 FROM (SELECT @r := #{orgID}) leafNodeId,
+             organize hd) d2
+                INNER JOIN organize d3 ON d2.orgID = d3.orgID AND d2.upOrgID is not null
+        ORDER BY d3.orgID
+            )T left join organize org on T.upOrgID = org.orgID
+    </select>
+
+    <select id="getChildByOrgID" resultType="com.wwinfo.model.Organize" parameterType="java.lang.Long">
+        select orgID from organize WHERE upOrgID = #{orgID}
+    </select>
+
+    <select id="getOrgByUserId" resultType="com.wwinfo.model.Organize" parameterType="java.lang.Long">
+        SELECT
+            au.orgID,
+            au.orgName
+        FROM
+            (
+                SELECT
+                    *
+                FROM
+                    organize
+                WHERE
+                    upOrgID IS NOT NULL
+            ) au,
+            (SELECT @pid := #{orgID}) pd
+        WHERE
+            FIND_IN_SET(upOrgID, @pid) > 0
+          AND @pid := concat(@pid, ',', orgID)
+        UNION
+        SELECT
+            orgID, orgName
+        FROM
+            organize
+        WHERE
+            orgID = #{orgID}
+    </select>
+
+</mapper>

@@ -10,9 +10,9 @@
     </parent>
 
     <groupId>com.wwinfo</groupId>
-    <artifactId>scafflod</artifactId>
+    <artifactId>scaffold</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>scafflod</name>
+    <name>scaffold</name>
     <description>Scenic Spots Mini Program</description>
 
     <properties>
@@ -54,20 +54,19 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <!--<version>8.0.11</version>-->
-            <version>8.0.16</version>
+            <version>8.0.28</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.1.10</version>
+            <version>1.2.5</version>
         </dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.3.6</version>
+            <version>5.8.0</version>
         </dependency>
 
         <!-- security -->
@@ -99,7 +98,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.2</version>
         </dependency>
         <!-- mybatis plus 代码生成器 -->
         <dependency>
@@ -113,16 +112,17 @@
             <artifactId>freemarker</artifactId>
             <version>2.3.28</version>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
-        </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
         </dependency>
 
         <!--devtools热部署-->
@@ -142,8 +142,23 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
-            <version>1.1.2-beta5</version>
+            <version>2.2.0-beta2</version>
+           <!-- <version>1.1.2-beta5</version>-->
         </dependency>
+
+        <!--spring切面aop依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- 邮件 -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.7</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -158,6 +173,7 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
 
